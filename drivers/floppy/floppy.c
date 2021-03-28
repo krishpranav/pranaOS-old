@@ -87,3 +87,41 @@ enum dor_cmd
     DOR_MOTOR_2 =   0x40,   /* 01000000 */
     DOR_MOTOR_3 =   0x80    /* 10000000 */
 };
+
+enum motor_delay
+{
+    WAIT_MOTOR_SPIN,
+    NO_WAIT_MOTOR_SPIN
+};
+
+enum dsr_cmd
+{
+    /* Data tranfer rates */
+    DSR_RATE_250KBPS = 0x02,
+    DSR_RATE_300KBPS = 0x01,
+    DSR_RATE_500KBPS = 0x00,
+    DSR_RATE_1MBPS = 0x03,
+    /* Shuts the chip off. One of the *_RESET
+     * functionality will turn it ON again */
+    DSR_PWR_DOWN =  0x40,
+    /* This reset is the same as DOR reset except that this
+     * reset is self clearing. */
+    DSR_RESET =     0x80
+};
+
+enum msr_cmd
+{
+    /* Is set when drive is in seek or recalibrate states. */
+    MSR_BUSY_0 = 0x01,
+    MSR_BUSY_1 = 0x02,
+    MSR_BUSY_2 = 0x04,
+    MSE_BUSY_3 = 0x08,
+    /* If set, the CMD execution is in progress */
+    MSR_BUSY = 0x10,
+    /* If MSR_CAN_TRANSFER is set, indicates the required
+     * data transfer direction - 1 for read, 0 for write. */
+    MSR_DIR = 0x40,
+    /* Indicates that host can tranfser data.
+     * If not set - access is not permited. */
+    MSR_CAN_TRANSFER = 0x80
+};
