@@ -187,3 +187,33 @@ static void ctrl_enable()
 }
 
 //Note: on real hardware this requires delay for the motor
+static void set_motor_on(enum motor_delay delay)
+{
+    flp.cur_dor |= flp.dor_motor_reg;
+    outportb(DOR_REG, flp.cur_dor);
+
+    if (delay == WAIT_MOTOR_SPIN)
+        msdelay(300);
+}
+
+//turns offs motor
+static void set_motor_off(enum motor_delay delay)
+{
+    flp.cur_dor &= ~flp.dor_motor_reg;
+    outportb(DOR_REG, flp.cur_dor);
+
+    if (delay == WAIT_MOTOR_SPIN)
+        msdelay(2000);
+}
+
+//sets the speed for data transfer
+static void set_tranfer_rate(enum dsr_cmd drate)
+{
+    outportb(DATARATE_SELECT_REG, drate);
+}
+
+//returns msr register
+static unsigned char get_flp_status()
+{
+    return inportb(MAIN_STATUS_REG);
+}
