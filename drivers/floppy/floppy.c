@@ -57,3 +57,33 @@ enum data_cmd
      * an invalid command was given on the previous write */
     CMD_ERROR = 0x80
 };
+
+enum data_read_mode
+{
+    READ_MODE_SKIP_DELETED_DATA = 0x20,
+    READ_MODE_DOUBLE_DENSITY = 0x40,
+    READ_MODE_MULTITRACK = 0x80
+};
+
+/*
+Commands for writting to DOR_REG.
+*/
+
+enum dor_cmd
+{
+    /* Device selection */
+    DOR_SEL_0 =     0x00,   /* 00000000 */
+    DOR_SEL_1 =     0x01,   /* 00000001 */
+    DOR_SEL_2 =     0x02,   /* 00000010 */
+    DOR_SEL_3 =     0x03,   /* 00000011 */
+    /* Clears the core circuits of 82077AA */
+    DOR_RESET =     0x04,   /* 00000100 */
+    /* Set floppy to DMA mode */
+    DOR_DMA_GATE =  0x08,   /* 00001000 */
+    /* Another device selection data.
+     * It has to match with DOR_SEL_X */
+    DOR_MOTOR_0 =   0x10,   /* 00010000 */
+    DOR_MOTOR_1 =   0x20,   /* 00100000 */
+    DOR_MOTOR_2 =   0x40,   /* 01000000 */
+    DOR_MOTOR_3 =   0x80    /* 10000000 */
+};
