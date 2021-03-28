@@ -143,4 +143,47 @@ struct chs_t {
     unsigned int head;
     unsigned int cylinder;
     unsigned int sector;
+};
+
+struct floppy_t {
+    /* This is the variable flp_wait_irq() is spinning on.
+     * When a cmd is given to the controller, it will IRQ6
+     * on complete, making the variable ON and the variable */
+    int irq_received;
+    struct dma_t dma;
+    unsigned int drive_nr;
+    /* Drive specific DOR and MSR registers */
+    enum dor_cmd dor_select_reg;
+    enum dor_cmd dor_motor_reg;
+    enum msr_cmd msr_busy_bit;
+    unsigned char cur_dor;
+};
+
+struct floppy_t flp = {
+    .irq_received = 0,
+    .drive_nr = 0
+};
+
+static void flp_wait_irq()
+{
+    while (!flp.irq_received)
+        ;
+    flp.irq_received = 0;
 }
+
+static void ctrl_disable()
+{
+    flp.cur_dor = 0x00;
+    outportb(DOR_REG, flp.cur_dor);
+}
+
+// Enables floppy controller
+static void ctrl_enable()
+{
+    flp.cur_dor = flp.dor_select_reg | DOR_RESET | DOR_DMA_GATE;
+    flp.irq_received = 0;
+    outportb(DOR_REG, flp.cur_dor);
+    flp_wait_irq();
+}
+
+//Note: on real hardware this requires delay for the motor
