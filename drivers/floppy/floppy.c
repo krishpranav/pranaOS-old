@@ -125,3 +125,22 @@ enum msr_cmd
      * If not set - access is not permited. */
     MSR_CAN_TRANSFER = 0x80
 };
+
+#define SECTOR_SIZE 512
+#define TOTAL_SECTORS 2880
+#define SECTORS_PER_TRACK 18
+#define HEAD_COUNT 2
+#define TRACK_COUNT 80
+#define GAP_SIZE 0x1B
+
+#define FLOPPY_DMA 2
+#define FLOPPY_IRQ 6
+
+#define CAN_TRANSFER_RETRIES 1000
+#define RECALIBRATE_RETRIES 80
+
+struct chs_t {
+    unsigned int head;
+    unsigned int cylinder;
+    unsigned int sector;
+}
