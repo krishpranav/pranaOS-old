@@ -217,3 +217,22 @@ static unsigned char get_flp_status()
 {
     return inportb(MAIN_STATUS_REG);
 }
+
+//perfrom our cmd
+static int cmd_tranfser()
+{
+    return get_flp_status() & MSR_CAN_TRANSFER;
+}
+
+//returns true of the controller expects read command
+static int cmd_should_read()
+{
+    return get_flp_status() & MSR_DIR;
+}
+
+//returns true of the controller expects write command
+static int cmd_should_write()
+{
+    return (get_flp_status() & MSR_DIR) == 0;
+}
+
