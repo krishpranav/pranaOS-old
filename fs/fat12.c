@@ -79,3 +79,54 @@ static int init_bootsec(struct dev_driver *dev, struct fat12_bootsector *bootsec
 
     return 0;
 }
+
+static char **init_fats(struct dev_driver *dev, struct fat12_bootsector *bootsec)
+{
+    int i;
+    char **fat_buf;
+
+    if (!dev || !bootsec)
+    {
+        error = -EBADARG;
+        return NULL;
+    }
+
+    if (bootsec->fat_cnt == 0)
+        return NULL;
+
+    fat_buf = (char **) kalloc(sizeof(char **) * bootsec->fat_cnt);
+
+    for (i = 0; i < bootsec->fat_cnt; i++)
+    {
+        fat_buf[i] = (char *) kalloc(bootsec->sectors_in_fat * 512);
+        if (!fat_buf[i])
+        {
+            for (i--; i >= 0; i--)
+                free(fat_buf[i]);
+            error = -ENOMEM;
+            return NULL;
+        }
+
+        dev->read(fat_buf[i], 1 + (i * bootsec->sectors_in_fat), 512 * bootsec->sectors_in_fat);
+    }
+
+    return fat_buf;
+}
+
+static char *init_rootdir(struct dev_driver *dev, struct fat12_mount *mount)
+{
+    if (!dev || !mount)
+    {
+        error = -EBADARG;
+        return NULL;
+    }
+
+    dev->read(mount->rootdir_data, ROOT_DIR_OFFSET, ROOT_DIR_SIZE);
+
+    return mount->rootdir_data;
+}
+
+static char *fs_read(FILE *file)
+{
+    return NULL;
+}
