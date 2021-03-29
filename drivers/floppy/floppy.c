@@ -254,3 +254,21 @@ static void flp_send_cmd(unsigned char cmd)
             kernel_warning("floppy write cmd reached maximum retries");
 }
 
+//reads the data from FIFO register
+static int flp_read_cmd()
+{
+    int i;
+
+    if (cmd_should_write())
+        kernel_warning("floppy should write while read is requested");
+
+    for (i = 0; i < CAN_TRANSFER_RETRIES; i++)
+        if (can_tranfser())
+            return inportb(DATA_REG) & 0xFF;
+        else if (i == CAN_TRANSFER_RETRIES)
+            kernel_warning("floppy read cmd reached maximum retries");
+
+    return -1;
+}
+
+
