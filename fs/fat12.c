@@ -130,3 +130,157 @@ static char *fs_read(FILE *file)
 {
     return NULL;
 }
+
+static struct fileinfo *rootdir_to_fileinfo(struct rootdir_item *rootdir_itm, struct fileinfo *inf)
+{
+    size_t i, cur_idx;
+
+    if (!rootdir_itm || !inf)
+    {
+        error = -EBADARG;
+        return NULL;
+    }
+
+    /* Set filename */
+    for (i = 0; rootdir_itm->filename[i] != ' '; i++)
+        inf->filename[i] = rootdir_itm->filename[i];
+    cur_idx = i;
+    inf->filename[cur_idx++] = '.';
+    while (rootdir_itm->filename[i] == ' ' && i < FAT12_MAX_FILENAME_LENGTH)
+        i++;
+    for (; i < FAT12_MAX_FILENAME_LENGTH && rootdir_itm->filename[i] != ' '; i++, cur_idx++)
+        inf->filename[cur_idx] = rootdir_itm->filename[i];
+    if (inf->filename[cur_idx-1] == '.')
+        inf->filename[cur_idx-1] = '\0';
+    else
+        inf->filename[cur_idx] = '\0';
+
+    /* Set file size */
+    inf->size = rootdir_itm->filesize;
+
+    /* Set file flags */
+    inf->flags = rootdir_itm->flags;
+
+    return inf;
+}
+
+static struct fileinfo **fs_ls(struct fs_driver *fs_drv, const char *dir)
+{
+    struct fileinfo **files;
+    struct fat12_mount *mount;
+    struct rootdir_item *rootdir_itm;
+    size_t file_cnt, i, j;
+
+    if (!fs_drv || !dir)
+        return NULL;
+
+    mount = get_mount_point(fs_drv);
+    if (!mount)
+    {
+        printf("FAT12 ERROR: given fat12 driver is not mounted");
+        error = -EFAULT;
+        return NULL;
+    }
+
+    /* TODO: hierarchical `ls` */
+
+    /* To get the files in filesystem we just need to loop through the
+     * root directory table */
+
+    /* Get file count in dir */
+    for (file_cnt = 0; mount->rootdir_data[file_cnt * sizeof(struct rootdir_item)]; file_cnt++)
+        ;
+
+
+    if (file_cnt == 0)
+        return NULL;
+
+    files = (struct fileinfo **) kalloc(sizeof(struct fileinfo *) * (file_cnt + 1));
+    if (!files)
+    {
+        error = -ENOMEM;
+        return NULL;
+    }
+    for (i = 0; i < file_cnt; i++)
+    {
+        rootdir_itm = &(((struct rootdir_item *) mount->rootdir_data)[i]);
+        if (!(rootdir_itm->flags & HIDDEN))
+        {
+            files[i] = alloc_fileinfo();
+            if (!files[i])
+            {
+                error = -ENOMEM;
+                return NULL;
+            }
+
+            if (!rootdir_to_fileinfo(rootdir_itm, files[i]))
+            {
+                printf("FAT12 ERROR: failure filling fileinfo from rootdir");
+                return NULL;
+            }
+        }
+    }
+    files[i+1] = NULL;
+
+    return files;
+}
+
+struct fs_driver *fat12_init_fs(struct fs_driver *driver)
+{
+    struct fat12_mount *mount = (struct fat12_mount *) kalloc(sizeof(struct fat12_mount));
+    if (!mount)
+    {
+        error = -ENOMEM;
+        return NULL;
+    }
+    mount->open_file_cnt = 0;
+    mount->fs_drv = driver;
+
+    if (!driver)
+    {
+        error = -EBADARG;
+        goto fail_return;
+    }
+    if (!driver->dev_driver)
+    {
+        printf("WARNING: FAT12 receivd uninitialised device driver");
+        error = -EBADARG;
+        goto fail_return;
+    }
+
+    if (init_bootsec(driver->dev_driver, &mount->bootsec))
+    {
+        printf("Error initialising FAT12 bootsector");
+        goto fail_return;
+    }
+
+    if (init_fats(driver->dev_driver, mount))
+    {
+        printf("Error initialising FAT data");
+        goto fail_return;
+    }
+
+    if (!init_rootdir(driver->dev_driver, mount))
+    {
+        printf("Error initialising FAT12 root directory");
+        goto fail_return;
+    }
+
+    if (fat12_mounts)
+        llist_add_before(fat12_mounts, mount, ll);
+    else
+    {
+        llist_init(mount, ll);
+        fat12_mounts = mount;
+    }
+
+    driver->read = fs_read;
+    driver->write = NULL; /* TODO */
+    driver->ls = fs_ls;
+
+    return driver;
+
+    fail_return:
+    free(mount);
+    return NULL;
+}
