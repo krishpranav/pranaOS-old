@@ -174,140 +174,140 @@ static int kbrd_disable();
  * (Might be because my host is set like that)
  */
 static const short SCAN_CODES_SINGLE[] = {
-    [0x1]   = KEY_ESCAPE,
-    [0x2]   = KEY_1,
-    [0x3]   = KEY_2,
-    [0x4]   = KEY_3,
-    [0x5]   = KEY_4,
-    [0x6]   = KEY_5,
-    [0x7]   = KEY_6,
-    [0x8]   = KEY_7,
-    [0x9]   = KEY_8,
-    [0xA]   = KEY_9,
-    [0xB]   = KEY_0,
-    [0xC]   = KEY_MINUS,
-    [0xD]   = KEY_EQUAL,
-    [0xE]   = KEY_BACKSPACE,
-    [0xF]   = KEY_TAB,
-    [0x10]  = KEY_Q,
-    [0x11]  = KEY_W,
-    [0x12]  = KEY_E,
-    [0x13]  = KEY_R,
-    [0x14]  = KEY_T,
-    [0x15]  = KEY_Y,
-    [0x16]  = KEY_U,
-    [0x17]  = KEY_I,
-    [0x18]  = KEY_O,
-    [0x19]  = KEY_P,
-    [0x1A]  = KEY_LEFTBRACKET,
-    [0x1B]  = KEY_RIGHTBRACKET,
-    [0x1C]  = KEY_RETURN,
-    [0x1D]  = KEY_LCTRL,
-    [0x1E]  = KEY_A,
-    [0x1F]  = KEY_S,
-    [0x20]  = KEY_D,
-    [0x21]  = KEY_F,
-    [0x22]  = KEY_G,
-    [0x23]  = KEY_H,
-    [0x24]  = KEY_J,
-    [0x25]  = KEY_K,
-    [0x26]  = KEY_L,
-    [0x27]  = KEY_SEMICOLON,
-    [0x28]  = KEY_QUOTE,
-    [0x29]  = KEY_GRAVE,
-    [0x2A]  = KEY_LSHIFT,
-    [0x2B]  = KEY_BACKSLASH,
-    [0x2C]  = KEY_Z,
-    [0x2D]  = KEY_X,
-    [0x2E]  = KEY_C,
-    [0x2F]  = KEY_V,
-    [0x30]  = KEY_B,
-    [0x31]  = KEY_N,
-    [0x32]  = KEY_M,
-    [0x33]  = KEY_COMMA,
-    [0x34]  = KEY_DOT,
-    [0x35]  = KEY_SLASH,
-    [0x36]  = KEY_RSHIFT,
-    [0x37]  = KEY_KP_ASTERISK,
-    [0x38]  = KEY_LALT,
-    [0x39]  = KEY_SPACE,
-    [0x3A]  = KEY_CAPSLOCK,
-    [0x3B]  = KEY_F1,
-    [0x3C]  = KEY_F2,
-    [0x3D]  = KEY_F3,
-    [0x3E]  = KEY_F4,
-    [0x3F]  = KEY_F5,
-    [0x40]  = KEY_F6,
-    [0x41]  = KEY_F7,
-    [0x42]  = KEY_F8,
-    [0x43]  = KEY_F9,
-    [0x44]  = KEY_F10,
-    [0x45]  = KEY_KP_NUMLOCK,
-    [0x46]  = KEY_SCROLLLOCK,
-    [0x47]  = KEY_KP_7,
-    [0x48]  = KEY_KP_8,
-    [0x49]  = KEY_KP_9,
-    [0x4A]  = KEY_KP_MINUS,
-    [0x4B]  = KEY_KP_4,
-    [0x4C]  = KEY_KP_5,
-    [0x4D]  = KEY_KP_6,
-    [0x4E]  = KEY_KP_PLUS,
-    [0x4F]  = KEY_KP_1,
-    [0x50]  = KEY_KP_2,
-    [0x51]  = KEY_KP_3,
-    [0x52]  = KEY_KP_0,
-    [0x53]  = KEY_KP_DECIMAL,
-    [0x56]  = KEY_LESS
+        [0x1]   = KEY_ESCAPE,
+        [0x2]   = KEY_1,
+        [0x3]   = KEY_2,
+        [0x4]   = KEY_3,
+        [0x5]   = KEY_4,
+        [0x6]   = KEY_5,
+        [0x7]   = KEY_6,
+        [0x8]   = KEY_7,
+        [0x9]   = KEY_8,
+        [0xA]   = KEY_9,
+        [0xB]   = KEY_0,
+        [0xC]   = KEY_MINUS,
+        [0xD]   = KEY_EQUAL,
+        [0xE]   = KEY_BACKSPACE,
+        [0xF]   = KEY_TAB,
+        [0x10]  = KEY_Q,
+        [0x11]  = KEY_W,
+        [0x12]  = KEY_E,
+        [0x13]  = KEY_R,
+        [0x14]  = KEY_T,
+        [0x15]  = KEY_Y,
+        [0x16]  = KEY_U,
+        [0x17]  = KEY_I,
+        [0x18]  = KEY_O,
+        [0x19]  = KEY_P,
+        [0x1A]  = KEY_LEFTBRACKET,
+        [0x1B]  = KEY_RIGHTBRACKET,
+        [0x1C]  = KEY_RETURN,
+        [0x1D]  = KEY_LCTRL,
+        [0x1E]  = KEY_A,
+        [0x1F]  = KEY_S,
+        [0x20]  = KEY_D,
+        [0x21]  = KEY_F,
+        [0x22]  = KEY_G,
+        [0x23]  = KEY_H,
+        [0x24]  = KEY_J,
+        [0x25]  = KEY_K,
+        [0x26]  = KEY_L,
+        [0x27]  = KEY_SEMICOLON,
+        [0x28]  = KEY_QUOTE,
+        [0x29]  = KEY_GRAVE,
+        [0x2A]  = KEY_LSHIFT,
+        [0x2B]  = KEY_BACKSLASH,
+        [0x2C]  = KEY_Z,
+        [0x2D]  = KEY_X,
+        [0x2E]  = KEY_C,
+        [0x2F]  = KEY_V,
+        [0x30]  = KEY_B,
+        [0x31]  = KEY_N,
+        [0x32]  = KEY_M,
+        [0x33]  = KEY_COMMA,
+        [0x34]  = KEY_DOT,
+        [0x35]  = KEY_SLASH,
+        [0x36]  = KEY_RSHIFT,
+        [0x37]  = KEY_KP_ASTERISK,
+        [0x38]  = KEY_LALT,
+        [0x39]  = KEY_SPACE,
+        [0x3A]  = KEY_CAPSLOCK,
+        [0x3B]  = KEY_F1,
+        [0x3C]  = KEY_F2,
+        [0x3D]  = KEY_F3,
+        [0x3E]  = KEY_F4,
+        [0x3F]  = KEY_F5,
+        [0x40]  = KEY_F6,
+        [0x41]  = KEY_F7,
+        [0x42]  = KEY_F8,
+        [0x43]  = KEY_F9,
+        [0x44]  = KEY_F10,
+        [0x45]  = KEY_KP_NUMLOCK,
+        [0x46]  = KEY_SCROLLLOCK,
+        [0x47]  = KEY_KP_7,
+        [0x48]  = KEY_KP_8,
+        [0x49]  = KEY_KP_9,
+        [0x4A]  = KEY_KP_MINUS,
+        [0x4B]  = KEY_KP_4,
+        [0x4C]  = KEY_KP_5,
+        [0x4D]  = KEY_KP_6,
+        [0x4E]  = KEY_KP_PLUS,
+        [0x4F]  = KEY_KP_1,
+        [0x50]  = KEY_KP_2,
+        [0x51]  = KEY_KP_3,
+        [0x52]  = KEY_KP_0,
+        [0x53]  = KEY_KP_DECIMAL,
+        [0x56]  = KEY_LESS
 };
 
 static const short SCAN_CODES_MULTI[] = {
-    [0x1C]  = KEY_KP_ENTER,
-    [0x1D]  = KEY_RCTRL,
-    [0x35]  = KEY_KP_DIVIDE,
-    [0x37]  = KEY_PRINT,
-    [0x38]  = KEY_RALT,
-    [0x47]  = KEY_HOME,
-    [0x48]  = KEY_UP,
-    [0x49]  = KEY_PAGEUP,
-    [0x4B]  = KEY_LEFT,
-    [0x4D]  = KEY_RIGHT,
-    [0x4F]  = KEY_END,
-    [0x50]  = KEY_DOWN,
-    [0x51]  = KEY_PAGEDOWN,
-    [0x52]  = KEY_INSERT,
-    [0x53]  = KEY_DELETE
+        [0x1C]  = KEY_KP_ENTER,
+        [0x1D]  = KEY_RCTRL,
+        [0x35]  = KEY_KP_DIVIDE,
+        [0x37]  = KEY_PRINT,
+        [0x38]  = KEY_RALT,
+        [0x47]  = KEY_HOME,
+        [0x48]  = KEY_UP,
+        [0x49]  = KEY_PAGEUP,
+        [0x4B]  = KEY_LEFT,
+        [0x4D]  = KEY_RIGHT,
+        [0x4F]  = KEY_END,
+        [0x50]  = KEY_DOWN,
+        [0x51]  = KEY_PAGEDOWN,
+        [0x52]  = KEY_INSERT,
+        [0x53]  = KEY_DELETE
 };
 
 static const short SCAN_CODES_BREAK[] = {
-    [0xAA]  = KEY_LSHIFT,
-    [0xB6]  = KEY_RSHIFT,
-    [0xBA]  = KEY_CAPSLOCK,
-    [0xD9]  = KEY_LCTRL
+        [0xAA]  = KEY_LSHIFT,
+        [0xB6]  = KEY_RSHIFT,
+        [0xBA]  = KEY_CAPSLOCK,
+        [0xD9]  = KEY_LCTRL
 };
 
 static const short SCAN_CODES_SYMBOLS[] = {
-    [0x2]   = KEY_EXCLAMATION,
-    [0x3]   = KEY_AT,
-    [0x4]   = KEY_HASH,
-    [0x5]   = KEY_DOLLAR,
-    [0x6]   = KEY_PERCENT,
-    [0x7]   = KEY_CARRET,
-    [0x8]   = KEY_AMPERSAND,
-    [0x9]   = KEY_ASTERISK,
-    [0xA]   = KEY_LEFTPARENTHESIS,
-    [0xB]   = KEY_RIGHTPARENTHESIS,
-    [0xC]   = KEY_UNDERSCORE,
-    [0xD]   = KEY_PLUS,
-    [0x1A]  = KEY_LEFTCURL,
-    [0x1B]  = KEY_RIGHTCURL,
-    [0x27]  = KEY_COLON,
-    [0x28]  = KEY_QUOTEDOUBLE,
-    [0x29]  = KEY_TILDE,
-    [0x2B]  = KEY_BAR,
-    [0x33]  = KEY_LESS,
-    [0x34]  = KEY_GREATER,
-    [0x35]  = KEY_QUESTION,
-    [0x56]  = KEY_GREATER
+        [0x2]   = KEY_EXCLAMATION,
+        [0x3]   = KEY_AT,
+        [0x4]   = KEY_HASH,
+        [0x5]   = KEY_DOLLAR,
+        [0x6]   = KEY_PERCENT,
+        [0x7]   = KEY_CARRET,
+        [0x8]   = KEY_AMPERSAND,
+        [0x9]   = KEY_ASTERISK,
+        [0xA]   = KEY_LEFTPARENTHESIS,
+        [0xB]   = KEY_RIGHTPARENTHESIS,
+        [0xC]   = KEY_UNDERSCORE,
+        [0xD]   = KEY_PLUS,
+        [0x1A]  = KEY_LEFTCURL,
+        [0x1B]  = KEY_RIGHTCURL,
+        [0x27]  = KEY_COLON,
+        [0x28]  = KEY_QUOTEDOUBLE,
+        [0x29]  = KEY_TILDE,
+        [0x2B]  = KEY_BAR,
+        [0x33]  = KEY_LESS,
+        [0x34]  = KEY_GREATER,
+        [0x35]  = KEY_QUESTION,
+        [0x56]  = KEY_GREATER
 };
 
 
@@ -492,4 +492,161 @@ static char get_kbrd_buffer()
 static char get_kbrd_status()
 {
     return inportb(KBRD_PORT_CTRL);
+}
+
+static char shift_effect(char c, short code)
+{
+    if (ISDIGIT(c) || ISSYMBOL(c))
+        return SCAN_CODES_SYMBOLS[code];
+    else if (ISALPHA(c) && ISLOWER(c))
+        return TOUPPER(c);
+
+    return c;
+}
+
+static char caps_effect(char c)
+{
+    if (ISALPHA(c) && ISLOWER(c))
+        return TOUPPER(c);
+
+    return c;
+}
+
+static void handle_make_code(short code)
+{
+    char c;
+
+    if (IS_SHIFT_MAKE(code))
+    {
+        _shift_on = true;
+        return;
+    }
+    else if (IS_CTRL_MAKE(code))
+    {
+        _ctrl_on = true;
+        return;
+    }
+    else if (IS_CAPS_MAKE(code))
+    {
+        _caps_on = !_caps_on;
+        return;
+    }
+
+    if (_multicode)
+    {
+        c = SCAN_CODES_MULTI[code];
+        _multicode = false;
+    }
+    else
+        c = SCAN_CODES_SINGLE[code];
+
+    if (!ISPRINTABLE(c))
+        return;
+
+    if (_shift_on)
+        c = shift_effect(c, code);
+    if (_caps_on)
+        c = caps_effect(c);
+
+    shell_kbrd_cb(c);
+}
+
+static void handle_break_code(short code)
+{
+    if (_multicode)
+        _multicode = false;
+
+    if (IS_SHIFT_BREAK(code))
+    {
+        _shift_on = false;
+        return;
+    }
+    else if (IS_CTRL_BREAK(code))
+    {
+        _ctrl_on = false;
+        return;
+    }
+}
+
+/*
+ * Keyboard interrupt handler
+ */
+void x86_kbr_irq_do_handle()
+{
+    unsigned char status, buf;
+
+    repeat:
+    /* First check what state kbrd is in and if ready to give us something */
+    status = get_kbrd_status();
+    /* another choice might be to busy-loop while not ready. TODO: investigate */
+    if (!STATUS_READ_BUF_FULL(status))
+        goto exit;
+
+    /* Try to get the scan code */
+    buf = get_kbrd_buffer();
+
+    if (!ENCOD_IS_SCAN_CODE(buf))
+    {
+        if (ENCOD_RESEND_REQ(buf))
+            goto repeat;
+        else if (IS_MULTICODE(buf))
+        {
+            _multicode = true;
+            goto exit;
+        }
+        else
+            goto exit;
+    }
+
+    if (ENCOD_IS_MAKE_CODE(buf))
+        handle_make_code(buf);
+    else if (ENCOD_IS_BREAK_CODE(buf))
+        handle_break_code(buf);
+
+    /* printf("%x", buf); */
+
+    exit:
+    irq_done(IRQ1_VECTOR);
+}
+
+/*
+ * Performs keyboard self-test and
+ * returns 0 on success
+ */
+static int do_self_test()
+{
+    /* request self test */
+    outportb(KBRD_PORT_CTRL, CTRL_CMD_SELF_TEST);
+
+    while (!STATUS_SELF_TEST_DONE(get_kbrd_status()))
+        ;
+
+    /* return status; */
+    if (get_kbrd_buffer() == 0x55)
+        return 0;
+    return -1;
+}
+
+/*
+ * Disables keyboard.
+ * No IRQs are going to be executed.
+ */
+static int kbrd_disable()
+{
+    outportb(KBRD_PORT_CTRL, CTRL_CMD_KBRD_DISABLE);
+    return 0;
+}
+
+static int kbrd_enable()
+{
+    outportb(KBRD_PORT_CTRL, CTRL_CMD_KBRD_ENABLE);
+    return 0;
+}
+
+/*
+ * Performs a total system reset.
+ */
+void kbrd_sys_reset()
+{
+    outportb(KBRD_PORT_CTRL, CTRL_CMD_SYS_RESET);
 }
