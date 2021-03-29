@@ -650,3 +650,18 @@ void kbrd_sys_reset()
 {
     outportb(KBRD_PORT_CTRL, CTRL_CMD_SYS_RESET);
 }
+
+int kbrd_init()
+{
+    int status;
+
+    _shift_on = false;
+    _caps_on = false;
+    _ctrl_on = false;
+    _multicode = false;
+
+    status = do_self_test();
+    kbrd_disable();
+    kbrd_enable();
+    return status;
+}
