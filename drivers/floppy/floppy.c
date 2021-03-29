@@ -272,3 +272,21 @@ static int flp_read_cmd()
 }
 
 
+static void flp_recalibrate()
+{
+    unsigned char st3;
+
+retry:
+    flp_send_cmd(CMD_RECALIBRATE);
+    flp_send_cmd(flp.drive_nr);
+
+    /* Poll busy register to know when it's done */
+    while (get_flp_status() & flp.msr_busy_bit)
+        ;
+
+    flp_send_cmd(CMD_SENSE_INTERRUPT);
+    st3 = flp_read_cmd();
+    flp_read_cmd();
+    if ((0x20 | flp.drive_nr) != st3)
+        goto retry;
+}
