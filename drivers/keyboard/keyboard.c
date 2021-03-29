@@ -1,9 +1,3 @@
-/*
-Note: To remain compatible with old software, the motherboard emulates USB
-keyboads and mice and PS/2 devices
-*/
-
-//includes
 #include <libc.h>
 #include <shell.h>
 #include <x86/cpu.h>
@@ -11,6 +5,8 @@ keyboads and mice and PS/2 devices
 
 static int kbrd_enable();
 static int kbrd_disable();
+
+/* Table reference: http://www.brokenthorn.com/Resources/OSDevScanCodes.html */
 
 /*
  * Alphanumeric Keys
@@ -171,6 +167,7 @@ static int kbrd_disable();
 #define KEY_PAUSE              0x4011
 #define KEY_PRINT              0x4012
 
+
 /*
  * Scan codes of the keyboard.
  * In my tests all emulators returned me Set 1 codes, so let's use it here.
@@ -313,9 +310,101 @@ static const short SCAN_CODES_SYMBOLS[] = {
     [0x56]  = KEY_GREATER
 };
 
-#define KBRD_PORT_ENCODER 0x60 //controller inside the keyboard itself
-#define KBRD_PORT_CTRL 0x46
 
+/* Ports */
+#define KBRD_PORT_ENCODER 0x60 /* controller inside the keyboard itself */
+#define KBRD_PORT_CTRL 0x64  /* i8042 controller on the moherboard */
+
+/*
+ * KBRD_PORT_ENCODER `in` cmd list
+ * ----------------------------------------------------------------------------
+ * 0xED Set LEDs
+ * 0xEE Echo command. Returns 0xEE to port 0x60 as a diagnostic test
+ * 0xF0 Set alternate scan code set
+ * 0xF2 Send 2 byte keyboard ID code as the next two bytes to be read from port 0x60
+ * 0xF3 Set autrepeat delay and repeat rate
+ * 0xF4 Enable keyboard
+ * 0xF5 Reset to power on condition and wait for enable command
+ * 0xF6 Reset to power on condition and begin scanning keyboard
+ * 0xF7 Set all keys to autorepeat (PS/2 only)
+ * 0xF8 Set all keys to send make code and break code (PS/2 only)
+ * 0xF9 Set all keys to generate only make codes
+ * 0xFA Set all keys to autorepeat and generate make/break codes
+ * 0xFB Set a single key to autorepeat
+ * 0xFC Set a single key to generate make and break codes
+ * 0xFD Set a single key to generate only break codes
+ * 0xFE Resend last result
+ * 0xFF Reset keyboard to power on state and start self test*
+ *
+ * KBRD_PORT_ENCODER `out` error return list
+ * ----------------------------------------------------------------------------
+ * 0x0  Internal buffer overrun
+ * 0x1-0x58, 0x81-0xD8  Keypress scan code
+ * 0x83AB   Keyboard ID code returned from F2 command
+ * 0xAA Returned during Basic Assurance Test (BAT) after reset. Also L. shift key make code
+ * 0xEE Returned from the ECHO command
+ * 0xF0 Prefix of certain make codes (Does not apply to PS/2)
+ * 0xFA Keyboard acknowledge to keyboard command
+ * 0xFC Basic Assurance Test (BAT) failed (PS/2 only)
+ * 0xFD Diagonstic failure (Except PS/2)
+ * 0xFE Keyboard requests for system to resend last command
+ * 0xFF Key error (PS/2 only) 
+ *
+ * ============================================================================
+ *
+ * KBRD_PORT_CTRL cmd
+ * ----------------------------------------------------------------------------
+ * Common Commands
+ * ~~~~~~~~~~~~~~~
+ * 0x20 Read command byte
+ * 0x60 Write command byte
+ * 0xAA Self Test
+ * 0xAB Interface Test
+ * 0xAD Disable Keyboard
+ * 0xAE Enable Keyboard
+ * 0xC0 Read Input Port
+ * 0xD0 Read Output Port
+ * 0xD1 Write Output Port
+ * 0xE0 Read Test Inputs
+ * 0xFE System Reset
+ * 0xA7 Disable Mouse Port
+ * 0xA8 Enable Mouse Port
+ * 0xA9 Test Mouse Port
+ * 0xD4 Write To Mouse
+ * _____________________
+ * Non Standard Commands
+ * ~~~~~~~~~~~~~~~~~~~~~
+ * 0x00-0x1F    Read Controller RAM
+ * 0x20-0x3F    Read Controller RAM
+ * 0x40-0x5F    Write Controller RAM
+ * 0x60-0x7F    Write Controller RAM
+ * 0x90-0x93    Synaptics Multiplexer Prefix
+ * 0x90-0x9F    Write port 13-Port 10
+ * 0xA0 Read Copyright
+ * 0xA1 Read Firmware Version
+ * 0xA2 Change Speed
+ * 0xA3 Change Speed
+ * 0xA4 Check if password is installed
+ * 0xA5 Load Password
+ * 0xA6 Check Password
+ * 0xAC Disagnostic Dump
+ * 0xAF Read Keyboard Version
+ * 0xB0-0xB5    Reset Controller Line
+ * 0xB8-0xBD    Set Controller Line
+ * 0xC1 Continuous input port poll, low
+ * 0xC2 Continuous input port poll, high
+ * 0xC8 Unblock Controller lines P22 and P23
+ * 0xC9 Block Controller lines P22 and P23
+ * 0xCA Read Controller Mode
+ * 0xCB Write Controller Mode
+ * 0xD2 Write Output Buffer
+ * 0xD3 Write Mouse Output Buffer
+ * 0xDD Disable A20 address line
+ * 0xDF Enable A20 address line
+ * 0xF0-0xFF    Pulse output bit*
+ */
+
+/* Standard */
 #define CTRL_CMD_READB 0x20
 #define CTRL_CMD_WRITEB 0x60
 #define CTRL_CMD_SELF_TEST 0xAA
@@ -389,3 +478,18 @@ static const short SCAN_CODES_SYMBOLS[] = {
 
 #define IS_MULTICODE(code)  \
      ((code) == 0xE0 || (code) == 0xE1)
+
+static bool _shift_on;
+static bool _caps_on;
+static bool _ctrl_on;
+static bool _multicode;
+
+static char get_kbrd_buffer()
+{
+    return inportb(KBRD_PORT_ENCODER);
+}
+
+static char get_kbrd_status()
+{
+    return inportb(KBRD_PORT_CTRL);
+}
