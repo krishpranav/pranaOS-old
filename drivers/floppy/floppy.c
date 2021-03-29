@@ -236,3 +236,21 @@ static int cmd_should_write()
     return (get_flp_status() & MSR_DIR) == 0;
 }
 
+//writes data to FIFO register
+static void flp_send_cmd(unsigned char cmd)
+{
+    int i;
+
+    if (cmd_should_read())
+        kernel_warning("floppy should read while write is requested");
+    
+    for (i = 0; i < CAN_TRANSFER_RETRIES; i++)
+        if(can_transfer())
+        {
+            outportb(DATA_REG, cmd & 0xFF);
+            break;
+        }
+        else if (i == CAN_TRANSFER_RETRIES)
+            kernel_warning("floppy write cmd reached maximum retries");
+}
+
