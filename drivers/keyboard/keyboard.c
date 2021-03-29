@@ -313,3 +313,79 @@ static const short SCAN_CODES_SYMBOLS[] = {
     [0x56]  = KEY_GREATER
 };
 
+#define KBRD_PORT_ENCODER 0x60 //controller inside the keyboard itself
+#define KBRD_PORT_CTRL 0x46
+
+#define CTRL_CMD_READB 0x20
+#define CTRL_CMD_WRITEB 0x60
+#define CTRL_CMD_SELF_TEST 0xAA
+#define CTRL_CMD_INTERF_TEST 0xAB
+#define CTRL_CMD_KBRD_DISABLE 0xAD
+#define CTRL_CMD_KBRD_ENABLE 0xAE
+#define CTRL_CMD_READ_IN 0xC0
+#define CTRL_CMD_READ_OUT 0xD0
+#define CTRL_CMD_WRITE_OUT 0xD1
+#define CTRL_CMD_READ_TEST_IN 0xE0
+#define CTRL_CMD_SYS_RESET 0xFE
+#define CTRL_CMD_MOUSE_DISABLE_PORT 0xA7
+#define CTRL_CMD_MOUSE_ENABLE_PORT 0xA8
+#define CTRL_CMD_MOUSE_TEST_PORT 0xA9
+#define CTRL_CMD_MOUSE_WRITE 0xD4
+/* TODO: there are some neat non-standard cmds */
+
+/* Status register is read from KBRD_PORT_CTRL */
+#define STATUS_READ_BUF_FULL(reg)   \
+        ((char)(reg) & 0x1)
+#define STATUS_WRITE_BUF_FULL(reg)  \
+        ((char)(reg) & 0x2)
+#define STATUS_SELF_TEST_DONE(reg)  \
+        ((char)(reg) & 0x4)
+#define STATUS_LAST_WRITE_DATA(reg) \
+        ((char)(~(reg)) & 0x8) /* from KBRD_PORT_ENCODER */
+#define STATUS_LAST_WRITE_CMD(reg)  \
+        ((char)(reg) & 0x8) /* from KBRD_PORT_CTRL */
+#define STATUS_LOCKED(reg)  \
+        (((char)(~(reg))) & 0x10)
+#define STATUS_AUXILIARY_READ_BUF_FULL  \
+        ((char)(reg) & 0x20)
+#define STATUS_TIMEOUT(reg) \
+        ((char)(reg) & 0x40)
+#define STATUS_PARITY_ERROR(reg)    \
+        ((char)(reg) & 0x80)
+
+/* error checks */
+#define ENCOD_IS_MAKE_CODE(code)    \
+     (((code) >= 0x1) && ((code) <= 0x58))
+#define ENCOD_IS_BREAK_CODE(code)   \
+     (((code) >= 0x81) && ((code) <= 0xDB))
+#define ENCOD_IS_SCAN_CODE(rslt)    \
+        (ENCOD_IS_MAKE_CODE(rslt) ||    \
+         ENCOD_IS_BREAK_CODE(rslt))
+#define ENCOD_BUF_OVERRUN(rslt) ((rslt) == 0)
+#define ENCOD_DIAGNOSTIC_FAIL(rslt) ((rslt) == 0xFD)
+#define ENCOD_BAT_FAIL(rslt) ((rslt) == 0xFC) /* BAT - Basic Assurance Test */
+#define ENCOD_RESEND_REQ(rslt) ((rslt) == 0xFE)
+#define ENCOD_KEY_ERROR(rslt) ((rslt) == 0xFF)
+#define ENCOD_IS_ERROR(rslt)    \
+    ((!ENCOD_IS_SCAN_CODE(rslt)) && \
+         (ENCOD_BUF_OVERRUN(rslt) || ENCOD_DIAGNOSTIC_FAIL(rslt) || \
+          ENCOD_BAT_FAIL(rslt) || ENCOD_RESEND_REQ(rslt) || \
+          ENCOD_KEY_ERROR(rslt)))
+
+#define IS_SHIFT_MAKE(code) \
+     ((SCAN_CODES_SINGLE[(code)] == (KEY_LSHIFT)) ||    \
+      (SCAN_CODES_SINGLE[(code)] == (KEY_RSHIFT)))
+#define IS_SHIFT_BREAK(code)    \
+     ((SCAN_CODES_BREAK[(code)] == (KEY_LSHIFT)) || \
+      (SCAN_CODES_BREAK[(code)] == (KEY_RSHIFT)))
+#define IS_CTRL_MAKE(code)  \
+     ((SCAN_CODES_SINGLE[(code)] == (KEY_LCTRL)) || \
+      (SCAN_CODES_SINGLE[(code)] == (KEY_RCTRL)))
+#define IS_CTRL_BREAK(code) \
+     ((SCAN_CODES_BREAK[(code)] == KEY_LCTRL) ||    \
+      (SCAN_CODES_BREAK[(code)] == KEY_RCTRL))
+#define IS_CAPS_MAKE(code)  \
+     (SCAN_CODES_SINGLE[(code)] == (KEY_CAPSLOCK))
+
+#define IS_MULTICODE(code)  \
+     ((code) == 0xE0 || (code) == 0xE1)
