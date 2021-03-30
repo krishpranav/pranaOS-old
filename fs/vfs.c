@@ -77,3 +77,30 @@ int mount(enum storage_dev_type dev_type, char *filename)
     return 0;
 }
 
+int unmount(char *filename)
+{
+    return 0;
+}
+
+FILE *open(char *filename)
+{
+    if (!filename)
+        return NULL;
+
+    return NULL;
+}
+
+void close(FILE *hndl)
+{
+
+}
+
+int seek(enum seek_type type, size_t offset)
+{
+    return -1;
+}
+
+int read(FILE *hndl, void *buf, size_t nbytes)
+{
+    return -1;
+}
