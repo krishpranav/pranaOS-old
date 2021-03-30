@@ -221,3 +221,12 @@ struct fileinfo *alloc_fileinfo()
 
     return inf;
 }
+
+void dealoc_fileinfo(struct fileinfo *inf)
+{
+    if (!inf)
+        return;
+
+    free(inf->filename);
+    free(inf);
+}
