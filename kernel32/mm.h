@@ -18,5 +18,10 @@ size_t get_free_mem_b();
 size_t get_used_mem_b();
 size_t get_krnl_size();
 
+/* VMM */
+int vmm_init(size_t mem_kb, addr_t krnl_bin_end);
+void free(void *ptr);
+void *kalloc(size_t bytes);
+void *malloc(size_t bytes);
 
-
+#endif /* end of include guard: MM_ZPVRK7R1 */
