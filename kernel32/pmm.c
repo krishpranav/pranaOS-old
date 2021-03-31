@@ -29,3 +29,12 @@ enum ALIGN {
     ALIGN_LOW,
     ALIGN_HIGH
 };
+
+struct pmm_t {
+    unsigned int block_cnt;
+    unsigned int blocks_free;
+    size_t krnl_size;
+}
+
+static struct pmm_t pmm;
+static unsigned char *mem_bitmap;
