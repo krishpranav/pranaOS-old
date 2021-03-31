@@ -29,3 +29,17 @@ int register_callback(enum cb_type type,
 
     return 0;
 }
+
+int remove_callback(struct callback_t *cb)
+{
+    if (!llist_is_in_list(cb, ll))
+        return -1;
+
+    llist_delete(cb, ll);
+    if (llist_is_empty(cb_list, ll))
+        cb_list = NULL;
+    free(cb);
+    return 0;
+}
+
+
