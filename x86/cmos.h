@@ -16,7 +16,7 @@
     ((data) & 0xF)
 
 int cmos_init();
-int rts_get_time();
+int rts_get_time();	
 int cmos_get_flp_status();
 
 #endif

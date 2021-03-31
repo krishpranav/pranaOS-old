@@ -98,7 +98,7 @@ int cmos_get_flp_status()
     char ram;
 
     ram = NMI_DISABLE(CMOS_DISKETTE);
-    cmos_write_ram(ram);
+    cmos_write_ram(ram);        
     cmos_select_ram(ram);
     return cmos_read_ram();
 }
