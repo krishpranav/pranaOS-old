@@ -43,3 +43,86 @@ size_t calculate_base64_encoded_length(ReadonlyBytes input)
 {
     return ((4 * input.size() / 3) + 3) & ~3;
 }
+
+ByteBuffer decode_base64(const StringView& input)
+{
+    auto get = [&](const size_t offset, bool* is_padding = nullptr) -> u8 {
+        constexpr auto table = make_lookup_table();
+        if (offset >= input.length())
+            return 0;
+        if (input[offset] == '=') {
+            if (is_padding)
+                *is_padding = true;
+            return 0;
+        }
+        return table[input[offset]];
+    };
+
+    Vector<u8> output;
+    output.ensure_capacity(calculate_base64_decoded_length(input));
+
+    for (size_t i = 0; i < input.length(); i += 4) {
+        bool in2_is_padding = false;
+        bool in3_is_padding = false;
+
+        const u8 in0 = get(i);
+        const u8 in1 = get(i + 1);
+        const u8 in2 = get(i + 2, &in2_is_padding);
+        const u8 in3 = get(i + 3, &in3_is_padding);
+
+        const u8 out0 = (in0 << 2) | ((in1 >> 4) & 3);
+        const u8 out1 = ((in1 & 0xf) << 4) | ((in2 >> 2) & 0xf);
+        const u8 out2 = ((in2 & 0x3) << 6) | in3;
+
+        output.append(out0);
+        if (!in2_is_padding)
+            output.append(out1);
+        if (!in3_is_padding)
+            output.append(out2);
+    }
+
+    return ByteBuffer::copy(output.data(), output.size());
+}
+
+String encode_base64(ReadonlyBytes input)
+{
+    constexpr auto alphabet = make_alphabet();
+    StringBuilder output(calculate_base64_decoded_length(input));
+
+    auto get = [&](const size_t offset, bool* need_padding = nullptr) -> u8 {
+        if (offset >= input.size()) {
+            if (need_padding)
+                *need_padding = true;
+            return 0;
+        }
+        return input[offset];
+    };
+
+    for (size_t i = 0; i < input.size(); i += 3) {
+        bool is_8bit = false;
+        bool is_16bit = false;
+
+        const u8 in0 = get(i);
+        const u8 in1 = get(i + 1, &is_16bit);
+        const u8 in2 = get(i + 2, &is_8bit);
+
+        const u8 index0 = (in0 >> 2) & 0x3f;
+        const u8 index1 = ((in0 << 4) | (in1 >> 4)) & 0x3f;
+        const u8 index2 = ((in1 << 2) | (in2 >> 6)) & 0x3f;
+        const u8 index3 = in2 & 0x3f;
+
+        const u8 out0 = alphabet[index0];
+        const u8 out1 = alphabet[index1];
+        const u8 out2 = is_16bit ? '=' : alphabet[index2];
+        const u8 out3 = is_8bit ? '=' : alphabet[index3];
+
+        output.append(out0);
+        output.append(out1);
+        output.append(out2);
+        output.append(out3);
+    }
+
+    return output.to_string();
+}
+
+}
