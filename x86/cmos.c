@@ -161,7 +161,7 @@ int cmos_init()
         /* if CMOS battery is not present, have to set the error bit off */
         if (res & CMOS_DIAGNOSTIC_RTC_LOST_POWER)
         {
-            res &= ~CMOS_DIAGNOSTIC_RTC_LOST_POWER;
+            res &= ~CMOS_DIAGNOSTIC_RTC_LOST_POWER; 
             cmos_select_ram(CMOS_DIAGNOSTIC_STATUS);
             cmos_write_ram(res);
         }

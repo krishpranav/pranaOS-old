@@ -10,6 +10,3 @@ all: $(OBJ) irq
 # 	$<	<= means dependency
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@ $(CLIB)
-
-irq:
-	$(AS) $(ASFLAGS) -f elf -g -o irq.o irq.asm
