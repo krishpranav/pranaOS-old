@@ -359,3 +359,6 @@ public:
 };
 
 }
+
+using AK::Atomic;
+using AK::full_memory_barrier;
