@@ -23,3 +23,23 @@ static constexpr auto make_alphabet()
     };
     return alphabet;
 }
+
+static constexpr auto make_lookup_table()
+{
+    constexpr auto alphabet = make_alphabet();
+    Array<u8, 256> table {};
+    for (size_t i = 0; i < alphabet.size(); ++i) {
+        table[alphabet[i]] = i;
+    }
+    return table;
+}
+
+size_t calculate_base64_decoded_length(const StringView& input)
+{
+    return input.length() * 3 / 4;
+}
+
+size_t calculate_base64_encoded_length(ReadonlyBytes input)
+{
+    return ((4 * input.size() / 3) + 3) & ~3;
+}
