@@ -128,6 +128,7 @@ public:
         return true;
     }
 
+
     void write_bits(u32 bits, size_t count)
     {
         VERIFY(count <= 32);

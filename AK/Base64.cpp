@@ -45,6 +45,7 @@ size_t calculate_base64_encoded_length(ReadonlyBytes input)
     return ((4 * input.size() / 3) + 3) & ~3;
 }
 
+
 ByteBuffer decode_base64(const StringView& input)
 {
     auto get = [&](const size_t offset, bool* is_padding = nullptr) -> u8 {
