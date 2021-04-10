@@ -1,3 +1,29 @@
+/*
+ * Copyright (c) 2020, Andreas Kling <kling@serenityos.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #include <AK/Array.h>
 #include <AK/Base64.h>
 #include <AK/ByteBuffer.h>
@@ -24,13 +50,12 @@ static constexpr auto make_alphabet()
     return alphabet;
 }
 
-
 static constexpr auto make_lookup_table()
 {
     constexpr auto alphabet = make_alphabet();
-    Array<v8. 256> table {};
-    for (size_t i = 0; i < alphabet.size(); i++){
-        table[alphabet[i]] = i
+    Array<u8, 256> table {};
+    for (size_t i = 0; i < alphabet.size(); ++i) {
+        table[alphabet[i]] = i;
     }
     return table;
 }
@@ -44,7 +69,6 @@ size_t calculate_base64_encoded_length(ReadonlyBytes input)
 {
     return ((4 * input.size() / 3) + 3) & ~3;
 }
-
 
 ByteBuffer decode_base64(const StringView& input)
 {
