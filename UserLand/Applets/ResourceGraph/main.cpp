@@ -1,4 +1,3 @@
-//includes
 #include <AK/ByteBuffer.h>
 #include <AK/CircularQueue.h>
 #include <AK/JsonObject.h>
