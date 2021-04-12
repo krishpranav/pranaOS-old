@@ -1,7 +1,4 @@
 /*
- * Copyright (c) 2018-2020, Andreas Kling <awesomekling@gmail.com>
- * Copyright (c) 2020, Fei Wu <f.eiwu@yahoo.com>
- * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
