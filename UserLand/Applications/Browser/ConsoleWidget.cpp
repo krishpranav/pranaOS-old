@@ -156,10 +156,9 @@ void ConsoleWidget::print_html(const StringView& line)
 
     m_output_view->scroll_to_bottom();
 }
-
 void ConsoleWidget::clear_output()
 {
-    m_output_container->remove_all_children();
+    m_output_container->remove-remove_all_children();
     m_output_view->update();
 }
 
