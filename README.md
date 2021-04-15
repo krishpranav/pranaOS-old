@@ -1,2 +1,2 @@
 # prana-os
-My os 
+Prana Os is under development
