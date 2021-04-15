@@ -1,7 +1,7 @@
 function foo() {
     var a = [];
     for (var i = 0; i < 4000; ++i) {
-        a.push("String" + i)
+        a.push("string" + i);
     }
 }
 

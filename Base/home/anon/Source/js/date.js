@@ -1,5 +1,5 @@
 var now = Date.now();
-console.log("Unix TimeStamp: " + now / 1000);
+console.log("Unix timestamp: " + now / 1000);
 
 var d = new Date();
 var year = d.getFullYear();
