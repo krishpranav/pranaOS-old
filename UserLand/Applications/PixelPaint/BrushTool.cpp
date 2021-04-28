@@ -1,3 +1,4 @@
+// includes
 #include "BrushTool.h"
 #include "ImageEditor.h"
 #include "Layer.h"
