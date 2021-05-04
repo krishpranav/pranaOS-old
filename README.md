@@ -9,4 +9,4 @@ g++ version should be more than 10.0.0
 ninja gcc compiler needed
 ```
 
-Prana Os is under development
+prana os is under development
