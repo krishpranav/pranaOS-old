@@ -29,6 +29,6 @@ int main(int argc, char** argv)
     unveil(nullptr, nullptr);
 
     auto app_icon = GUI::Icon::default_icon("ladybug");
-    GUI::AboutDialog::show("SerenityOS", nullptr, nullptr, app_icon.bitmap_for_size(32));
+    GUI::AboutDialog::show("prana-os", nullptr, nullptr, app_icon.bitmap_for_size(32));
     return app->exec();
 }
