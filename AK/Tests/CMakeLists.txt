@@ -1,5 +1,3 @@
-
-
 set(AK_TEST_SOURCES
     TestAllOf.cpp
     TestAnyOf.cpp
@@ -23,11 +21,15 @@ set(AK_TEST_SOURCES
     TestEnumBits.cpp
     TestFind.cpp
     TestFormat.cpp
+    TestGenericLexer.cpp
     TestHashFunctions.cpp
     TestHashMap.cpp
     TestHashTable.cpp
+    TestHex.cpp
     TestIPv4Address.cpp
     TestIndexSequence.cpp
+    TestIntrusiveList.cpp
+    TestIntrusiveRedBlackTree.cpp
     TestJSON.cpp
     TestLexicalPath.cpp
     TestMACAddress.cpp
@@ -39,9 +41,11 @@ set(AK_TEST_SOURCES
     TestOptional.cpp
     TestQueue.cpp
     TestQuickSort.cpp
+    TestRedBlackTree.cpp
     TestRefPtr.cpp
     TestSinglyLinkedList.cpp
     TestSourceGenerator.cpp
+    TestSourceLocation.cpp
     TestSpan.cpp
     TestString.cpp
     TestStringUtils.cpp
@@ -57,8 +61,8 @@ set(AK_TEST_SOURCES
 )
 
 foreach(source ${AK_TEST_SOURCES})
-    get_filename_component(name ${source} NAME_WE)
-    add_executable(${name} ${source})
-    target_link_libraries(${name} LibCore)
-    install(TARGETS ${name} RUNTIME DESTINATION usr/Tests/AK)
+    pranaos_test(${source} AK)
 endforeach()
+
+get_filename_component(TEST_FRM_RESOLVED ./test.frm REALPATH)
+install(FILES ${TEST_FRM_RESOLVED} DESTINATION usr/Tests/AK)

@@ -200,7 +200,7 @@ private:
         MTimeSet = 0x100
     };
 
-    // Mode in which the file is already open, using SerenityOS constants.
+    // Mode in which the file is already open, using pranaosOS constants.
     int m_open_mode { 0 };
     KResult ensure_open_for_mode(int mode);
 

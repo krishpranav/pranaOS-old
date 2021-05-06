@@ -30,5 +30,5 @@ $ mktemp
 # Find an available temporary file name
 $ mktemp -u
 # Create a temporary directory with a custom template
-$ mktemp -d serenity.XXXXX
+$ mktemp -d pranaos.XXXXX
 ```

@@ -25,7 +25,7 @@ system call.
 
 ```sh
 $ uname -sm
-Serenity i686
+pranaos i686
 ```
 
 ## See also

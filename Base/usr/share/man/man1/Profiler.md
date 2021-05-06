@@ -1,6 +1,6 @@
 ## Name
 
-Profiler - Serenity process profiler
+Profiler - pranaos process profiler
 
 ## Synopsis
 

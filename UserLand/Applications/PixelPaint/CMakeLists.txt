@@ -24,5 +24,5 @@ set(SOURCES
     ZoomTool.cpp
 )
 
-serenity_app(PixelPaint ICON app-pixel-paint)
+pranaos_app(PixelPaint ICON app-pixel-paint)
 target_link_libraries(PixelPaint LibGUI LibGfx)

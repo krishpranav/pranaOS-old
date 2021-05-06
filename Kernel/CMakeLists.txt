@@ -1,8 +1,8 @@
 add_compile_options(-Os)
 
-if ("${SERENITY_ARCH}" STREQUAL "i686")
+if ("${pranaos_ARCH}" STREQUAL "i686")
     set(KERNEL_ARCH i386)
-elseif("${SERENITY_ARCH}" STREQUAL "x86_64")
+elseif("${pranaos_ARCH}" STREQUAL "x86_64")
     set(KERNEL_ARCH x86_64)
 endif()
 
@@ -303,11 +303,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pie -fPIE -fno-rtti -ffreestanding -fbu
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mno-80387 -mno-mmx -mno-sse -mno-sse2")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-asynchronous-unwind-tables")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector-strong")
-if (NOT ${CMAKE_HOST_SYSTEM_NAME} MATCHES SerenityOS)
+if (NOT ${CMAKE_HOST_SYSTEM_NAME} MATCHES pranaosOS)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdlib -nostdinc -nostdinc++")
 endif()
 
-if ("${SERENITY_ARCH}" STREQUAL "x86_64")
+if ("${pranaos_ARCH}" STREQUAL "x86_64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcmodel=large -mno-red-zone")
 endif()
 
@@ -325,7 +325,7 @@ add_compile_definitions(KERNEL)
 
 # HACK: This is a workaround for CLion to grok the kernel sources.
 #       It's needed because CLion doesn't understand the way we switch compilers mid-build.
-add_compile_definitions(__serenity__)
+add_compile_definitions(__pranaos__)
 
 add_link_options(LINKER:-T ${CMAKE_CURRENT_BINARY_DIR}/linker.ld -nostdlib)
 
@@ -341,11 +341,11 @@ add_library(boot OBJECT Arch/${KERNEL_ARCH}/Boot/boot.S)
 add_library(kernel_heap STATIC ${KERNEL_HEAP_SOURCES})
 file(GENERATE OUTPUT linker.ld INPUT linker.ld)
 
-if (${CMAKE_HOST_SYSTEM_NAME} MATCHES SerenityOS)
+if (${CMAKE_HOST_SYSTEM_NAME} MATCHES pranaosOS)
     include_directories(/usr/local/include/c++/10.2.0/)
 else()
-    include_directories(../Toolchain/Local/${SERENITY_ARCH}/${SERENITY_ARCH}-pc-serenity/include/c++/10.2.0/)
-    include_directories(../Toolchain/Local/${SERENITY_ARCH}/${SERENITY_ARCH}-pc-serenity/include/c++/10.2.0/${SERENITY_ARCH}-pc-serenity/)
+    include_directories(../Toolchain/Local/${pranaos_ARCH}/${pranaos_ARCH}-pc-pranaos/include/c++/10.2.0/)
+    include_directories(../Toolchain/Local/${pranaos_ARCH}/${pranaos_ARCH}-pc-pranaos/include/c++/10.2.0/${pranaos_ARCH}-pc-pranaos/)
 endif()
 
 add_executable(Kernel ${SOURCES})
@@ -359,7 +359,7 @@ add_custom_command(
 )
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kernel.map DESTINATION res)
 
-serenity_install_headers(Kernel)
-serenity_install_sources(Kernel)
+pranaos_install_headers(Kernel)
+pranaos_install_sources(Kernel)
 
 add_subdirectory(Modules)

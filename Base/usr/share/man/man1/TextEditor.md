@@ -1,6 +1,6 @@
 ## Name
 
-TextEditor - SerenityOS text editor
+TextEditor - pranaosOS text editor
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ $ TextEditor [--preview-mode mode] [file]
 
 ## Description
 
-TextEditor is a text document editor for SerenityOS featuring a preview mode
+TextEditor is a text document editor for pranaosOS featuring a preview mode
 which allows automatic live rendering of HTML and Markdown documents.
 
 ## Options

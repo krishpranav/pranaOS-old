@@ -10,5 +10,5 @@ set(SOURCES
     WaveWidget.cpp
 )
 
-serenity_app(Piano ICON app-piano)
+pranaos_app(Piano ICON app-piano)
 target_link_libraries(Piano LibAudio LibGUI)

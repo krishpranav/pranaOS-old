@@ -61,7 +61,7 @@ IRCClient::IRCClient(String server, int port)
     m_notify_on_message = m_config->read_bool_entry("Notifications", "NotifyOnMessage", 1);
     m_notify_on_mention = m_config->read_bool_entry("Notifications", "NotifyOnMention", 1);
 
-    m_ctcp_version_reply = m_config->read_entry("CTCP", "VersionReply", "IRC Client [x86] / Serenity OS");
+    m_ctcp_version_reply = m_config->read_entry("CTCP", "VersionReply", "IRC Client [x86] / pranaos OS");
     m_ctcp_userinfo_reply = m_config->read_entry("CTCP", "UserInfoReply", user_pw->pw_name);
     m_ctcp_finger_reply = m_config->read_entry("CTCP", "FingerReply", user_pw->pw_name);
 }

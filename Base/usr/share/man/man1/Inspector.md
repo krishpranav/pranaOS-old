@@ -1,6 +1,6 @@
 ## Name
 
-Inspector - Serenity process inspector
+Inspector - pranaos process inspector
 
 ## Synopsis
 

@@ -1,27 +1,3 @@
-/*
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 #include <AK/MemMem.h>
 #include <AK/Memory.h>
 #include <AK/Optional.h>
@@ -51,22 +27,20 @@ bool matches(const StringView& str, const StringView& mask, CaseSensitivity case
         return true;
     }
 
-    if (case_sensitivity == CaseSensitivity::CaseInsensitive) {
-        const String str_lower = String(str).to_lowercase();
-        const String mask_lower = String(mask).to_lowercase();
-        return matches(str_lower, mask_lower, CaseSensitivity::CaseSensitive, match_spans);
-    }
-
     const char* string_ptr = str.characters_without_null_termination();
     const char* string_start = str.characters_without_null_termination();
     const char* string_end = string_ptr + str.length();
     const char* mask_ptr = mask.characters_without_null_termination();
     const char* mask_end = mask_ptr + mask.length();
 
-    auto matches_one = [](char ch, char p) {
+    auto matches_one = [](char ch, char p, CaseSensitivity case_sensitivity) {
         if (p == '?')
             return true;
-        return p == ch && ch != 0;
+        if (ch == 0)
+            return false;
+        if (case_sensitivity == CaseSensitivity::CaseSensitive)
+            return p == ch;
+        return tolower(p) == tolower(ch);
     };
     while (string_ptr < string_end && mask_ptr < mask_end) {
         auto string_start_ptr = string_ptr;
@@ -76,7 +50,7 @@ bool matches(const StringView& str, const StringView& mask, CaseSensitivity case
                 record_span(string_ptr - string_start, string_end - string_ptr);
                 return true;
             }
-            while (string_ptr < string_end && !matches(string_ptr, mask_ptr + 1))
+            while (string_ptr < string_end && !matches(string_ptr, mask_ptr + 1, case_sensitivity))
                 ++string_ptr;
             record_span(string_start_ptr - string_start, string_ptr - string_start_ptr);
             --string_ptr;
@@ -85,7 +59,7 @@ bool matches(const StringView& str, const StringView& mask, CaseSensitivity case
             record_span(string_ptr - string_start, 1);
             break;
         default:
-            if (!matches_one(*string_ptr, *mask_ptr))
+            if (!matches_one(*string_ptr, *mask_ptr, case_sensitivity))
                 return false;
             break;
         }
@@ -218,8 +192,6 @@ static inline char to_lowercase(char c)
 
 bool equals_ignoring_case(const StringView& a, const StringView& b)
 {
-    if (a.impl() && a.impl() == b.impl())
-        return true;
     if (a.length() != b.length())
         return false;
     for (size_t i = 0; i < a.length(); ++i) {

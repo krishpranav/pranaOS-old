@@ -12,12 +12,12 @@ $ man section page
 ## Description
 
 `man` finds, loads and displays the so-called manual pages,
-or man pages for short, from the SerenityOS manual. You're reading
+or man pages for short, from the pranaosOS manual. You're reading
 the manual page for `man` program itself right now.
 
 ## Sections
 
-The SerenityOS manual is split into the following *sections*, or *chapters*:
+The pranaosOS manual is split into the following *sections*, or *chapters*:
 
 1. User programs
 2. System calls

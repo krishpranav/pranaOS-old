@@ -1,27 +1,3 @@
-/*
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 #include <AK/Format.h>
 #include <AK/GenericLexer.h>
 #include <AK/String.h>
@@ -29,8 +5,8 @@
 #include <AK/kstdio.h>
 #include <ctype.h>
 
-#if defined(__serenity__) && !defined(KERNEL)
-#    include <serenity.h>
+#if defined(__pranaos__) && !defined(KERNEL)
+#    include <pranaos.h>
 #endif
 
 #ifdef KERNEL
@@ -44,16 +20,16 @@ namespace AK {
 
 namespace {
 
-constexpr size_t use_next_index = NumericLimits<size_t>::max();
+static constexpr size_t use_next_index = NumericLimits<size_t>::max();
 
 // The worst case is that we have the largest 64-bit value formatted as binary number, this would take
 // 65 bytes. Choosing a larger power of two won't hurt and is a bit of mitigation against out-of-bounds accesses.
-inline size_t convert_unsigned_to_string(u64 value, Array<u8, 128>& buffer, u8 base, bool upper_case)
+static constexpr size_t convert_unsigned_to_string(u64 value, Array<u8, 128>& buffer, u8 base, bool upper_case)
 {
     VERIFY(base >= 2 && base <= 16);
 
-    static constexpr const char* lowercase_lookup = "0123456789abcdef";
-    static constexpr const char* uppercase_lookup = "0123456789ABCDEF";
+    constexpr const char* lowercase_lookup = "0123456789abcdef";
+    constexpr const char* uppercase_lookup = "0123456789ABCDEF";
 
     if (value == 0) {
         buffer[0] = '0';
@@ -99,34 +75,6 @@ void vformat_impl(TypeErasedFormatParams& params, FormatBuilder& builder, Format
 }
 
 } // namespace AK::{anonymous}
-
-size_t TypeErasedParameter::to_size() const
-{
-    i64 svalue;
-
-    if (type == TypeErasedParameter::Type::UInt8)
-        svalue = *reinterpret_cast<const u8*>(value);
-    else if (type == TypeErasedParameter::Type::UInt16)
-        svalue = *reinterpret_cast<const u16*>(value);
-    else if (type == TypeErasedParameter::Type::UInt32)
-        svalue = *reinterpret_cast<const u32*>(value);
-    else if (type == TypeErasedParameter::Type::UInt64)
-        svalue = *reinterpret_cast<const u64*>(value);
-    else if (type == TypeErasedParameter::Type::Int8)
-        svalue = *reinterpret_cast<const i8*>(value);
-    else if (type == TypeErasedParameter::Type::Int16)
-        svalue = *reinterpret_cast<const i16*>(value);
-    else if (type == TypeErasedParameter::Type::Int32)
-        svalue = *reinterpret_cast<const i32*>(value);
-    else if (type == TypeErasedParameter::Type::Int64)
-        svalue = *reinterpret_cast<const i64*>(value);
-    else
-        VERIFY_NOT_REACHED();
-
-    VERIFY(svalue >= 0);
-
-    return static_cast<size_t>(svalue);
-}
 
 FormatParser::FormatParser(StringView input)
     : GenericLexer(input)
@@ -388,16 +336,17 @@ void FormatBuilder::put_f64(
     StringBuilder string_builder;
     FormatBuilder format_builder { string_builder };
 
-    format_builder.put_i64(static_cast<i64>(value), base, false, upper_case, false, Align::Right, 0, ' ', sign_mode);
+    bool is_negative = value < 0.0;
+    if (is_negative)
+        value = -value;
+
+    format_builder.put_u64(static_cast<u64>(value), base, false, upper_case, false, Align::Right, 0, ' ', sign_mode, is_negative);
 
     if (precision > 0) {
         // FIXME: This is a terrible approximation but doing it properly would be a lot of work. If someone is up for that, a good
         // place to start would be the following video from CppCon 2019:
         // https://youtu.be/4P_kbF0EbZM (Stephan T. Lavavej “Floating-Point <charconv>: Making Your Code 10x Faster With C++17's Final Boss”)
         value -= static_cast<i64>(value);
-
-        if (value < 0)
-            value = -value;
 
         double epsilon = 0.5;
         for (size_t i = 0; i < precision; ++i)
@@ -532,7 +481,7 @@ void Formatter<FormatString>::vformat(FormatBuilder& builder, StringView fmtstr,
 }
 
 template<typename T>
-void Formatter<T, typename EnableIf<IsIntegral<T>::value>::Type>::format(FormatBuilder& builder, T value)
+void Formatter<T, typename EnableIf<IsIntegral<T>>::Type>::format(FormatBuilder& builder, T value)
 {
     if (m_mode == Mode::Character) {
         // FIXME: We just support ASCII for now, in the future maybe unicode?
@@ -585,7 +534,7 @@ void Formatter<T, typename EnableIf<IsIntegral<T>::value>::Type>::format(FormatB
 
     m_width = m_width.value_or(0);
 
-    if (IsSame<typename MakeUnsigned<T>::Type, T>::value)
+    if constexpr (IsSame<MakeUnsigned<T>, T>)
         builder.put_u64(value, base, m_alternative_form, upper_case, m_zero_pad, m_align, m_width.value(), m_fill, m_sign_mode);
     else
         builder.put_i64(value, base, m_alternative_form, upper_case, m_zero_pad, m_align, m_width.value(), m_fill, m_sign_mode);
@@ -671,7 +620,7 @@ void vdbgln(StringView fmtstr, TypeErasedFormatParams params)
 
     StringBuilder builder;
 
-#ifdef __serenity__
+#ifdef __pranaos__
 #    ifdef KERNEL
     if (Kernel::Processor::is_initialized() && Kernel::Thread::current()) {
         auto& thread = *Kernel::Thread::current();
@@ -690,7 +639,7 @@ void vdbgln(StringView fmtstr, TypeErasedFormatParams params)
             got_process_name = TriState::False;
     }
     if (got_process_name == TriState::True)
-        builder.appendff("\033[33;1m{}({})\033[0m: ", process_name_buffer, getpid());
+        builder.appendff("\033[33;1m{}({}:{})\033[0m: ", process_name_buffer, getpid(), gettid());
 #    endif
 #endif
 
@@ -707,7 +656,7 @@ void vdmesgln(StringView fmtstr, TypeErasedFormatParams params)
 {
     StringBuilder builder;
 
-#    ifdef __serenity__
+#    ifdef __pranaos__
     if (Kernel::Processor::is_initialized() && Kernel::Thread::current()) {
         auto& thread = *Kernel::Thread::current();
         builder.appendff("\033[34;1m[{}({}:{})]\033[0m: ", thread.process().name(), thread.pid().value(), thread.tid().value());

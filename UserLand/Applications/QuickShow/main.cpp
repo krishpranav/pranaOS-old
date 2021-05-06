@@ -20,7 +20,7 @@
 #include <LibGfx/Bitmap.h>
 #include <LibGfx/Palette.h>
 #include <LibGfx/Rect.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <stdio.h>
 #include <string.h>
 

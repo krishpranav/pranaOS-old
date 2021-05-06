@@ -5,7 +5,7 @@ module\_unload - unload a kernel module
 ## Synopsis
 
 ```**c++
-#include <serenity.h>
+#include <pranaos.h>
 
 int module_unload(const char* name, size_t name_length);
 ```

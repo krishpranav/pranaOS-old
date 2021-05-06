@@ -7,5 +7,5 @@ set(SOURCES
     CalculatorGML.h
 )
 
-serenity_app(Calculator ICON app-calculator)
+pranaos_app(Calculator ICON app-calculator)
 target_link_libraries(Calculator LibGUI)

@@ -14,5 +14,5 @@ set(SOURCES
     NewFontDialogPage2GML.h
 )
 
-serenity_app(FontEditor ICON app-font-editor)
+pranaos_app(FontEditor ICON app-font-editor)
 target_link_libraries(FontEditor LibGUI LibDesktop LibGfx)

@@ -1,6 +1,6 @@
 ## Name
 
-Terminal - Serenity terminal emulator
+Terminal - pranaos terminal emulator
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ $ Terminal [options]
 
 ## Description
 
-Terminal is a terminal emulator application for Serenity.
+Terminal is a terminal emulator application for pranaos.
 
 ## Options
 

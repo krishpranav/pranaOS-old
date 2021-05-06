@@ -1,6 +1,6 @@
 ## Name
 
-QuickShow - Serenity image viewer
+QuickShow - pranaos image viewer
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ $ QuickShow [file]
 
 ## Description
 
-QuickShow is an image viewing application for Serenity.
+QuickShow is an image viewing application for pranaos.
 
 ## Arguments
 

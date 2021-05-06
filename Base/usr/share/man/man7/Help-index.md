@@ -1,8 +1,8 @@
 ![Help icon](file:///res/icons/32x32/app-help.png)
 
-## Welcome to the SerenityOS on-line help system!
+## Welcome to the pranaosOS on-line help system!
 
-This is **Help**, the built-in documentation viewer for the SerenityOS desktop environment. If you prefer a command-line interface, the [man](../man1/man.md) command offers a text-only view of the same library.
+This is **Help**, the built-in documentation viewer for the pranaosOS desktop environment. If you prefer a command-line interface, the [man](../man1/man.md) command offers a text-only view of the same library.
 
 ---
 
@@ -12,4 +12,4 @@ There's also a full-text search option under the **Search** tab.
 
 ---
 
-Thank you for using ***SerenityOS Help!***
+Thank you for using ***pranaosOS Help!***

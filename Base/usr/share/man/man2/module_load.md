@@ -5,7 +5,7 @@ module\_load - load a kernel module
 ## Synopsis
 
 ```**c++
-#include <serenity.h>
+#include <pranaos.h>
 
 int module_load(const char* path, size_t path_length);
 ```

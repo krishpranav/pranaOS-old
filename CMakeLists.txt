@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(SerenityOS C CXX ASM)
+project(pranaosOS C CXX ASM)
 
 if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
   message(FATAL
-    ": Don't use CMAKE_BUILD_TYPE when building serenity.\n"
+    ": Don't use CMAKE_BUILD_TYPE when building pranaos.\n"
     "The default build type is optimized with debug info and asserts enabled,\n"
     "and that's all there is.")
 endif()
@@ -14,9 +14,9 @@ enable_testing()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(SERENITY_ARCH "i686" CACHE STRING "Target architecture for SerenityOS.")
+set(pranaos_ARCH "i686" CACHE STRING "Target architecture for pranaosOS.")
 
-# Central location for all custom options used in the Serenity build.
+# Central location for all custom options used in the pranaos build.
 option(ENABLE_ADDRESS_SANITIZER "Enable address sanitizer testing in gcc/clang" OFF)
 option(ENABLE_KERNEL_ADDRESS_SANITIZER "Enable kernel address sanitizer testing in gcc/clang" OFF)
 option(ENABLE_MEMORY_SANITIZER "Enable memory sanitizer testing in gcc/clang" OFF)
@@ -48,12 +48,12 @@ add_custom_target(image
     DEPENDS qemu-image
 )
 add_custom_target(qemu-image
-    COMMAND ${CMAKE_COMMAND} -E env "SERENITY_ROOT=${CMAKE_SOURCE_DIR}" "SERENITY_ARCH=${SERENITY_ARCH}" ${CMAKE_SOURCE_DIR}/Meta/build-image-qemu.sh
+    COMMAND ${CMAKE_COMMAND} -E env "pranaos_ROOT=${CMAKE_SOURCE_DIR}" "pranaos_ARCH=${pranaos_ARCH}" ${CMAKE_SOURCE_DIR}/Meta/build-image-qemu.sh
     BYPRODUCTS ${CMAKE_BINARY_DIR}/_disk_image
     USES_TERMINAL
 )
 add_custom_target(grub-image
-    COMMAND ${CMAKE_COMMAND} -E env "SERENITY_ROOT=${CMAKE_SOURCE_DIR}" "SERENITY_ARCH=${SERENITY_ARCH}" ${CMAKE_SOURCE_DIR}/Meta/build-image-grub.sh
+    COMMAND ${CMAKE_COMMAND} -E env "pranaos_ROOT=${CMAKE_SOURCE_DIR}" "pranaos_ARCH=${pranaos_ARCH}" ${CMAKE_SOURCE_DIR}/Meta/build-image-grub.sh
     BYPRODUCTS ${CMAKE_BINARY_DIR}/grub_disk_image
     USES_TERMINAL
 )
@@ -104,11 +104,11 @@ set(CMAKE_STAGING_PREFIX ${CMAKE_BINARY_DIR}/Root)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/Root)
 set(CMAKE_INSTALL_DATAROOTDIR ${CMAKE_BINARY_DIR}/Root/res)
 
-if (${CMAKE_HOST_SYSTEM_NAME} MATCHES SerenityOS)
+if (${CMAKE_HOST_SYSTEM_NAME} MATCHES pranaosOS)
     message("Good job on building cmake!")
 else()
-    set(TOOLCHAIN_PATH ${CMAKE_SOURCE_DIR}/Toolchain/Local/${SERENITY_ARCH}/bin)
-    set(TOOLCHAIN_PREFIX ${TOOLCHAIN_PATH}/${SERENITY_ARCH}-pc-serenity-)
+    set(TOOLCHAIN_PATH ${CMAKE_SOURCE_DIR}/Toolchain/Local/${pranaos_ARCH}/bin)
+    set(TOOLCHAIN_PREFIX ${TOOLCHAIN_PATH}/${pranaos_ARCH}-pc-pranaos-)
 
     set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
     set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
@@ -147,7 +147,7 @@ set(CMAKE_SKIP_RPATH TRUE)
 add_compile_options(-Wformat=2)
 add_compile_options(-fdiagnostics-color=always)
 
-if (NOT ${CMAKE_HOST_SYSTEM_NAME} MATCHES SerenityOS)
+if (NOT ${CMAKE_HOST_SYSTEM_NAME} MATCHES pranaosOS)
     # FIXME: Something makes this go crazy and flag unused variables that aren't flagged as such when building with the toolchain.
     #        Disable -Werror for now.
     add_compile_options(-Werror)

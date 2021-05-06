@@ -8,7 +8,7 @@
 #include <LibGUI/Notification.h>
 #include <LibGUI/Window.h>
 #include <LibGfx/Bitmap.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <spawn.h>
 #include <stdio.h>
 

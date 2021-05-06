@@ -7,5 +7,5 @@ set(SOURCES
     MouseSettingsWindowGML.h
 )
 
-serenity_app(MouseSettings ICON app-mouse)
+pranaos_app(MouseSettings ICON app-mouse)
 target_link_libraries(MouseSettings LibGUI)

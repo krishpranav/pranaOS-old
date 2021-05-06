@@ -38,7 +38,7 @@
 #include <LibGUI/Window.h>
 #include <LibGfx/Palette.h>
 #include <pthread.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <signal.h>
 #include <spawn.h>
 #include <stdio.h>

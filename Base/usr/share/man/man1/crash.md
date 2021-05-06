@@ -10,7 +10,7 @@ $ crash [options]
 
 ## Description
 
-This program is used to test how the Serenity kernel or UserspaceEmulator
+This program is used to test how the pranaos kernel or UserspaceEmulator
 handle userspace crashes, and can be used to simulate many different kinds
 of crashes.
 

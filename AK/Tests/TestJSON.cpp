@@ -1,30 +1,5 @@
-/*
- * Copyright (c) 2018-2020, Andreas Kling <kling@serenityos.org>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
-#include <AK/TestSuite.h>
+#include <LibTest/TestCase.h>
 
 #include <AK/HashMap.h>
 #include <AK/JsonArray.h>
@@ -64,29 +39,6 @@ TEST_CASE(load_form)
         widget_object.for_each_member([&]([[maybe_unused]] auto& property_name, [[maybe_unused]] const JsonValue& property_value) {
         });
     });
-}
-
-BENCHMARK_CASE(load_4chan_catalog)
-{
-    FILE* fp = fopen("4chan_catalog.json", "r");
-    VERIFY(fp);
-
-    StringBuilder builder;
-    for (;;) {
-        char buffer[1024];
-        if (!fgets(buffer, sizeof(buffer), fp))
-            break;
-        builder.append(buffer);
-    }
-
-    fclose(fp);
-
-    auto json_string = builder.to_string();
-
-    for (int i = 0; i < 10; ++i) {
-        JsonValue form_json = JsonValue::from_string(json_string).value();
-        EXPECT(form_json.is_array());
-    }
 }
 
 TEST_CASE(json_empty_string)
@@ -141,5 +93,3 @@ TEST_CASE(json_duplicate_keys)
     json.set("test", "baz");
     EXPECT_EQ(json.to_string(), "{\"test\":\"baz\"}");
 }
-
-TEST_MAIN(JSON)

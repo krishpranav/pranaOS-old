@@ -4,7 +4,7 @@ Kernel Modules - runtime code loading for the kernel
 
 ## Description
 
-Serenity's kernel supports loading modules at runtime. This functionality can
+pranaos's kernel supports loading modules at runtime. This functionality can
 be used to implement optional features (e.g. drivers), and speed up your
 development cycle.
 

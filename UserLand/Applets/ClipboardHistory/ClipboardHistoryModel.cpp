@@ -60,7 +60,7 @@ GUI::Variant ClipboardHistoryModel::data(const GUI::ModelIndex& index, GUI::Mode
     case Column::Data:
         if (data_and_type.mime_type.starts_with("text/"))
             return String::copy(data_and_type.data);
-        if (data_and_type.mime_type == "image/x-serenityos") {
+        if (data_and_type.mime_type == "image/x-pranaosos") {
             StringBuilder builder;
             builder.append("[");
             builder.append(data_and_type.metadata.get("width").value_or("?"));

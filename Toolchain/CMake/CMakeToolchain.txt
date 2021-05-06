@@ -4,21 +4,21 @@ if (NOT DEFINED ENV{pranaos_ARCH})
     message(FATAL_ERROR "pranaos_ARCH not set.")
 endif()
 
-if (NOT DEFINED ENV{SERENITY_SOURCE_DIR})
-    message(FATAL_ERROR "SERENITY_SOURCE_DIR not set.")
+if (NOT DEFINED ENV{pranaos_SOURCE_DIR})
+    message(FATAL_ERROR "pranaos_SOURCE_DIR not set.")
 endif()
 
-set(SERENITYOS 1)
+set(pranaosOS 1)
 
 set(CMAKE_SYSTEM_PROCESSOR "$ENV{pranaos_ARCH}")
 
-set(SERENITY_BUILD_DIR $ENV{SERENITY_SOURCE_DIR}/Build/$ENV{SERENITY_ARCH})
+set(pranaos_BUILD_DIR $ENV{pranaos_SOURCE_DIR}/Build/$ENV{pranaos_ARCH})
 
 # where to read from/write to
-set(CMAKE_SYSROOT ${SERENITY_BUILD_DIR}/Root)
-set(CMAKE_STAGING_PREFIX ${SERENITY_BUILD_DIR}/Root/usr/local)
-set(CMAKE_INSTALL_PREFIX ${SERENITY_BUILD_DIR}/Root/usr/local)
-set(CMAKE_INSTALL_DATAROOTDIR ${SERENITY_BUILD_DIR}/Root/usr/local/share)
+set(CMAKE_SYSROOT ${pranaos_BUILD_DIR}/Root)
+set(CMAKE_STAGING_PREFIX ${pranaos_BUILD_DIR}/Root/usr/local)
+set(CMAKE_INSTALL_PREFIX ${pranaos_BUILD_DIR}/Root/usr/local)
+set(CMAKE_INSTALL_DATAROOTDIR ${pranaos_BUILD_DIR}/Root/usr/local/share)
 
 set(CMAKE_C_COMPILER $ENV{pranaos_ARCH}-pc-pranaos-gcc)
 set(CMAKE_CXX_COMPILER $ENV{pranaos_ARCH}-pc-pranaos-g++)

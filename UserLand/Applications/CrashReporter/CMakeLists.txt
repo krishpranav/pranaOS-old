@@ -6,5 +6,5 @@ set(SOURCES
     CrashReporterWindowGML.h
 )
 
-serenity_app(CrashReporter ICON app-crash-reporter)
+pranaos_app(CrashReporter ICON app-crash-reporter)
 target_link_libraries(CrashReporter LibCore LibCoreDump LibDesktop LibGUI)

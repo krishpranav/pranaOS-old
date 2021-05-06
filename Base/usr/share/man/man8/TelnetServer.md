@@ -1,6 +1,6 @@
 ## Name
 
-TelnetServer - Serenity telnet server
+TelnetServer - pranaos telnet server
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ TelnetServer - Serenity telnet server
 
 ## Description
 
-TelnetServer is a basic telnet server for Serenity. By default, it
+TelnetServer is a basic telnet server for pranaos. By default, it
 runs on port 23 and provides a shell upon connection.
 
 ## Options

@@ -87,7 +87,7 @@ READONLY_AFTER_INIT VirtualConsole* tty0;
 
 static Processor s_bsp_processor; // global but let's keep it "private"
 
-// SerenityOS Kernel C++ entry point :^)
+// pranaosOS Kernel C++ entry point :^)
 //
 // This is where C++ execution begins, after boot.S transfers control here.
 //
@@ -140,7 +140,7 @@ extern "C" UNMAP_AFTER_INIT [[noreturn]] void init()
     VFS::initialize();
     Console::initialize();
 
-    dmesgln("Starting SerenityOS...");
+    dmesgln("Starting pranaosOS...");
 
     TimeManagement::initialize(0);
 

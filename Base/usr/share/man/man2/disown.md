@@ -5,7 +5,7 @@ disown - disown a child process
 ## Synopsis
 
 ```**c++
-#include <serenity.h>
+#include <pranaos.h>
 
 int disown(pid_t pid);
 ```

@@ -1,6 +1,6 @@
 ## Name
 
-EchoServer - Serenity echo server
+EchoServer - pranaos echo server
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ $ EchoServer [options]
 
 ## Description
 
-EchoServer is a basic echo server for Serenity. By default, it runs on port 7.
+EchoServer is a basic echo server for pranaos. By default, it runs on port 7.
 
 ## Options
 

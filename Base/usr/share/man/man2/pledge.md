@@ -56,7 +56,7 @@ If the process later attempts to use any system functionality it has previously 
 * `prot_exec`: [`mmap(2)`](mmap.md) and [`mprotect(2)`](mprotect.md) with `PROT_EXEC`
 * `map_fixed`: [`mmap(2)`](mmap.md) with `MAP_FIXED` (\*)
 
-Promises marked with an asterisk (\*) are SerenityOS specific extensions not supported by the original OpenBSD `pledge()`.
+Promises marked with an asterisk (\*) are pranaosOS specific extensions not supported by the original OpenBSD `pledge()`.
 
 ## Errors
 
@@ -66,7 +66,7 @@ Promises marked with an asterisk (\*) are SerenityOS specific extensions not sup
 
 ## History
 
-The `pledge()` system call was first introduced by OpenBSD. The implementation in SerenityOS differs in many ways and is by no means final.
+The `pledge()` system call was first introduced by OpenBSD. The implementation in pranaosOS differs in many ways and is by no means final.
 
 ## See also
 

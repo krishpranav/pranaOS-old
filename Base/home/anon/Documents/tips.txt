@@ -16,7 +16,7 @@ Text files can be dragged directly from Terminal and dropped on Text Editor's ti
 Resizable windows can be snapped to all sides of the screen. Drag a window to an edge or press Super+Left, Right or Up while it has focus.
 The Run dialog accepts all Shell command language. Truly the gentleman's terminal.
 Windows can be dragged from any visible point by holding Super+Left-click. Super+Right-click begins resizing them.
-Many Serenity applications already have convenient aliases. $ cat /etc/shellrc to view them.
+Many pranaos applications already have convenient aliases. $ cat /etc/shellrc to view them.
 Custom keymaps can be created and edited with $ KeyboardMapper
 Supplying # profile with a PID of -1 as root enables systemwide profiling.
 Holding Ctrl accelerates mouse wheel interaction with sliders and spin boxes.

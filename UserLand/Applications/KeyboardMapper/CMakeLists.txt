@@ -4,5 +4,5 @@ set(SOURCES
     main.cpp
 )
 
-serenity_bin(KeyboardMapper)
+pranaos_bin(KeyboardMapper)
 target_link_libraries(KeyboardMapper LibGUI LibKeyboard)

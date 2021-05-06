@@ -14,7 +14,7 @@ int adjtime(const struct timeval* delta, struct timeval* old_delta);
 
 `adjtime()` gradually increments the system time by `delta`, if it is non-null.
 
-Serenity OS slows down or speeds up the system clock by at most 1%, so adjusting the time by N seconds takes 100 * n seconds to complete.
+pranaos OS slows down or speeds up the system clock by at most 1%, so adjusting the time by N seconds takes 100 * n seconds to complete.
 
 Calling `settimeofday()` or `clock_settime()` cancels in-progress time adjustments done by `adjtime`.
 

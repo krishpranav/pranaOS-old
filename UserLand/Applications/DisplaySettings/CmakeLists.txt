@@ -7,5 +7,5 @@ set(SOURCES
     MonitorWidget.cpp
 )
 
-serenity_app(DisplaySettings ICON app-display-settings)
+pranaos_app(DisplaySettings ICON app-display-settings)
 target_link_libraries(DisplaySettings LibGUI)

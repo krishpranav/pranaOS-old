@@ -1,6 +1,6 @@
 ## Name
 
-FontEditor - Serenity font editor
+FontEditor - pranaos font editor
 
 ## Synopsis
 
@@ -10,7 +10,7 @@ $ FontEditor [file]
 
 ## Description
 
-FontEditor is a font editing application for Serenity.
+FontEditor is a font editing application for pranaos.
 
 ## Examples
 

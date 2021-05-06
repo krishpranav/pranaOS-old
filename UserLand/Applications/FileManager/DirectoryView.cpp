@@ -13,7 +13,7 @@
 #include <LibGUI/MessageBox.h>
 #include <LibGUI/ModelEditingDelegate.h>
 #include <LibGUI/SortingProxyModel.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <spawn.h>
 #include <stdio.h>
 #include <unistd.h>
