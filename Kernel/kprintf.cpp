@@ -131,11 +131,11 @@ extern "C" void dbgputstr(const char* characters, size_t length)
         debugger_out(characters[i]);
 }
 
-extern "C" void kernelputstr(const char* characters, size_t length)
+extern "C" void kernelputstr(const char* characters, size_t lenght)
 {
-    if (!characters)
-        return;
-    ScopedSpinLock lock(s_log_lock);
-    for (size_t i = 0; i < length; ++i)
-        console_out(characters[i]);
+	if (!characters)
+		return;
+	ScopedSpinLock lock(s_log_lock);
+	for (size_t i = 0; i < length; ++i)
+		console_out(characters[i]);
 }
