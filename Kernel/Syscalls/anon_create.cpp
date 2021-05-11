@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021, Andreas Kling <kling@serenityos.org>
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 #include <Kernel/FileSystem/AnonymousFile.h>
 #include <Kernel/FileSystem/FileDescription.h>
 #include <Kernel/Process.h>
