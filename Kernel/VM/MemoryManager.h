@@ -263,8 +263,7 @@ inline bool is_user_range(const Range& range)
     return is_user_range(range.base(), range.size());
 }
 
-inline bool PhysicalPage::is_shared_zero_page() const
-{
+inline bool PhysicalPage::is_shared_zero_page() const {
     return this == &MM.shared_zero_page();
 }
 
