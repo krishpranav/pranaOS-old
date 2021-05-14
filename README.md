@@ -14,3 +14,14 @@ ninja gcc compiler needed
 ```
 
 prana os is under development
+
+# Languages Used
+
+| Languages       |                                               
+| ------------- | 					
+| c++          | 		
+| c          |        
+| javascript |           
+| shell  |          
+| python | 
+| game marker language      
