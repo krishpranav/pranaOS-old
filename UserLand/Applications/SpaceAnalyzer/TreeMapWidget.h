@@ -45,7 +45,6 @@ private:
 
     bool rect_can_contain_children(const Gfx::IntRect& rect) const;
     bool rect_can_contain_label(const Gfx::IntRect& rect) const;
-
     enum class HasLabel {
         Yes,
         No

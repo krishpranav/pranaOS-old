@@ -25,6 +25,7 @@ public:
     virtual bool can_shutdown() override { return true; }
     virtual const char* purpose() const override { return "ACPI Parser"; }
 
+
 protected:
     explicit DynamicParser(PhysicalAddress rsdp);
 

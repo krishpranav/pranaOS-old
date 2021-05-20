@@ -178,6 +178,7 @@ String CommandLine::userspace_init() const
     return lookup("init").value_or("/bin/SystemServer");
 }
 
+
 Vector<String> CommandLine::userspace_init_args() const
 {
     auto init_args = lookup("init_args").value_or("").split(',');
@@ -185,6 +186,5 @@ Vector<String> CommandLine::userspace_init_args() const
         init_args.prepend(userspace_init());
 
     return init_args;
-}
 
 }
