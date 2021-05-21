@@ -165,6 +165,7 @@ int AnonymousVMObject::purge_with_interrupts_disabled(Badge<MemoryManager>)
     VERIFY_INTERRUPTS_DISABLED();
     if (m_paging_lock.is_locked())
         return 0;
+
     return purge_impl();
 }
 

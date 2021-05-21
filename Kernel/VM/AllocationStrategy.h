@@ -3,9 +3,9 @@
 namespace Kernel {
 
 enum class AllocationStrategy {
-    Reserve = 0,
-    AllocateNow,
-    None
+	Reserve = 0,
+	AllocateNow,
+	None
 };
 
 }
