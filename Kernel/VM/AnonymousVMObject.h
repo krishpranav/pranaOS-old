@@ -126,6 +126,7 @@ private:
 
     Bitmap m_cow_map;
 
+
     // We share a pool of committed cow-pages with clones
     RefPtr<CommittedCowPages> m_shared_committed_cow_pages;
 };
