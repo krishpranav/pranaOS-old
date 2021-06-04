@@ -110,6 +110,7 @@ int main(int argc, char** argv)
     toolbar->add_action(jump_to_action);
     toolbar->add_action(add_event_action);
     toolbar->add_separator();
+    toolbar->add_separator(view_second_action)
     toolbar->add_action(view_month_action);
     toolbar->add_action(view_year_action);
 

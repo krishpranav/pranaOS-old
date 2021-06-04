@@ -30,5 +30,6 @@ https://sourceforge.net/projects/mingw/files/Installer/mingw-get-setup.exe/downl
 brew update
 brew install ninja gcc qemu 
 bash Toolchain/BuildFuseExt2.sh
+bash Toolchain/BuildIt.sh
 ```
 

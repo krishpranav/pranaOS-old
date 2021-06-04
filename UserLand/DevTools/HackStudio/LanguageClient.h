@@ -10,7 +10,6 @@
 #include <AK/Weakable.h>
 #include <LibCore/ElapsedTimer.h>
 #include <LibIPC/ServerConnection.h>
-
 #include <DevTools/HackStudio/LanguageServers/LanguageClientEndpoint.h>
 #include <DevTools/HackStudio/LanguageServers/LanguageServerEndpoint.h>
 
@@ -102,6 +101,7 @@ public:
         if (m_connection_wrapper.connection()) {
             m_previous_client = m_connection_wrapper.connection()->language_client();
             VERIFY(m_previous_client.ptr() != this);
+
             m_connection_wrapper.attach(*this);
         }
     }

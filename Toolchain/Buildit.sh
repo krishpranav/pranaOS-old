@@ -144,6 +144,8 @@ pushd "$DIR/Tarballs"
         rm -rf "${BINUTILS_NAME}"
         rm -rf "$DIR/Build/$ARCH/$BINUTILS_NAME"
     fi
+
+
     echo "Extracting binutils..."
     tar -xzf ${BINUTILS_PKG}
 

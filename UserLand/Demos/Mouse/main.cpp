@@ -133,6 +133,7 @@ public:
             start_timer(500);
     }
 
+    
 private:
     unsigned m_buttons;
     unsigned m_wheel_delta_acc;
