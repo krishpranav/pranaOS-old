@@ -105,4 +105,13 @@ int DisassemblyModel::row_count(const GUI::ModelIndex&)  const
     return m_instructions.size();
 }
 
+String DisassemblyModel::column_name(int column)
+{
+    switch (column) {
+    case Column::SampleCount:
+        return m_profile.show_percentages() ? "% Samples" : "# Samples";
+
+    }
+}
+
 }
