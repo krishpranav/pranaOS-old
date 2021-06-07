@@ -96,4 +96,8 @@ DisassemblyModel::DisassemblyModel(Profile& profile, ProfileNode& node)
     }
 }
 
+DisassemblyModel::~DisassemblyModel()
+{
+}
+
 }
