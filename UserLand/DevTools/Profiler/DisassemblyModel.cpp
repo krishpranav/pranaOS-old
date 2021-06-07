@@ -100,7 +100,7 @@ DisassemblyModel::~DisassemblyModel()
 {
 }
 
-int DisassemblyModel::row_count(const GUI::ModelIndex&)  const
+int DisassemblyModel::row_count(const GUI::ModelIndex&) const
 {
     return m_instructions.size();
 }
@@ -127,7 +127,6 @@ struct ColorPair {
     Color foreground;
 };
 
-
 static Optional<ColorPair> color_pair_for(const InstructionData& insn)
 {
     if (insn.percent == 0)
@@ -142,5 +141,49 @@ static Optional<ColorPair> color_pair_for(const InstructionData& insn)
     return ColorPair { background, foreground };
 }
 
+GUI::Variant DisassemblyModel::data(const GUI::ModelIndex& index, GUI::ModelRole role) const
+{
+    auto& insn = m_instructions[index.row()];
+
+    if (role == GUI::ModelRole::BackgroundColor) {
+        auto colors = color_pair_for(insn);
+        if (!colors.has_value())
+            return {};
+        return colors.value().background;
+    }
+
+    if (role == GUI::ModelRole::ForegroundColor) {
+        auto colors = color_pair_for(insn);
+        if (!colors.has_value())
+            return {};
+        return colors.value().foreground;
+    }
+
+    if (role == GUI::ModelRole::Display) {
+        if (index.column() == Column::SampleCount) {
+            if (m_profile.show_percentages())
+                return ((float)insn.event_count / (float)m_node.event_count()) * 100.0f;
+            return insn.event_count;
+        }
+        if (index.column() == Column::Address)
+            return String::formatted("{:p}", insn.address);
+        if (index.column() == Column::InstructionBytes) {
+            StringBuilder builder;
+            for (auto ch : insn.bytes) {
+                builder.appendff("{:02x} ", (u8)ch);
+            }
+            return builder.to_string();
+        }
+        if (index.column() == Column::Disassembly)
+            return insn.disassembly;
+        return {};
+    }
+    return {};
+}
+
+void DisassemblyModel::update()
+{
+    did_update();
+}
 
 }
