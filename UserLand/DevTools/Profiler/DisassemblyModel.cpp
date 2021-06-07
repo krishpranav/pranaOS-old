@@ -127,4 +127,20 @@ struct ColorPair {
     Color foreground;
 };
 
+
+static Optional<ColorPair> color_pair_for(const InstructionData& insn)
+{
+    if (insn.percent == 0)
+        return {};
+
+    Color background = color_for_percent(insn.percent);
+    Color foreground;
+    if (insn.percent > 50)
+        foreground = Color::White;
+    else
+        foreground = Color::Black;
+    return ColorPair { background, foreground };
+}
+
+
 }
