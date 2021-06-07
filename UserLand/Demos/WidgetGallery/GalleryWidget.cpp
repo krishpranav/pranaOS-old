@@ -222,7 +222,7 @@ GalleryWidget::GalleryWidget()
     m_wizard_output = wizards_tab.find_descendant_of_type_named<GUI::TextEditor>("wizard_output");
     m_wizard_output->set_should_hide_unnecessary_scrollbars(true);
 
-    const char* serenityos_ascii = {
+    const char* pranaos_ascii = {
         "   ____                 _ __       ____  ____\n"
         "  / __/__ _______ ___  (_) /___ __/ __ \\/ __/\n"
         " _\\ \\/ -_) __/ -_) _ \\/ / __/ // / /_/ /\\ \\\n"
@@ -255,7 +255,7 @@ GalleryWidget::GalleryWidget()
     };
 
     StringBuilder sb;
-    sb.appendf("%s%s", serenityos_ascii, wizard_ascii);
+    sb.appendf("%s%s", pranaos_ascii, wizard_ascii);
     m_wizard_output->set_text(sb.to_string());
 
     m_wizard_button->on_click = [&]() {

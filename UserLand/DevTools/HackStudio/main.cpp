@@ -112,7 +112,7 @@ static void notify_make_not_available()
     auto notification = GUI::Notification::construct();
     notification->set_icon(Gfx::Bitmap::load_from_file("/res/icons/32x32/app-hack-studio.png"));
     notification->set_title("'make' Not Available");
-    notification->set_text("You probably want to install the binutils, gcc, and make ports from the root of the Serenity repository");
+    notification->set_text("You probably want to install the binutils, gcc, and make ports from the root of the PranaOS repository");
     notification->show();
 }
 

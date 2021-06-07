@@ -23,7 +23,7 @@ disk_usage() {
     expr "$(du -sk "$1" | cut -f1)" / 1024
 }
 
-DISK_SIZE=$(($(disk_usage "$SERENITY_SOURCE_DIR/Base") + $(disk_usage Root) + 100))
+DISK_SIZE=$(($(disk_usage "$PRANAOS_SOURCE_DIR/Base") + $(disk_usage Root) + 100))
 DISK_SIZE=${DISK_SIZE:-600}
 DISK_SIZE_BYTES=$((DISK_SIZE * 1024 * 1024))
 unset DISK_SIZE
@@ -135,7 +135,6 @@ if [ $use_genext2fs = 1 ]; then
     # regenerate new image, since genext2fs is unable to reuse the previously written image.
     # genext2fs is very slow in generating big images, so I use a smaller image here. size can be updated
     # if it's not enough.
-    # not using "-i 128" since it hangs. Serenity handles whatever default this uses instead.
     genext2fs -B 4096 -b $((DISK_SIZE_BYTES / 4096)) -d mnt _disk_image || die "try increasing image size (genext2fs -b)"
     # if using docker with shared mount, file is created as root, so make it writable for users
     chmod 0666 _disk_image

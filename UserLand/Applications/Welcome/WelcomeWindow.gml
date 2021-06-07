@@ -104,7 +104,7 @@
 
         @GUI::CheckBox{
             name: "startup_checkbox"
-            text: "Show this Welcome Screen next time SerenityOS starts"
+            text: "Show this Welcome Screen next time PranaOS starts"
             fixed_width: 315
         }
 

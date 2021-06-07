@@ -10,7 +10,7 @@
 #include <LibGfx/Palette.h>
 #include <LibMarkdown/Document.h>
 #include <LibWeb/OutOfProcessWebView.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <spawn.h>
 #include <time.h>
 
@@ -133,6 +133,6 @@ void WelcomeWidget::paint_event(GUI::PaintEvent& event)
 
     static auto font = Gfx::BitmapFont::load_from_file("/res/fonts/MarietaRegular24.font");
     painter.draw_text({ 12, 4, 1, 30 }, "Welcome to ", *font, Gfx::TextAlignment::CenterLeft, palette().base_text());
-    painter.draw_text({ 12 + font->width("Welcome to "), 4, 1, 30 }, "Serenity", font->bold_variant(), Gfx::TextAlignment::CenterLeft, palette().base_text());
-    painter.draw_text({ 12 + font->width("Welcome to ") + font->bold_variant().width("Serenity"), 4, 1, 30 }, "OS", font->bold_variant(), Gfx::TextAlignment::CenterLeft, palette().base() == palette().window() ? palette().base_text() : palette().base());
+    painter.draw_text({ 12 + font->width("Welcome to "), 4, 1, 30 }, "PRANAOS", font->bold_variant(), Gfx::TextAlignment::CenterLeft, palette().base_text());
+    painter.draw_text({ 12 + font->width("Welcome to ") + font->bold_variant().width("PranaOS"), 4, 1, 30 }, "OS", font->bold_variant(), Gfx::TextAlignment::CenterLeft, palette().base() == palette().window() ? palette().base_text() : palette().base());
 }

@@ -26,25 +26,25 @@ if [ "$(id -u)" != 0 ]; then
     die "this script needs to run as root"
 fi
 
-[ -z "$SERENITY_SOURCE_DIR" ] && die "SERENITY_SOURCE_DIR is not set"
-[ -d "$SERENITY_SOURCE_DIR/Base" ] || die "$SERENITY_SOURCE_DIR/Base doesn't exist"
+[ -z "$PRANAOS_SOURCE_DIR" ] && die "PRANAOS_SOURCE_DIR is not set"
+[ -d "$PRANAOS_SOURCE_DIR/Base" ] || die "$PRANAOS_SOURCE_DIR/Base doesn't exist"
 
 umask 0022
 
 printf "installing base system... "
 if command -v rsync >/dev/null; then
-    rsync -aH --inplace "$SERENITY_SOURCE_DIR"/Base/ mnt/
+    rsync -aH --inplace "$PRANAOS_SOURCE_DIR"/Base/ mnt/
     rsync -aH --inplace Root/ mnt/
 else
     echo "Please install rsync to speed up image creation times, falling back to cp for now"
-    $CP -PdR "$SERENITY_SOURCE_DIR"/Base/* mnt/
+    $CP -PdR "$PRANAOS_SOURCE_DIR"/Base/* mnt/
     $CP -PdR Root/* mnt/
 fi
-$CP "$SERENITY_SOURCE_DIR"/Toolchain/Local/i686/i686-pc-serenity/lib/libgcc_s.so mnt/usr/lib/
+$CP "$PRANAOS_SOURCE_DIR"/Toolchain/Local/i686/i686-pc-pranaos/lib/libgcc_s.so mnt/usr/lib/
 # If umask was 027 or similar when the repo was cloned,
 # file permissions in Base/ are too restrictive. Restore
 # the permissions needed in the image.
-chmod -R g+rX,o+rX "$SERENITY_SOURCE_DIR"/Base/* mnt/
+chmod -R g+rX,o+rX "$PRANAOS_SOURCE_DIR"/Base/* mnt/
 
 chmod 660 mnt/etc/WindowServer.ini
 chown $window_uid:$window_gid mnt/etc/WindowServer.ini
@@ -105,9 +105,9 @@ mkdir -p mnt/home/anon/Desktop
 mkdir -p mnt/home/anon/Downloads
 mkdir -p mnt/home/nona
 rm -fr mnt/home/anon/js-tests mnt/home/anon/web-tests
-cp "$SERENITY_SOURCE_DIR"/README.md mnt/home/anon/
-cp -r "$SERENITY_SOURCE_DIR"/Userland/Libraries/LibJS/Tests mnt/home/anon/js-tests
-cp -r "$SERENITY_SOURCE_DIR"/Userland/Libraries/LibWeb/Tests mnt/home/anon/web-tests
+cp "$PRANAOS_SOURCE_DIR"/README.md mnt/home/anon/
+cp -r "$PRANAOS_SOURCE_DIR"/Userland/Libraries/LibJS/Tests mnt/home/anon/js-tests
+cp -r "$PRANAOS_SOURCE_DIR"/Userland/Libraries/LibWeb/Tests mnt/home/anon/web-tests
 chmod 700 mnt/root
 chmod 700 mnt/home/anon
 chmod 700 mnt/home/nona
@@ -136,6 +136,6 @@ ln -sf checksum mnt/bin/sha512sum
 echo "done"
 
 # Run local sync script, if it exists
-if [ -f "${SERENITY_SOURCE_DIR}/sync-local.sh" ]; then
-    sh "${SERENITY_SOURCE_DIR}/sync-local.sh"
+if [ -f "${PRANAOS_SOURCE_DIR}/sync-local.sh" ]; then
+    sh "${PRANAOS_SOURCE_DIR}/sync-local.sh"
 fi

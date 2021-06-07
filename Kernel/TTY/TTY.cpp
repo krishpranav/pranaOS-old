@@ -380,7 +380,6 @@ int TTY::ioctl(FileDescription&, unsigned request, FlatPtr arg)
         return 0;
     }
     case TCFLSH:
-        // Serenity's TTY implementation does not use an output buffer, so ignore TCOFLUSH.
         if (arg == TCIFLUSH || arg == TCIOFLUSH) {
             flush_input();
         } else if (arg != TCOFLUSH) {

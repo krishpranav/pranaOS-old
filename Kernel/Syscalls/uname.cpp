@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020, Andreas Kling <kling@serenityos.org>
+ * Copyright (c) 2018-2020, krishpranav <krisna.pranav@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -20,7 +20,7 @@ KResultOr<int> Process::sys$uname(Userspace<utsname*> user_buf)
         return ENAMETOOLONG;
 
     utsname buf {};
-    memcpy(buf.sysname, "SerenityOS", 11);
+    memcpy(buf.sysname, "Pranaos", 11);
     memcpy(buf.release, "1.0-dev", 8);
     memcpy(buf.version, "FIXME", 6);
     memcpy(buf.machine, "i686", 5);

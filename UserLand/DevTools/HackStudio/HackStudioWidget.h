@@ -50,7 +50,7 @@ public:
     ContinueDecision warn_unsaved_changes(const String& prompt);
 
 private:
-    static String get_full_path_of_serenity_source(const String& file);
+    static String get_full_path_of_pranaos_source(const String& file);
     Vector<String> selected_file_paths() const;
 
     HackStudioWidget(const String& path_to_project);

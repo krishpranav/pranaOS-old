@@ -38,7 +38,7 @@
 #include <LibGfx/FontDatabase.h>
 #include <LibGfx/Palette.h>
 #include <LibPCIDB/Database.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <signal.h>
 #include <spawn.h>
 #include <stdio.h>

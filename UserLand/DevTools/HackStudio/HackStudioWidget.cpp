@@ -670,16 +670,16 @@ void HackStudioWidget::initialize_debugger()
         });
 }
 
-String HackStudioWidget::get_full_path_of_serenity_source(const String& file)
+String HackStudioWidget::get_full_path_of_pranaos_source(const String& file)
 {
     auto path_parts = LexicalPath(file).parts();
     VERIFY(path_parts[0] == "..");
     path_parts.remove(0);
     StringBuilder relative_path_builder;
     relative_path_builder.join("/", path_parts);
-    constexpr char SERENITY_LIBS_PREFIX[] = "/usr/src/serenity";
-    LexicalPath serenity_sources_base(SERENITY_LIBS_PREFIX);
-    return String::formatted("{}/{}", serenity_sources_base, relative_path_builder.to_string());
+    constexpr char PRANAOS_LIBS_PREFIX[] = "/usr/src/pranaos";
+    LexicalPath pranaos_sources_base(PRANAOS_LIBS_PREFIX);
+    return String::formatted("{}/{}", pranaos_sources_base, relative_path_builder.to_string());
 }
 
 RefPtr<EditorWrapper> HackStudioWidget::get_editor_of_file(const String& filename)
@@ -689,7 +689,7 @@ RefPtr<EditorWrapper> HackStudioWidget::get_editor_of_file(const String& filenam
     // TODO: We can probably do a more specific condition here, something like
     // "if (file.starts_with("../Libraries/") || file.starts_with("../AK/"))"
     if (filename.starts_with("../")) {
-        file_path = get_full_path_of_serenity_source(filename);
+        file_path = get_full_path_of_pranaos_source(filename);
     }
 
     if (!open_file(file_path))

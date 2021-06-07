@@ -31,7 +31,7 @@
 #include <fcntl.h>
 #include <pty.h>
 #include <pwd.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <signal.h>
 #include <spawn.h>
 #include <stdio.h>

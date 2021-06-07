@@ -12,7 +12,7 @@ DemoWizardDialog::DemoWizardDialog(GUI::Window* parent_window)
 {
     // Create the front cover
     m_front_page = GUI::CoverWizardPage::construct();
-    m_front_page->set_header_text("Welcome to the SerenityOS demo wizard!");
+    m_front_page->set_header_text("Welcome to the PranaOS demo wizard!");
     m_front_page->set_body_text("This wizard demonstrates the amazing wizardry\ncapabilities of LibGUI :^)");
     m_front_page->on_next_page = [&]() {
         return m_page_1;
@@ -59,7 +59,7 @@ DemoWizardDialog::DemoWizardDialog(GUI::Window* parent_window)
     // Create the back cover
     m_back_page = GUI::CoverWizardPage::construct();
     m_back_page->set_header_text("Wizard complete.");
-    m_back_page->set_body_text("That concludes the SerenityOS demo wizard :^)");
+    m_back_page->set_body_text("That concludes the PranaOS demo wizard :^)");
     m_back_page->set_is_final_page(true);
 
     push_page(*m_front_page);

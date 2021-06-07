@@ -17,5 +17,5 @@ private:
     void paint_event(GUI::PaintEvent&) override;
     NoVisualizationWidget();
 
-    RefPtr<Gfx::Bitmap> m_serenity_bg;
+    RefPtr<Gfx::Bitmap> m_pranaos_bg;
 };

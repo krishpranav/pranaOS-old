@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, Itamar S. <itamar8910@gmail.com>
- * Copyright (c) 2020-2021, Andreas Kling <kling@serenityos.org>
+ * Copyright (c) 2020-2021, krishpranav <krisna.pranav@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
