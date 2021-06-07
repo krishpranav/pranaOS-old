@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/Noncopyable.h>
-#include <AK/Span.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Stream.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/Span.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Stream.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 // FIXME: Implement Buffered<T> for DuplexStream.
 
@@ -17,7 +17,7 @@ class Buffered;
 
 template<typename StreamType, size_t Size>
 class Buffered<StreamType, Size, typename EnableIf<IsBaseOf<InputStream, StreamType>>::Type> final : public InputStream {
-    AK_MAKE_NONCOPYABLE(Buffered);
+    AKF_MAKFE_NONCOPYABLE(Buffered);
 
 public:
     template<typename... Parameters>
@@ -113,7 +113,7 @@ private:
 
 template<typename StreamType, size_t Size>
 class Buffered<StreamType, Size, typename EnableIf<IsBaseOf<OutputStream, StreamType>>::Type> final : public OutputStream {
-    AK_MAKE_NONCOPYABLE(Buffered);
+    AKF_MAKFE_NONCOPYABLE(Buffered);
 
 public:
     template<typename... Parameters>
@@ -188,4 +188,4 @@ private:
 
 }
 
-using AK::Buffered;
+using AKF::Buffered;

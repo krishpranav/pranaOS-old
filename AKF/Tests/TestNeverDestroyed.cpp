@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/NeverDestroyed.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/NeverDestroyed.h>
+#include <AKF/StdLibExtras.h>
 
 struct Counter {
     Counter() = default;
@@ -25,7 +25,7 @@ struct Counter {
 TEST_CASE(should_construct_by_copy)
 {
     Counter c {};
-    AK::NeverDestroyed<Counter> n { c };
+    AKF::NeverDestroyed<Counter> n { c };
 
     EXPECT_EQ(1, n->num_copies);
     EXPECT_EQ(0, n->num_moves);
@@ -34,7 +34,7 @@ TEST_CASE(should_construct_by_copy)
 TEST_CASE(should_construct_by_move)
 {
     Counter c {};
-    AK::NeverDestroyed<Counter> n { move(c) };
+    AKF::NeverDestroyed<Counter> n { move(c) };
 
     EXPECT_EQ(0, n->num_copies);
     EXPECT_EQ(1, n->num_moves);
@@ -44,7 +44,7 @@ TEST_CASE(should_not_destroy)
 {
     Counter* c = nullptr;
     {
-        AK::NeverDestroyed<Counter> n {};
+        AKF::NeverDestroyed<Counter> n {};
         c = &n.get();
     }
     EXPECT_EQ(0, c->num_destroys);
@@ -52,18 +52,18 @@ TEST_CASE(should_not_destroy)
 
 TEST_CASE(should_provide_dereference_operator)
 {
-    AK::NeverDestroyed<Counter> n {};
+    AKF::NeverDestroyed<Counter> n {};
     EXPECT_EQ(0, n->num_destroys);
 }
 
 TEST_CASE(should_provide_indirection_operator)
 {
-    AK::NeverDestroyed<Counter> n {};
+    AKF::NeverDestroyed<Counter> n {};
     EXPECT_EQ(0, (*n).num_destroys);
 }
 
 TEST_CASE(should_provide_basic_getter)
 {
-    AK::NeverDestroyed<Counter> n {};
+    AKF::NeverDestroyed<Counter> n {};
     EXPECT_EQ(0, n.get().num_destroys);
 }

@@ -2,23 +2,23 @@
 #pragma once
 
 #ifdef __i386__
-#    define AK_ARCH_I386 1
+#    define AKF_ARCH_I386 1
 #endif
 
 #ifdef __x86_64__
-#    define AK_ARCH_X86_64 1
+#    define AKF_ARCH_X86_64 1
 #endif
 
 #if defined(__APPLE__) && defined(__MACH__)
-#    define AK_OS_MACOS
-#    define AK_OS_BSD_GENERIC
+#    define AKF_OS_MACOS
+#    define AKF_OS_BSD_GENERIC
 #endif
 
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
-#    define AK_OS_BSD_GENERIC
+#    define AKF_OS_BSD_GENERIC
 #endif
 
-#define ARCH(arch) (defined(AK_ARCH_##arch) && AK_ARCH_##arch)
+#define ARCH(arch) (defined(AKF_ARCH_##arch) && AKF_ARCH_##arch)
 
 #ifdef ALWAYS_INLINE
 #    undef ALWAYS_INLINE
@@ -61,7 +61,7 @@ ALWAYS_INLINE int count_trailing_zeroes_32_safe(unsigned int val)
     return count_trailing_zeroes_32(val);
 }
 
-#ifdef AK_OS_BSD_GENERIC
+#ifdef AKF_OS_BSD_GENERIC
 #    define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
 #    define CLOCK_REALTIME_COARSE CLOCK_REALTIME
 #endif

@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/MACAddress.h>
-#include <AK/Types.h>
+#include <AKF/MACAddress.h>
+#include <AKF/Types.h>
 
 TEST_CASE(should_default_construct)
 {

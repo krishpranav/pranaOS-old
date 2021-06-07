@@ -1,9 +1,9 @@
-#include <AK/Assertions.h>
-#include <AK/GenericLexer.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/Assertions.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 
-namespace AK {
+namespace AKF {
 // Consume a number of characters
 StringView GenericLexer::consume(size_t count)
 {
@@ -93,7 +93,7 @@ StringView GenericLexer::consume_quoted_string(char escape_char)
         if (next_is(escape_char))
             m_index++;
         else if (next_is(quote_char))
-            break;
+            breAKF;
         m_index++;
     }
     size_t length = m_index - start;

@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/String.h>
-#include <AK/StringView.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
 
 #ifndef BUILDING_pranaos_TOOLCHAIN
 #    include <cxxabi.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 inline String demangle(const StringView& name)
 {
@@ -26,4 +26,4 @@ inline String demangle(const StringView& name)
 
 }
 
-using AK::demangle;
+using AKF::demangle;

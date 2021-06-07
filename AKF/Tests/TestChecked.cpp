@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Checked.h>
-#include <AK/NumericLimits.h>
+#include <AKF/Checked.h>
+#include <AKF/NumericLimits.h>
 
 // These tests only check whether the usual operator semantics work.
 // TODO: Add tests about the actual `Check`ing itself!
@@ -378,7 +378,7 @@ TEST_CASE(should_constexpr_compare_checked_values_rhs)
     static_assert(20 != a);
 }
 
-TEST_CASE(should_constexpr_make_via_factory)
+TEST_CASE(should_constexpr_mAKFe_via_factory)
 {
-    [[maybe_unused]] constexpr auto value = make_checked(42);
+    [[maybe_unused]] constexpr auto value = mAKFe_checked(42);
 }

@@ -1,16 +1,16 @@
 
 #pragma once
 
-#include <AK/Format.h>
-#include <AK/Forward.h>
-#include <AK/RefPtr.h>
-#include <AK/Stream.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringImpl.h>
-#include <AK/StringUtils.h>
-#include <AK/Traits.h>
+#include <AKF/Format.h>
+#include <AKF/Forward.h>
+#include <AKF/RefPtr.h>
+#include <AKF/Stream.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringImpl.h>
+#include <AKF/StringUtils.h>
+#include <AKF/Traits.h>
 
-namespace AK {
+namespace AKF {
 
 // String is a convenience wrapper around StringImpl, suitable for passing
 // around as a value type. It's basically the same as passing around a
@@ -108,7 +108,7 @@ public:
 
     [[nodiscard]] String to_lowercase() const;
     [[nodiscard]] String to_uppercase() const;
-    [[nodiscard]] String to_snakecase() const;
+    [[nodiscard]] String to_snAKFecase() const;
 
     [[nodiscard]] bool is_whitespace() const { return StringUtils::is_whitespace(*this); }
 
@@ -296,6 +296,6 @@ InputStream& operator>>(InputStream& stream, String& string);
 
 }
 
-using AK::CaseInsensitiveStringTraits;
-using AK::escape_html_entities;
-using AK::String;
+using AKF::CaseInsensitiveStringTraits;
+using AKF::escape_html_entities;
+using AKF::String;

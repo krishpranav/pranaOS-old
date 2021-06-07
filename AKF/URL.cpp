@@ -1,10 +1,10 @@
 
-#include <AK/LexicalPath.h>
-#include <AK/StringBuilder.h>
-#include <AK/URL.h>
-#include <AK/URLParser.h>
+#include <AKF/LexicalPath.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/URL.h>
+#include <AKF/URLParser.h>
 
-namespace AK {
+namespace AKF {
 
 static inline bool is_valid_protocol_character(char ch)
 {
@@ -187,11 +187,11 @@ bool URL::parse(const StringView& string)
                 return false;
 
             state = State::InDataPayload;
-            break;
+            breAKF;
         }
         case State::InDataPayload:
             buffer.append(consume());
-            break;
+            breAKF;
         }
     }
     if (state == State::InHostname) {
@@ -311,7 +311,7 @@ URL URL::complete_url(const String& string) const
 
     for (size_t i = 0; i < lexical_path.parts().size(); ++i) {
         if (i == lexical_path.parts().size() - 1 && !document_url_ends_in_slash)
-            break;
+            breAKF;
         builder.append(lexical_path.parts()[i]);
         builder.append('/');
     }

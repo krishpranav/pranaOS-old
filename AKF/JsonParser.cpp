@@ -1,10 +1,10 @@
 
-#include <AK/JsonArray.h>
-#include <AK/JsonObject.h>
-#include <AK/JsonParser.h>
+#include <AKF/JsonArray.h>
+#include <AKF/JsonObject.h>
+#include <AKF/JsonParser.h>
 #include <ctype.h>
 
-namespace AK {
+namespace AKF {
 
 String JsonParser::consume_and_unescape_string()
 {
@@ -17,10 +17,10 @@ String JsonParser::consume_and_unescape_string()
         char ch = 0;
         for (;;) {
             if (peek_index == m_input.length())
-                break;
+                breAKF;
             ch = m_input[peek_index];
             if (ch == '"' || ch == '\\')
-                break;
+                breAKF;
             ++peek_index;
         }
 
@@ -30,9 +30,9 @@ String JsonParser::consume_and_unescape_string()
         }
 
         if (m_index == m_input.length())
-            break;
+            breAKF;
         if (ch == '"')
-            break;
+            breAKF;
         if (ch != '\\') {
             final_sb.append(consume());
             continue;
@@ -42,29 +42,29 @@ String JsonParser::consume_and_unescape_string()
         switch (escaped_ch) {
         case 'n':
             final_sb.append('\n');
-            break;
+            breAKF;
         case 'r':
             final_sb.append('\r');
-            break;
+            breAKF;
         case 't':
             final_sb.append('\t');
-            break;
+            breAKF;
         case 'b':
             final_sb.append('\b');
-            break;
+            breAKF;
         case 'f':
             final_sb.append('\f');
-            break;
+            breAKF;
         case 'u': {
-            auto code_point = AK::StringUtils::convert_to_uint_from_hex(consume(4));
+            auto code_point = AKF::StringUtils::convert_to_uint_from_hex(consume(4));
             if (code_point.has_value())
                 final_sb.append_code_point(code_point.value());
             else
                 final_sb.append('?');
-        } break;
+        } breAKF;
         default:
             final_sb.append(escaped_ch);
-            break;
+            breAKF;
         }
     }
     if (!consume_specific('"'))
@@ -81,7 +81,7 @@ Optional<JsonValue> JsonParser::parse_object()
     for (;;) {
         ignore_while(isspace);
         if (peek() == '}')
-            break;
+            breAKF;
         ignore_while(isspace);
         auto name = consume_and_unescape_string();
         if (name.is_null())
@@ -96,7 +96,7 @@ Optional<JsonValue> JsonParser::parse_object()
         object.set(name, move(value.value()));
         ignore_while(isspace);
         if (peek() == '}')
-            break;
+            breAKF;
         if (!consume_specific(','))
             return {};
         ignore_while(isspace);
@@ -116,14 +116,14 @@ Optional<JsonValue> JsonParser::parse_array()
     for (;;) {
         ignore_while(isspace);
         if (peek() == ']')
-            break;
+            breAKF;
         auto element = parse_helper();
         if (!element.has_value())
             return {};
         array.append(element.value());
         ignore_while(isspace);
         if (peek() == ']')
-            break;
+            breAKF;
         if (!consume_specific(','))
             return {};
         ignore_while(isspace);
@@ -166,7 +166,7 @@ Optional<JsonValue> JsonParser::parse_number()
             ++m_index;
             continue;
         }
-        break;
+        breAKF;
     }
 
     StringView number_string(number_buffer.data(), number_buffer.size());
@@ -174,7 +174,7 @@ Optional<JsonValue> JsonParser::parse_number()
 
 #ifndef KERNEL
     if (is_double) {
-        // FIXME: This logic looks shaky.
+        // FIXME: This logic looks shAKFy.
         int whole = 0;
         auto to_signed_result = number_string.to_uint();
         if (to_signed_result.has_value()) {

@@ -1,11 +1,11 @@
 
-#include <AK/Debug.h>
-#include <AK/FlyString.h>
-#include <AK/HashTable.h>
-#include <AK/Memory.h>
-#include <AK/StdLibExtras.h>
-#include <AK/StringImpl.h>
-#include <AK/kmalloc.h>
+#include <AKF/Debug.h>
+#include <AKF/FlyString.h>
+#include <AKF/HashTable.h>
+#include <AKF/Memory.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/StringImpl.h>
+#include <AKF/kmalloc.h>
 
 #if STRINGIMPL_DEBUG
 unsigned g_stringimpl_count;
@@ -22,7 +22,7 @@ void dump_all_stringimpls()
 }
 #endif
 
-namespace AK {
+namespace AKF {
 
 static StringImpl* s_the_empty_stringimpl = nullptr;
 
@@ -83,7 +83,7 @@ RefPtr<StringImpl> StringImpl::create(const char* cstring, size_t length, Should
             if (!last_ch || last_ch == '\n' || last_ch == '\r')
                 --length;
             else
-                break;
+                breAKF;
         }
     }
 

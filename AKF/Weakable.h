@@ -10,18 +10,18 @@
 #    include <Kernel/Arch/x86/CPU.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
-class Weakable;
+class WeAKFable;
 template<typename T>
-class WeakPtr;
+class WeAKFPtr;
 
-class WeakLink : public RefCounted<WeakLink> {
+class WeAKFLink : public RefCounted<WeAKFLink> {
     template<typename T>
-    friend class Weakable;
+    friend class WeAKFable;
     template<typename T>
-    friend class WeakPtr;
+    friend class WeAKFPtr;
 
 public:
     template<typename T, typename PtrTraits = RefPtrTraits<T>, typename EnableIf<IsBaseOf<RefCountedBase, T>>::Type* = nullptr>
@@ -35,12 +35,12 @@ public:
             // a strong reference
             Kernel::ScopedCritical critical;
 #endif
-            if (!(m_consumers.fetch_add(1u << 1, AK::MemoryOrder::memory_order_acquire) & 1u)) {
-                T* ptr = (T*)m_ptr.load(AK::MemoryOrder::memory_order_acquire);
+            if (!(m_consumers.fetch_add(1u << 1, AKF::MemoryOrder::memory_order_acquire) & 1u)) {
+                T* ptr = (T*)m_ptr.load(AKF::MemoryOrder::memory_order_acquire);
                 if (ptr && ptr->try_ref())
                     ref = adopt_ref(*ptr);
             }
-            m_consumers.fetch_sub(1u << 1, AK::MemoryOrder::memory_order_release);
+            m_consumers.fetch_sub(1u << 1, AKF::MemoryOrder::memory_order_release);
         }
 
         return ref;
@@ -49,13 +49,13 @@ public:
     template<typename T>
     T* unsafe_ptr() const
     {
-        if (m_consumers.load(AK::MemoryOrder::memory_order_relaxed) & 1u)
+        if (m_consumers.load(AKF::MemoryOrder::memory_order_relaxed) & 1u)
             return nullptr;
         // NOTE: This may return a non-null pointer even if revocation
         // has been triggered as there is a possible race! But it's "unsafe"
         // anyway because we return a raw pointer without ensuring a
         // reference...
-        return (T*)m_ptr.load(AK::MemoryOrder::memory_order_acquire);
+        return (T*)m_ptr.load(AKF::MemoryOrder::memory_order_acquire);
     }
 
     bool is_null() const
@@ -65,7 +65,7 @@ public:
 
     void revoke()
     {
-        auto current_consumers = m_consumers.fetch_or(1u, AK::MemoryOrder::memory_order_relaxed);
+        auto current_consumers = m_consumers.fetch_or(1u, AKF::MemoryOrder::memory_order_relaxed);
         VERIFY(!(current_consumers & 1u));
         // We flagged revokation, now wait until everyone trying to obtain
         // a strong reference is done
@@ -75,16 +75,16 @@ public:
 #else
             // TODO: yield?
 #endif
-            current_consumers = m_consumers.load(AK::MemoryOrder::memory_order_acquire) & ~1u;
+            current_consumers = m_consumers.load(AKF::MemoryOrder::memory_order_acquire) & ~1u;
         }
         // No one is trying to use it (anymore)
-        m_ptr.store(nullptr, AK::MemoryOrder::memory_order_release);
+        m_ptr.store(nullptr, AKF::MemoryOrder::memory_order_release);
     }
 
 private:
     template<typename T>
-    explicit WeakLink(T& weakable)
-        : m_ptr(&weakable)
+    explicit WeAKFLink(T& weAKFable)
+        : m_ptr(&weAKFable)
     {
     }
     mutable Atomic<void*> m_ptr;
@@ -92,34 +92,34 @@ private:
 };
 
 template<typename T>
-class Weakable {
+class WeAKFable {
 private:
     class Link;
 
 public:
     template<typename U = T>
-    WeakPtr<U> make_weak_ptr() const;
+    WeAKFPtr<U> mAKFe_weAKF_ptr() const;
 
 protected:
-    Weakable() = default;
+    WeAKFable() = default;
 
-    ~Weakable()
+    ~WeAKFable()
     {
-        m_being_destroyed.store(true, AK::MemoryOrder::memory_order_release);
-        revoke_weak_ptrs();
+        m_being_destroyed.store(true, AKF::MemoryOrder::memory_order_release);
+        revoke_weAKF_ptrs();
     }
 
-    void revoke_weak_ptrs()
+    void revoke_weAKF_ptrs()
     {
         if (auto link = move(m_link))
             link->revoke();
     }
 
 private:
-    mutable RefPtr<WeakLink> m_link;
+    mutable RefPtr<WeAKFLink> m_link;
     Atomic<bool> m_being_destroyed { false };
 };
 
 }
 
-using AK::Weakable;
+using AKF::WeAKFable;

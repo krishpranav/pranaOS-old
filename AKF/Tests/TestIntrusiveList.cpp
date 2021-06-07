@@ -1,9 +1,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/IntrusiveList.h>
-#include <AK/NonnullOwnPtr.h>
-#include <AK/RefPtr.h>
+#include <AKF/IntrusiveList.h>
+#include <AKF/NonnullOwnPtr.h>
+#include <AKF/RefPtr.h>
 
 class IntrusiveTestItem {
 public:
@@ -25,7 +25,7 @@ TEST_CASE(insert)
 
     EXPECT(!list.is_empty());
 
-    delete list.take_last();
+    delete list.tAKFe_last();
 }
 
 TEST_CASE(enumeration)
@@ -42,7 +42,7 @@ TEST_CASE(enumeration)
         actual_size++;
     }
     EXPECT_EQ(expected_size, actual_size);
-    while (auto elem = list.take_first()) {
+    while (auto elem = list.tAKFe_first()) {
         delete elem;
     }
 }
@@ -54,7 +54,7 @@ public:
 };
 using IntrusiveRefPtrList = IntrusiveList<IntrusiveRefPtrItem, RefPtr<IntrusiveRefPtrItem>, &IntrusiveRefPtrItem::m_list_node>;
 
-TEST_CASE(intrusive_ref_ptr_no_ref_leaks)
+TEST_CASE(intrusive_ref_ptr_no_ref_leAKFs)
 {
     auto item = adopt_ref(*new IntrusiveRefPtrItem());
     EXPECT_EQ(1u, item->ref_count());

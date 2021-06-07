@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Forward.h>
+#include <AKF/Forward.h>
 
-namespace AK {
+namespace AKF {
 
 enum class CaseSensitivity {
     CaseInsensitive,
@@ -47,11 +47,11 @@ bool contains(const StringView&, const StringView&, CaseSensitivity);
 bool is_whitespace(const StringView&);
 StringView trim_whitespace(const StringView&, TrimMode mode);
 Optional<size_t> find(const StringView& haystack, const StringView& needle);
-String to_snakecase(const StringView&);
+String to_snAKFecase(const StringView&);
 
 }
 
 }
 
-using AK::CaseSensitivity;
-using AK::TrimMode;
+using AKF::CaseSensitivity;
+using AKF::TrimMode;

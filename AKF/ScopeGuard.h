@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/StdLibExtras.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Callback>
 class ScopeGuard {
@@ -45,5 +45,5 @@ private:
 
 }
 
-using AK::ArmedScopeGuard;
-using AK::ScopeGuard;
+using AKF::ArmedScopeGuard;
+using AKF::ScopeGuard;

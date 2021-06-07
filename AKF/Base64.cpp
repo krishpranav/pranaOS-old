@@ -1,15 +1,15 @@
-#include <AK/Array.h>
-#include <AK/Base64.h>
-#include <AK/ByteBuffer.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringView.h>
-#include <AK/Types.h>
-#include <AK/Vector.h>
+#include <AKF/Array.h>
+#include <AKF/Base64.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringView.h>
+#include <AKF/Types.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
-static constexpr auto make_alphabet()
+static constexpr auto mAKFe_alphabet()
 {
     Array alphabet = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
@@ -24,9 +24,9 @@ static constexpr auto make_alphabet()
     return alphabet;
 }
 
-static constexpr auto make_lookup_table()
+static constexpr auto mAKFe_lookup_table()
 {
-    constexpr auto alphabet = make_alphabet();
+    constexpr auto alphabet = mAKFe_alphabet();
     Array<u8, 256> table {};
     for (size_t i = 0; i < alphabet.size(); ++i) {
         table[alphabet[i]] = i;
@@ -47,7 +47,7 @@ size_t calculate_base64_encoded_length(ReadonlyBytes input)
 ByteBuffer decode_base64(const StringView& input)
 {
     auto get = [&](const size_t offset, bool* is_padding = nullptr) -> u8 {
-        constexpr auto table = make_lookup_table();
+        constexpr auto table = mAKFe_lookup_table();
         if (offset >= input.length())
             return 0;
         if (input[offset] == '=') {
@@ -89,7 +89,7 @@ ByteBuffer decode_base64(const StringView& input)
 
 String encode_base64(ReadonlyBytes input)
 {
-    constexpr auto alphabet = make_alphabet();
+    constexpr auto alphabet = mAKFe_alphabet();
     StringBuilder output(calculate_base64_decoded_length(input));
 
     auto get = [&](const size_t offset, bool* need_padding = nullptr) -> u8 {

@@ -1,10 +1,10 @@
 
-#include <AK/JsonArray.h>
-#include <AK/JsonObject.h>
-#include <AK/JsonParser.h>
-#include <AK/JsonValue.h>
+#include <AKF/JsonArray.h>
+#include <AKF/JsonObject.h>
+#include <AKF/JsonParser.h>
+#include <AKF/JsonValue.h>
 
-namespace AK {
+namespace AKF {
 
 JsonValue::JsonValue(Type type)
     : m_type(type)
@@ -33,16 +33,16 @@ void JsonValue::copy_from(const JsonValue& other)
         VERIFY(!m_value.as_string);
         m_value.as_string = other.m_value.as_string;
         m_value.as_string->ref();
-        break;
+        breAKF;
     case Type::Object:
         m_value.as_object = new JsonObject(*other.m_value.as_object);
-        break;
+        breAKF;
     case Type::Array:
         m_value.as_array = new JsonArray(*other.m_value.as_array);
-        break;
+        breAKF;
     default:
         m_value.as_u64 = other.m_value.as_u64;
-        break;
+        breAKF;
     }
 }
 
@@ -210,15 +210,15 @@ void JsonValue::clear()
     switch (m_type) {
     case Type::String:
         m_value.as_string->unref();
-        break;
+        breAKF;
     case Type::Object:
         delete m_value.as_object;
-        break;
+        breAKF;
     case Type::Array:
         delete m_value.as_array;
-        break;
+        breAKF;
     default:
-        break;
+        breAKF;
     }
     m_type = Type::Null;
     m_value.as_string = nullptr;

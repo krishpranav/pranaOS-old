@@ -1,7 +1,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Atomic.h>
+#include <AKF/Atomic.h>
 
 TEST_CASE(construct_empty)
 {

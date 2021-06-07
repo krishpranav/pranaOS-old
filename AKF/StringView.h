@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Checked.h>
-#include <AK/Forward.h>
-#include <AK/Span.h>
-#include <AK/StdLibExtras.h>
-#include <AK/StringUtils.h>
-#include <AK/Vector.h>
+#include <AKF/Assertions.h>
+#include <AKF/Checked.h>
+#include <AKF/Forward.h>
+#include <AKF/Span.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/StringUtils.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class StringView {
 public:
@@ -221,9 +221,9 @@ struct Traits<StringView> : public GenericTraits<String> {
 
 }
 
-[[nodiscard]] ALWAYS_INLINE constexpr AK::StringView operator"" sv(const char* cstring, size_t length)
+[[nodiscard]] ALWAYS_INLINE constexpr AKF::StringView operator"" sv(const char* cstring, size_t length)
 {
-    return AK::StringView(cstring, length);
+    return AKF::StringView(cstring, length);
 }
 
-using AK::StringView;
+using AKF::StringView;

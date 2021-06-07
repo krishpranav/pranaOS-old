@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Endian.h>
-#include <AK/IPv4Address.h>
+#include <AKF/Endian.h>
+#include <AKF/IPv4Address.h>
 
 TEST_CASE(should_default_contructor_with_0s)
 {
@@ -60,7 +60,7 @@ TEST_CASE(should_convert_to_string)
     EXPECT_EQ("1.25.39.42", addr.to_string());
 }
 
-TEST_CASE(should_make_ipv4_address_from_string)
+TEST_CASE(should_mAKFe_ipv4_address_from_string)
 {
     const auto addr = IPv4Address::from_string("192.168.0.1");
 
@@ -71,14 +71,14 @@ TEST_CASE(should_make_ipv4_address_from_string)
     EXPECT_EQ(1, addr.value()[3]);
 }
 
-TEST_CASE(should_make_empty_optional_from_bad_string)
+TEST_CASE(should_mAKFe_empty_optional_from_bad_string)
 {
     const auto addr = IPv4Address::from_string("bad string");
 
     EXPECT(!addr.has_value());
 }
 
-TEST_CASE(should_make_empty_optional_from_out_of_range_values)
+TEST_CASE(should_mAKFe_empty_optional_from_out_of_range_values)
 {
     const auto addr = IPv4Address::from_string("192.168.0.500");
 

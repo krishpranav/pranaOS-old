@@ -1,7 +1,7 @@
 
 
-#include <AK/Assertions.h>
-#include <AK/StackInfo.h>
+#include <AKF/Assertions.h>
+#include <AKF/StackInfo.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -11,7 +11,7 @@
 #    include <pthread.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 StackInfo::StackInfo()
 {

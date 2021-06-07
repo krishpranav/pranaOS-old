@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/CircularQueue.h>
-#include <AK/Types.h>
+#include <AKF/CircularQueue.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, size_t Capacity>
 class CircularDeque : public CircularQueue<T, Capacity> {
@@ -36,4 +36,4 @@ public:
 
 }
 
-using AK::CircularDeque;
+using AKF::CircularDeque;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <AK/Stream.h>
+#include <AKF/Stream.h>
 #ifndef KERNEL
 #    include <errno.h>
 #    include <stdio.h>
 
-namespace AK {
+namespace AKF {
 
 class InputFileStream : public InputStream {
 public:
@@ -88,7 +88,7 @@ public:
         return Stream::handle_any_error();
     }
 
-    void make_unbuffered()
+    void mAKFe_unbuffered()
     {
         setvbuf(m_file, nullptr, _IONBF, 0);
     }
@@ -149,7 +149,7 @@ public:
         return Stream::handle_any_error();
     }
 
-    void make_unbuffered()
+    void mAKFe_unbuffered()
     {
         setvbuf(m_file, nullptr, _IONBF, 0);
     }
@@ -162,7 +162,7 @@ private:
 
 }
 
-using AK::InputFileStream;
-using AK::OutputFileStream;
+using AKF::InputFileStream;
+using AKF::OutputFileStream;
 
 #endif

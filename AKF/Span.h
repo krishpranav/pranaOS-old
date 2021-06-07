@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Iterator.h>
-#include <AK/TypedTransfer.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Iterator.h>
+#include <AKF/TypedTransfer.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 namespace Detail {
 
@@ -138,7 +138,7 @@ public:
 
     ALWAYS_INLINE constexpr void overwrite(size_t offset, const void* data, size_t data_size)
     {
-        // make sure we're not told to write past the end
+        // mAKFe sure we're not told to write past the end
         VERIFY(offset + data_size <= size());
         __builtin_memcpy(this->data() + offset, data, data_size);
     }
@@ -218,6 +218,6 @@ using Bytes = Span<u8>;
 
 }
 
-using AK::Bytes;
-using AK::ReadonlyBytes;
-using AK::Span;
+using AKF::Bytes;
+using AKF::ReadonlyBytes;
+using AKF::Span;

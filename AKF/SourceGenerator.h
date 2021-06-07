@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include <AK/GenericLexer.h>
-#include <AK/HashMap.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/HashMap.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 
-namespace AK {
+namespace AKF {
 
 class SourceGenerator {
-    AK_MAKE_NONCOPYABLE(SourceGenerator);
+    AKF_MAKFE_NONCOPYABLE(SourceGenerator);
 
 public:
     using MappingType = HashMap<StringView, String>;
@@ -42,7 +42,7 @@ public:
         GenericLexer lexer { pattern };
 
         while (!lexer.is_eof()) {
-            // FIXME: It is a bit inconvenient, that 'consume_until' also consumes the 'stop' character, this makes
+            // FIXME: It is a bit inconvenient, that 'consume_until' also consumes the 'stop' character, this mAKFes
             //        the method less generic because there is no way to check if the 'stop' character ever appeared.
             const auto consume_until_without_consuming_stop_character = [&](char stop) {
                 return lexer.consume_while([&](char ch) { return ch != stop; });
@@ -71,4 +71,4 @@ private:
 
 }
 
-using AK::SourceGenerator;
+using AKF::SourceGenerator;

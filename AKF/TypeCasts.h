@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Platform.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/Platform.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename OutputType, typename InputType>
 ALWAYS_INLINE bool is(InputType& input)
@@ -41,5 +41,5 @@ ALWAYS_INLINE CopyConst<InputType, OutputType>& downcast(InputType& input)
 
 }
 
-using AK::downcast;
-using AK::is;
+using AKF::downcast;
+using AKF::is;

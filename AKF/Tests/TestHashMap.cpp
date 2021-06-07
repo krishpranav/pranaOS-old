@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/HashMap.h>
-#include <AK/String.h>
+#include <AKF/HashMap.h>
+#include <AKF/String.h>
 
 TEST_CASE(construct)
 {
@@ -36,9 +36,9 @@ TEST_CASE(populate)
 TEST_CASE(range_loop)
 {
     HashMap<int, String> number_to_string;
-    EXPECT_EQ(number_to_string.set(1, "One"), AK::HashSetResult::InsertedNewEntry);
-    EXPECT_EQ(number_to_string.set(2, "Two"), AK::HashSetResult::InsertedNewEntry);
-    EXPECT_EQ(number_to_string.set(3, "Three"), AK::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(1, "One"), AKF::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(2, "Two"), AKF::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(3, "Three"), AKF::HashSetResult::InsertedNewEntry);
 
     int loop_counter = 0;
     for (auto& it : number_to_string) {
@@ -51,9 +51,9 @@ TEST_CASE(range_loop)
 TEST_CASE(map_remove)
 {
     HashMap<int, String> number_to_string;
-    EXPECT_EQ(number_to_string.set(1, "One"), AK::HashSetResult::InsertedNewEntry);
-    EXPECT_EQ(number_to_string.set(2, "Two"), AK::HashSetResult::InsertedNewEntry);
-    EXPECT_EQ(number_to_string.set(3, "Three"), AK::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(1, "One"), AKF::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(2, "Two"), AKF::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(number_to_string.set(3, "Three"), AKF::HashSetResult::InsertedNewEntry);
 
     EXPECT_EQ(number_to_string.remove(1), true);
     EXPECT_EQ(number_to_string.size(), 2u);
@@ -69,8 +69,8 @@ TEST_CASE(case_insensitive)
 {
     HashMap<String, int, CaseInsensitiveStringTraits> casemap;
     EXPECT_EQ(String("nickserv").to_lowercase(), String("NickServ").to_lowercase());
-    EXPECT_EQ(casemap.set("nickserv", 3), AK::HashSetResult::InsertedNewEntry);
-    EXPECT_EQ(casemap.set("NickServ", 3), AK::HashSetResult::ReplacedExistingEntry);
+    EXPECT_EQ(casemap.set("nickserv", 3), AKF::HashSetResult::InsertedNewEntry);
+    EXPECT_EQ(casemap.set("NickServ", 3), AKF::HashSetResult::ReplacedExistingEntry);
     EXPECT_EQ(casemap.size(), 1u);
 }
 
@@ -85,9 +85,9 @@ TEST_CASE(hashmap_of_nonnullownptr_get)
     };
 
     HashMap<int, NonnullOwnPtr<Object>> objects;
-    objects.set(1, make<Object>("One"));
-    objects.set(2, make<Object>("Two"));
-    objects.set(3, make<Object>("Three"));
+    objects.set(1, mAKFe<Object>("One"));
+    objects.set(2, mAKFe<Object>("Two"));
+    objects.set(3, mAKFe<Object>("Three"));
 
     {
         auto x = objects.get(2);
@@ -96,7 +96,7 @@ TEST_CASE(hashmap_of_nonnullownptr_get)
     }
 
     {
-        // Do it again to make sure that peeking into the map above didn't
+        // Do it again to mAKFe sure that peeking into the map above didn't
         // remove the value from the map.
         auto x = objects.get(2);
         EXPECT_EQ(x.has_value(), true);
@@ -110,7 +110,7 @@ TEST_CASE(many_strings)
 {
     HashMap<String, int> strings;
     for (int i = 0; i < 999; ++i) {
-        EXPECT_EQ(strings.set(String::number(i), i), AK::HashSetResult::InsertedNewEntry);
+        EXPECT_EQ(strings.set(String::number(i), i), AKF::HashSetResult::InsertedNewEntry);
     }
     EXPECT_EQ(strings.size(), 999u);
     for (auto& it : strings) {

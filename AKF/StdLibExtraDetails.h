@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace AK::Detail {
+namespace AKF::Detail {
 
 template<bool B, class T = void>
 struct EnableIf {
@@ -191,123 +191,123 @@ template<typename T>
 using RemoveReference = typename __RemoveReference<T>::Type;
 
 template<typename T>
-struct __MakeUnsigned {
+struct __MAKFeUnsigned {
     using Type = void;
 };
 template<>
-struct __MakeUnsigned<signed char> {
+struct __MAKFeUnsigned<signed char> {
     using Type = unsigned char;
 };
 template<>
-struct __MakeUnsigned<short> {
+struct __MAKFeUnsigned<short> {
     using Type = unsigned short;
 };
 template<>
-struct __MakeUnsigned<int> {
+struct __MAKFeUnsigned<int> {
     using Type = unsigned int;
 };
 template<>
-struct __MakeUnsigned<long> {
+struct __MAKFeUnsigned<long> {
     using Type = unsigned long;
 };
 template<>
-struct __MakeUnsigned<long long> {
+struct __MAKFeUnsigned<long long> {
     using Type = unsigned long long;
 };
 template<>
-struct __MakeUnsigned<unsigned char> {
+struct __MAKFeUnsigned<unsigned char> {
     using Type = unsigned char;
 };
 template<>
-struct __MakeUnsigned<unsigned short> {
+struct __MAKFeUnsigned<unsigned short> {
     using Type = unsigned short;
 };
 template<>
-struct __MakeUnsigned<unsigned int> {
+struct __MAKFeUnsigned<unsigned int> {
     using Type = unsigned int;
 };
 template<>
-struct __MakeUnsigned<unsigned long> {
+struct __MAKFeUnsigned<unsigned long> {
     using Type = unsigned long;
 };
 template<>
-struct __MakeUnsigned<unsigned long long> {
+struct __MAKFeUnsigned<unsigned long long> {
     using Type = unsigned long long;
 };
 template<>
-struct __MakeUnsigned<char> {
+struct __MAKFeUnsigned<char> {
     using Type = unsigned char;
 };
 template<>
-struct __MakeUnsigned<char8_t> {
+struct __MAKFeUnsigned<char8_t> {
     using Type = char8_t;
 };
 template<>
-struct __MakeUnsigned<char16_t> {
+struct __MAKFeUnsigned<char16_t> {
     using Type = char16_t;
 };
 template<>
-struct __MakeUnsigned<char32_t> {
+struct __MAKFeUnsigned<char32_t> {
     using Type = char32_t;
 };
 template<>
-struct __MakeUnsigned<bool> {
+struct __MAKFeUnsigned<bool> {
     using Type = bool;
 };
 
 template<typename T>
-using MakeUnsigned = typename __MakeUnsigned<T>::Type;
+using MAKFeUnsigned = typename __MAKFeUnsigned<T>::Type;
 
 template<typename T>
-struct __MakeSigned {
+struct __MAKFeSigned {
 };
 template<>
-struct __MakeSigned<signed char> {
+struct __MAKFeSigned<signed char> {
     using Type = signed char;
 };
 template<>
-struct __MakeSigned<short> {
+struct __MAKFeSigned<short> {
     using Type = short;
 };
 template<>
-struct __MakeSigned<int> {
+struct __MAKFeSigned<int> {
     using Type = int;
 };
 template<>
-struct __MakeSigned<long> {
+struct __MAKFeSigned<long> {
     using Type = long;
 };
 template<>
-struct __MakeSigned<long long> {
+struct __MAKFeSigned<long long> {
     using Type = long long;
 };
 template<>
-struct __MakeSigned<unsigned char> {
+struct __MAKFeSigned<unsigned char> {
     using Type = char;
 };
 template<>
-struct __MakeSigned<unsigned short> {
+struct __MAKFeSigned<unsigned short> {
     using Type = short;
 };
 template<>
-struct __MakeSigned<unsigned int> {
+struct __MAKFeSigned<unsigned int> {
     using Type = int;
 };
 template<>
-struct __MakeSigned<unsigned long> {
+struct __MAKFeSigned<unsigned long> {
     using Type = long;
 };
 template<>
-struct __MakeSigned<unsigned long long> {
+struct __MAKFeSigned<unsigned long long> {
     using Type = long long;
 };
 template<>
-struct __MakeSigned<char> {
+struct __MAKFeSigned<char> {
     using Type = char;
 };
 
 template<typename T>
-using MakeSigned = typename __MakeSigned<T>::Type;
+using MAKFeSigned = typename __MAKFeSigned<T>::Type;
 
 template<class T>
 inline constexpr bool IsVoid = IsSame<void, RemoveCV<T>>;
@@ -353,7 +353,7 @@ template<>
 inline constexpr bool __IsIntegral<unsigned long long> = true;
 
 template<typename T>
-inline constexpr bool IsIntegral = __IsIntegral<MakeUnsigned<RemoveCV<T>>>;
+inline constexpr bool IsIntegral = __IsIntegral<MAKFeUnsigned<RemoveCV<T>>>;
 
 template<typename T>
 inline constexpr bool __IsFloatingPoint = false;
@@ -377,10 +377,10 @@ template<typename... _Ignored>
 constexpr auto DependentFalse = false;
 
 template<typename T>
-inline constexpr bool IsSigned = IsSame<T, MakeSigned<T>>;
+inline constexpr bool IsSigned = IsSame<T, MAKFeSigned<T>>;
 
 template<typename T>
-inline constexpr bool IsUnsigned = IsSame<T, MakeUnsigned<T>>;
+inline constexpr bool IsUnsigned = IsSame<T, MAKFeUnsigned<T>>;
 
 template<typename T>
 inline constexpr bool IsArithmetic = IsIntegral<T> || IsFloatingPoint<T>;
@@ -398,19 +398,19 @@ template<unsigned... Indices>
 using IndexSequence = IntegerSequence<unsigned, Indices...>;
 
 template<typename T, T N, T... Ts>
-auto make_integer_sequence_impl()
+auto mAKFe_integer_sequence_impl()
 {
     if constexpr (N == 0)
         return IntegerSequence<T, Ts...> {};
     else
-        return make_integer_sequence_impl<T, N - 1, N - 1, Ts...>();
+        return mAKFe_integer_sequence_impl<T, N - 1, N - 1, Ts...>();
 }
 
 template<typename T, T N>
-using MakeIntegerSequence = decltype(make_integer_sequence_impl<T, N>());
+using MAKFeIntegerSequence = decltype(mAKFe_integer_sequence_impl<T, N>());
 
 template<unsigned N>
-using MakeIndexSequence = MakeIntegerSequence<unsigned, N>;
+using MAKFeIndexSequence = MAKFeIntegerSequence<unsigned, N>;
 
 template<typename T>
 struct __IdentityType {
@@ -430,44 +430,44 @@ template<typename T>
 inline constexpr bool IsTriviallyCopyable = __is_trivially_copyable(T);
 
 }
-using AK::Detail::AddConst;
-using AK::Detail::Conditional;
-using AK::Detail::CopyConst;
-using AK::Detail::DependentFalse;
-using AK::Detail::EnableIf;
-using AK::Detail::FalseType;
-using AK::Detail::IdentityType;
-using AK::Detail::IndexSequence;
-using AK::Detail::IntegerSequence;
-using AK::Detail::IsArithmetic;
-using AK::Detail::IsBaseOf;
-using AK::Detail::IsClass;
-using AK::Detail::IsConst;
-using AK::Detail::IsEnum;
-using AK::Detail::IsFloatingPoint;
-using AK::Detail::IsFunction;
-using AK::Detail::IsFundamental;
-using AK::Detail::IsIntegral;
-using AK::Detail::IsLvalueReference;
-using AK::Detail::IsNullPointer;
-using AK::Detail::IsPointer;
-using AK::Detail::IsRvalueReference;
-using AK::Detail::IsSame;
-using AK::Detail::IsSigned;
-using AK::Detail::IsTrivial;
-using AK::Detail::IsTriviallyCopyable;
-using AK::Detail::IsUnion;
-using AK::Detail::IsUnsigned;
-using AK::Detail::IsVoid;
-using AK::Detail::MakeIndexSequence;
-using AK::Detail::MakeIntegerSequence;
-using AK::Detail::MakeSigned;
-using AK::Detail::MakeUnsigned;
-using AK::Detail::RemoveConst;
-using AK::Detail::RemoveCV;
-using AK::Detail::RemovePointer;
-using AK::Detail::RemoveReference;
-using AK::Detail::RemoveVolatile;
-using AK::Detail::TrueType;
-using AK::Detail::UnderlyingType;
-using AK::Detail::Void;
+using AKF::Detail::AddConst;
+using AKF::Detail::Conditional;
+using AKF::Detail::CopyConst;
+using AKF::Detail::DependentFalse;
+using AKF::Detail::EnableIf;
+using AKF::Detail::FalseType;
+using AKF::Detail::IdentityType;
+using AKF::Detail::IndexSequence;
+using AKF::Detail::IntegerSequence;
+using AKF::Detail::IsArithmetic;
+using AKF::Detail::IsBaseOf;
+using AKF::Detail::IsClass;
+using AKF::Detail::IsConst;
+using AKF::Detail::IsEnum;
+using AKF::Detail::IsFloatingPoint;
+using AKF::Detail::IsFunction;
+using AKF::Detail::IsFundamental;
+using AKF::Detail::IsIntegral;
+using AKF::Detail::IsLvalueReference;
+using AKF::Detail::IsNullPointer;
+using AKF::Detail::IsPointer;
+using AKF::Detail::IsRvalueReference;
+using AKF::Detail::IsSame;
+using AKF::Detail::IsSigned;
+using AKF::Detail::IsTrivial;
+using AKF::Detail::IsTriviallyCopyable;
+using AKF::Detail::IsUnion;
+using AKF::Detail::IsUnsigned;
+using AKF::Detail::IsVoid;
+using AKF::Detail::MAKFeIndexSequence;
+using AKF::Detail::MAKFeIntegerSequence;
+using AKF::Detail::MAKFeSigned;
+using AKF::Detail::MAKFeUnsigned;
+using AKF::Detail::RemoveConst;
+using AKF::Detail::RemoveCV;
+using AKF::Detail::RemovePointer;
+using AKF::Detail::RemoveReference;
+using AKF::Detail::RemoveVolatile;
+using AKF::Detail::TrueType;
+using AKF::Detail::UnderlyingType;
+using AKF::Detail::Void;

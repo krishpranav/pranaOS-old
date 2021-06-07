@@ -1,6 +1,6 @@
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 template<typename K, typename V, size_t Capacity>
 class BinaryHeap {
@@ -73,7 +73,7 @@ private:
                 min_child = right_child;
 
             if (m_elements[index].key <= m_elements[min_child].key)
-                break;
+                breAKF;
             swap(m_elements[index], m_elements[min_child]);
             index = min_child;
         }
@@ -85,7 +85,7 @@ private:
             auto parent = (index - 1) / 2;
 
             if (m_elements[index].key >= m_elements[parent].key)
-                break;
+                breAKF;
             swap(m_elements[index], m_elements[parent]);
             index = parent;
         }
@@ -100,4 +100,4 @@ private:
 
 }
 
-using AK::BinaryHeap;
+using AKF::BinaryHeap;

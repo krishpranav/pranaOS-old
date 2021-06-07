@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/Forward.h>
-#include <AK/HashTable.h>
+#include <AKF/Forward.h>
+#include <AKF/HashTable.h>
 
-namespace AK {
+namespace AKF {
 
 class IDAllocator {
 
@@ -17,7 +17,7 @@ public:
         int r = rand();
         for (int i = 0; i < 100000; ++i) {
             int allocated_id = r + i;
-            // Make sure we never vend ID 0, as some code may interpret that as "no ID"
+            // MAKFe sure we never vend ID 0, as some code may interpret that as "no ID"
             if (allocated_id == 0)
                 ++allocated_id;
             if (!m_allocated_ids.contains(allocated_id)) {
@@ -38,4 +38,4 @@ private:
 };
 }
 
-using AK::IDAllocator;
+using AKF::IDAllocator;

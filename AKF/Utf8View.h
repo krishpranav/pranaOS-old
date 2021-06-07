@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <AK/StringView.h>
-#include <AK/Types.h>
+#include <AKF/StringView.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class Utf8View;
 
@@ -91,5 +91,5 @@ private:
 
 }
 
-using AK::Utf8CodepointIterator;
-using AK::Utf8View;
+using AKF::Utf8CodepointIterator;
+using AKF::Utf8View;

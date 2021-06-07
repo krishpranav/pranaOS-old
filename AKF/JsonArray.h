@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/JsonArraySerializer.h>
-#include <AK/JsonValue.h>
-#include <AK/Vector.h>
+#include <AKF/JsonArraySerializer.h>
+#include <AKF/JsonValue.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class JsonArray {
 public:
@@ -93,4 +93,4 @@ inline typename Builder::OutputType JsonArray::serialized() const
 
 }
 
-using AK::JsonArray;
+using AKF::JsonArray;

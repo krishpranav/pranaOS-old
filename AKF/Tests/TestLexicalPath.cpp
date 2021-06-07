@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/LexicalPath.h>
-#include <AK/String.h>
+#include <AKF/LexicalPath.h>
+#include <AKF/String.h>
 
 TEST_CASE(construct)
 {

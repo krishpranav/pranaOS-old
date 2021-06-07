@@ -1,9 +1,9 @@
 #pragma once
 
-#include <AK/Forward.h>
-#include <AK/Platform.h>
+#include <AKF/Forward.h>
+#include <AKF/Platform.h>
 
-#if defined(AK_OS_MACOS)
+#if defined(AKF_OS_MACOS)
 #    include <libkern/OSByteOrder.h>
 #    include <machine/endian.h>
 
@@ -27,7 +27,7 @@
 #    define __BYTE_ORDER BYTE_ORDER
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 ALWAYS_INLINE constexpr T convert_between_host_and_little_endian(T value)
@@ -130,6 +130,6 @@ using NetworkOrdered = BigEndian<T>;
 
 }
 
-using AK::BigEndian;
-using AK::LittleEndian;
-using AK::NetworkOrdered;
+using AKF::BigEndian;
+using AKF::LittleEndian;
+using AKF::NetworkOrdered;

@@ -1,15 +1,15 @@
 
-#include <AK/ByteBuffer.h>
-#include <AK/Checked.h>
-#include <AK/Memory.h>
-#include <AK/PrintfImplementation.h>
-#include <AK/StdLibExtras.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringView.h>
-#include <AK/Utf32View.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/Checked.h>
+#include <AKF/Memory.h>
+#include <AKF/PrintfImplementation.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringView.h>
+#include <AKF/Utf32View.h>
 
-namespace AK {
+namespace AKF {
 
 inline void StringBuilder::will_append(size_t size)
 {
@@ -139,22 +139,22 @@ void StringBuilder::append_escaped_for_json(const StringView& string)
         switch (ch) {
         case '\e':
             append("\\u001B");
-            break;
+            breAKF;
         case '\b':
             append("\\b");
-            break;
+            breAKF;
         case '\n':
             append("\\n");
-            break;
+            breAKF;
         case '\t':
             append("\\t");
-            break;
+            breAKF;
         case '\"':
             append("\\\"");
-            break;
+            breAKF;
         case '\\':
             append("\\\\");
-            break;
+            breAKF;
         default:
             append(ch);
         }

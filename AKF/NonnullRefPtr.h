@@ -1,15 +1,15 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Atomic.h>
-#include <AK/Format.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Atomic.h>
+#include <AKF/Format.h>
+#include <AKF/Types.h>
 #ifdef KERNEL
 #    include <Kernel/Arch/x86/CPU.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class OwnPtr;
@@ -37,7 +37,7 @@ class NonnullRefPtr {
     template<typename U>
     friend class NonnullRefPtr;
     template<typename U>
-    friend class WeakPtr;
+    friend class WeAKFPtr;
 
 public:
     using ElementType = T;
@@ -63,13 +63,13 @@ public:
         VERIFY(!(m_bits & 1));
     }
     ALWAYS_INLINE NonnullRefPtr(NonnullRefPtr&& other)
-        : m_bits((FlatPtr)&other.leak_ref())
+        : m_bits((FlatPtr)&other.leAKF_ref())
     {
         VERIFY(!(m_bits & 1));
     }
     template<typename U>
     ALWAYS_INLINE NonnullRefPtr(NonnullRefPtr<U>&& other)
-        : m_bits((FlatPtr)&other.leak_ref())
+        : m_bits((FlatPtr)&other.leAKF_ref())
     {
         VERIFY(!(m_bits & 1));
     }
@@ -89,9 +89,9 @@ public:
         assign(nullptr);
 #ifdef SANITIZE_PTRS
         if constexpr (sizeof(T*) == 8)
-            m_bits.store(0xb0b0b0b0b0b0b0b0, AK::MemoryOrder::memory_order_relaxed);
+            m_bits.store(0xb0b0b0b0b0b0b0b0, AKF::MemoryOrder::memory_order_relaxed);
         else
-            m_bits.store(0xb0b0b0b0, AK::MemoryOrder::memory_order_relaxed);
+            m_bits.store(0xb0b0b0b0, AKF::MemoryOrder::memory_order_relaxed);
 #endif
     }
 
@@ -124,14 +124,14 @@ public:
     ALWAYS_INLINE NonnullRefPtr& operator=(NonnullRefPtr&& other)
     {
         if (this != &other)
-            assign(&other.leak_ref());
+            assign(&other.leAKF_ref());
         return *this;
     }
 
     template<typename U>
     NonnullRefPtr& operator=(NonnullRefPtr<U>&& other)
     {
-        assign(&other.leak_ref());
+        assign(&other.leAKF_ref());
         return *this;
     }
 
@@ -142,7 +142,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] ALWAYS_INLINE T& leak_ref()
+    [[nodiscard]] ALWAYS_INLINE T& leAKF_ref()
     {
         T* ptr = exchange(nullptr);
         VERIFY(ptr);
@@ -222,12 +222,12 @@ private:
 
     ALWAYS_INLINE T* as_ptr() const
     {
-        return (T*)(m_bits.load(AK::MemoryOrder::memory_order_relaxed) & ~(FlatPtr)1);
+        return (T*)(m_bits.load(AKF::MemoryOrder::memory_order_relaxed) & ~(FlatPtr)1);
     }
 
     ALWAYS_INLINE T* as_nonnull_ptr() const
     {
-        T* ptr = (T*)(m_bits.load(AK::MemoryOrder::memory_order_relaxed) & ~(FlatPtr)1);
+        T* ptr = (T*)(m_bits.load(AKF::MemoryOrder::memory_order_relaxed) & ~(FlatPtr)1);
         VERIFY(ptr);
         return ptr;
     }
@@ -241,16 +241,16 @@ private:
 #endif
         FlatPtr bits;
         for (;;) {
-            bits = m_bits.fetch_or(1, AK::MemoryOrder::memory_order_acq_rel);
+            bits = m_bits.fetch_or(1, AKF::MemoryOrder::memory_order_acq_rel);
             if (!(bits & 1))
-                break;
+                breAKF;
 #ifdef KERNEL
             Kernel::Processor::wait_check();
 #endif
         }
         VERIFY(!(bits & 1));
         f((T*)bits);
-        m_bits.store(bits, AK::MemoryOrder::memory_order_release);
+        m_bits.store(bits, AKF::MemoryOrder::memory_order_release);
     }
 
     ALWAYS_INLINE void assign(T* new_ptr)
@@ -267,11 +267,11 @@ private:
         Kernel::ScopedCritical critical;
 #endif
         // Only exchange while not locked
-        FlatPtr expected = m_bits.load(AK::MemoryOrder::memory_order_relaxed);
+        FlatPtr expected = m_bits.load(AKF::MemoryOrder::memory_order_relaxed);
         for (;;) {
             expected &= ~(FlatPtr)1; // only if lock bit is not set
-            if (m_bits.compare_exchange_strong(expected, (FlatPtr)new_ptr, AK::MemoryOrder::memory_order_acq_rel))
-                break;
+            if (m_bits.compare_exchange_strong(expected, (FlatPtr)new_ptr, AKF::MemoryOrder::memory_order_acq_rel))
+                breAKF;
 #ifdef KERNEL
             Kernel::Processor::wait_check();
 #endif
@@ -287,11 +287,11 @@ private:
         Kernel::ScopedCritical critical;
 #endif
         // Lock the pointer
-        FlatPtr expected = m_bits.load(AK::MemoryOrder::memory_order_relaxed);
+        FlatPtr expected = m_bits.load(AKF::MemoryOrder::memory_order_relaxed);
         for (;;) {
             expected &= ~(FlatPtr)1; // only if lock bit is not set
-            if (m_bits.compare_exchange_strong(expected, expected | 1, AK::MemoryOrder::memory_order_acq_rel))
-                break;
+            if (m_bits.compare_exchange_strong(expected, expected | 1, AKF::MemoryOrder::memory_order_acq_rel))
+                breAKF;
 #ifdef KERNEL
             Kernel::Processor::wait_check();
 #endif
@@ -301,7 +301,7 @@ private:
         ref_if_not_null((T*)expected);
 
         // Unlock the pointer again
-        m_bits.store(expected, AK::MemoryOrder::memory_order_release);
+        m_bits.store(expected, AKF::MemoryOrder::memory_order_release);
         return (T*)expected;
     }
 
@@ -330,5 +330,5 @@ inline void swap(NonnullRefPtr<T>& a, NonnullRefPtr<U>& b)
 
 }
 
-using AK::adopt_ref;
-using AK::NonnullRefPtr;
+using AKF::adopt_ref;
+using AKF::NonnullRefPtr;

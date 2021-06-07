@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include <AK/ByteBuffer.h>
-#include <AK/LEB128.h>
-#include <AK/MemMem.h>
-#include <AK/Stream.h>
-#include <AK/Vector.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/LEB128.h>
+#include <AKF/MemMem.h>
+#include <AKF/Stream.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class InputMemoryStream final : public InputStream {
 public:
@@ -165,7 +165,7 @@ public:
             }
             if (bytes_to_search < span.size()) {
                 spans.append(span.slice(0, bytes_to_search));
-                break;
+                breAKF;
             }
             bytes_to_search -= span.size();
             spans.append(move(span));
@@ -251,7 +251,7 @@ private:
     void try_discard_chunks()
     {
         while (m_read_offset - m_base_offset >= chunk_size) {
-            m_chunks.take_first();
+            m_chunks.tAKFe_first();
             m_base_offset += chunk_size;
         }
     }
@@ -264,7 +264,7 @@ private:
 
 }
 
-using AK::DuplexMemoryStream;
-using AK::InputMemoryStream;
-using AK::InputStream;
-using AK::OutputMemoryStream;
+using AKF::DuplexMemoryStream;
+using AKF::InputMemoryStream;
+using AKF::InputStream;
+using AKF::OutputMemoryStream;

@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <AK/HashFunctions.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/HashFunctions.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 enum class HashSetResult {
     InsertedNewEntry,
@@ -338,4 +338,4 @@ private:
 
 }
 
-using AK::HashTable;
+using AKF::HashTable;

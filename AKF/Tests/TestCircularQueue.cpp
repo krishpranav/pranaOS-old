@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/CircularQueue.h>
-#include <AK/String.h>
+#include <AKF/CircularQueue.h>
+#include <AKF/String.h>
 
 TEST_CASE(basic)
 {

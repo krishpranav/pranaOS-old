@@ -1,21 +1,21 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Format.h>
-#include <AK/RefCounted.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Traits.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Format.h>
+#include <AKF/RefCounted.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Traits.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, typename PtrTraits>
 class RefPtr;
 template<typename T>
 class NonnullRefPtr;
 template<typename T>
-class WeakPtr;
+class WeAKFPtr;
 
 template<typename T>
 class NonnullOwnPtr {
@@ -32,13 +32,13 @@ public:
             "Use NonnullRefPtr<> for RefCounted types");
     }
     NonnullOwnPtr(NonnullOwnPtr&& other)
-        : m_ptr(other.leak_ptr())
+        : m_ptr(other.leAKF_ptr())
     {
         VERIFY(m_ptr);
     }
     template<typename U>
     NonnullOwnPtr(NonnullOwnPtr<U>&& other)
-        : m_ptr(other.leak_ptr())
+        : m_ptr(other.leAKF_ptr())
     {
         VERIFY(m_ptr);
     }
@@ -65,13 +65,13 @@ public:
     template<typename U>
     NonnullOwnPtr(const NonnullRefPtr<U>&) = delete;
     template<typename U>
-    NonnullOwnPtr(const WeakPtr<U>&) = delete;
+    NonnullOwnPtr(const WeAKFPtr<U>&) = delete;
     template<typename U, typename PtrTraits = RefPtrTraits<U>>
     NonnullOwnPtr& operator=(const RefPtr<U, PtrTraits>&) = delete;
     template<typename U>
     NonnullOwnPtr& operator=(const NonnullRefPtr<U>&) = delete;
     template<typename U>
-    NonnullOwnPtr& operator=(const WeakPtr<U>&) = delete;
+    NonnullOwnPtr& operator=(const WeAKFPtr<U>&) = delete;
 
     NonnullOwnPtr& operator=(NonnullOwnPtr&& other)
     {
@@ -88,7 +88,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] T* leak_ptr()
+    [[nodiscard]] T* leAKF_ptr()
     {
         return exchange(m_ptr, nullptr);
     }
@@ -123,7 +123,7 @@ public:
     NonnullOwnPtr<U> release_nonnull()
     {
         VERIFY(m_ptr);
-        return NonnullOwnPtr<U>(NonnullOwnPtr<U>::Adopt, static_cast<U&>(*leak_ptr()));
+        return NonnullOwnPtr<U>(NonnullOwnPtr<U>::Adopt, static_cast<U&>(*leAKF_ptr()));
     }
 
 private:
@@ -146,7 +146,7 @@ inline NonnullOwnPtr<T> adopt_own(T& object)
 
 template<class T, class... Args>
 inline NonnullOwnPtr<T>
-make(Args&&... args)
+mAKFe(Args&&... args)
 {
     return NonnullOwnPtr<T>(NonnullOwnPtr<T>::Adopt, *new T(forward<Args>(args)...));
 }
@@ -174,6 +174,6 @@ struct Formatter<NonnullOwnPtr<T>> : Formatter<const T*> {
 
 }
 
-using AK::adopt_own;
-using AK::make;
-using AK::NonnullOwnPtr;
+using AKF::adopt_own;
+using AKF::mAKFe;
+using AKF::NonnullOwnPtr;

@@ -1,16 +1,16 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Platform.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Platform.h>
+#include <AKF/Types.h>
 
 // Kernel and Userspace pull in the definitions from different places.
 // Avoid trying to figure out which one.
 struct timeval;
 struct timespec;
 
-namespace AK {
+namespace AKF {
 
 // Month and day start at 1. Month must be >= 1 and <= 12.
 // The return value is 0-indexed, that is 0 is Sunday, 1 is Monday, etc.
@@ -77,7 +77,7 @@ public:
     }
 
 private:
-    // This must be part of the header in order to make the various 'from_*' functions constexpr.
+    // This must be part of the header in order to mAKFe the various 'from_*' functions constexpr.
     // However, sane_mod can only deal with a limited range of values for 'denominator', so this can't be made public.
     ALWAYS_INLINE static constexpr i64 sane_mod(i64& numerator, i64 denominator)
     {
@@ -274,23 +274,23 @@ inline bool operator!=(const TimespecType& a, const TimespecType& b)
 
 }
 
-using AK::day_of_week;
-using AK::day_of_year;
-using AK::days_in_month;
-using AK::days_in_year;
-using AK::is_leap_year;
-using AK::Time;
-using AK::timespec_add;
-using AK::timespec_add_timeval;
-using AK::timespec_sub;
-using AK::timespec_to_timeval;
-using AK::timeval_add;
-using AK::timeval_sub;
-using AK::timeval_to_timespec;
-using AK::years_to_days_since_epoch;
-using AK::operator<=;
-using AK::operator<;
-using AK::operator>;
-using AK::operator>=;
-using AK::operator==;
-using AK::operator!=;
+using AKF::day_of_week;
+using AKF::day_of_year;
+using AKF::days_in_month;
+using AKF::days_in_year;
+using AKF::is_leap_year;
+using AKF::Time;
+using AKF::timespec_add;
+using AKF::timespec_add_timeval;
+using AKF::timespec_sub;
+using AKF::timespec_to_timeval;
+using AKF::timeval_add;
+using AKF::timeval_sub;
+using AKF::timeval_to_timespec;
+using AKF::years_to_days_since_epoch;
+using AKF::operator<=;
+using AKF::operator<;
+using AKF::operator>;
+using AKF::operator>=;
+using AKF::operator==;
+using AKF::operator!=;

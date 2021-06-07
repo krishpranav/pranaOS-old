@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/NonnullOwnPtr.h>
-#include <AK/RefCounted.h>
+#include <AKF/NonnullOwnPtr.h>
+#include <AKF/RefCounted.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class OwnPtr {
@@ -18,18 +18,18 @@ public:
             "Use RefPtr<> for RefCounted types");
     }
     OwnPtr(OwnPtr&& other)
-        : m_ptr(other.leak_ptr())
+        : m_ptr(other.leAKF_ptr())
     {
     }
 
     template<typename U>
     OwnPtr(NonnullOwnPtr<U>&& other)
-        : m_ptr(other.leak_ptr())
+        : m_ptr(other.leAKF_ptr())
     {
     }
     template<typename U>
     OwnPtr(OwnPtr<U>&& other)
-        : m_ptr(other.leak_ptr())
+        : m_ptr(other.leAKF_ptr())
     {
     }
     ~OwnPtr()
@@ -59,13 +59,13 @@ public:
     template<typename U>
     OwnPtr(const NonnullRefPtr<U>&) = delete;
     template<typename U>
-    OwnPtr(const WeakPtr<U>&) = delete;
+    OwnPtr(const WeAKFPtr<U>&) = delete;
     template<typename U>
     OwnPtr& operator=(const RefPtr<U>&) = delete;
     template<typename U>
     OwnPtr& operator=(const NonnullRefPtr<U>&) = delete;
     template<typename U>
-    OwnPtr& operator=(const WeakPtr<U>&) = delete;
+    OwnPtr& operator=(const WeAKFPtr<U>&) = delete;
 
     OwnPtr& operator=(OwnPtr&& other)
     {
@@ -113,24 +113,24 @@ public:
 
     bool operator!() const { return !m_ptr; }
 
-    [[nodiscard]] T* leak_ptr()
+    [[nodiscard]] T* leAKF_ptr()
     {
-        T* leaked_ptr = m_ptr;
+        T* leAKFed_ptr = m_ptr;
         m_ptr = nullptr;
-        return leaked_ptr;
+        return leAKFed_ptr;
     }
 
     NonnullOwnPtr<T> release_nonnull()
     {
         VERIFY(m_ptr);
-        return NonnullOwnPtr<T>(NonnullOwnPtr<T>::Adopt, *leak_ptr());
+        return NonnullOwnPtr<T>(NonnullOwnPtr<T>::Adopt, *leAKF_ptr());
     }
 
     template<typename U>
     NonnullOwnPtr<U> release_nonnull()
     {
         VERIFY(m_ptr);
-        return NonnullOwnPtr<U>(NonnullOwnPtr<U>::Adopt, static_cast<U&>(*leak_ptr()));
+        return NonnullOwnPtr<U>(NonnullOwnPtr<U>::Adopt, static_cast<U&>(*leAKF_ptr()));
     }
 
     T* ptr() { return m_ptr; }
@@ -195,4 +195,4 @@ struct Traits<OwnPtr<T>> : public GenericTraits<OwnPtr<T>> {
 
 }
 
-using AK::OwnPtr;
+using AKF::OwnPtr;

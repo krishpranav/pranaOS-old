@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <AK/ByteBuffer.h>
-#include <AK/Optional.h>
-#include <AK/String.h>
-#include <AK/StringView.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 constexpr u8 decode_hex_digit(char digit)
 {
@@ -25,6 +25,6 @@ String encode_hex(ReadonlyBytes);
 
 }
 
-using AK::decode_hex;
-using AK::decode_hex_digit;
-using AK::encode_hex;
+using AKF::decode_hex;
+using AKF::decode_hex_digit;
+using AKF::encode_hex;

@@ -1,12 +1,12 @@
-#include <AK/FlyString.h>
-#include <AK/HashTable.h>
-#include <AK/Optional.h>
-#include <AK/Singleton.h>
-#include <AK/String.h>
-#include <AK/StringUtils.h>
-#include <AK/StringView.h>
+#include <AKF/FlyString.h>
+#include <AKF/HashTable.h>
+#include <AKF/Optional.h>
+#include <AKF/Singleton.h>
+#include <AKF/String.h>
+#include <AKF/StringUtils.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 struct FlyStringImplTraits : public Traits<StringImpl*> {
     static unsigned hash(const StringImpl* s) { return s ? s->hash() : 0; }
@@ -18,7 +18,7 @@ struct FlyStringImplTraits : public Traits<StringImpl*> {
     }
 };
 
-static AK::Singleton<HashTable<StringImpl*, FlyStringImplTraits>> s_table;
+static AKF::Singleton<HashTable<StringImpl*, FlyStringImplTraits>> s_table;
 
 static HashTable<StringImpl*, FlyStringImplTraits>& fly_impls()
 {

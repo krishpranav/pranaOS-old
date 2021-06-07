@@ -1,8 +1,8 @@
 #pragma once
 
-#include <AK/Iterator.h>
+#include <AKF/Iterator.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Container, typename ValueType>
 constexpr bool all_of(
@@ -20,4 +20,4 @@ constexpr bool all_of(
 
 }
 
-using AK::all_of;
+using AKF::all_of;

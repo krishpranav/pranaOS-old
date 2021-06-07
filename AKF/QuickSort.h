@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/StdLibExtras.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 /* This is a dual pivot quick sort. It is quite a bit faster than the single
  * pivot quick_sort below. The other quick_sort below should only be used when
@@ -146,4 +146,4 @@ void quick_sort(Collection& collection)
 
 }
 
-using AK::quick_sort;
+using AKF::quick_sort;

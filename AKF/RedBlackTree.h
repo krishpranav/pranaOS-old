@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Concepts.h>
+#include <AKF/Concepts.h>
 
-namespace AK {
+namespace AKF {
 
 template<Integral K>
 class BaseRedBlackTree {
@@ -33,7 +33,7 @@ public:
     };
 
 protected:
-    BaseRedBlackTree() = default; // These are protected to ensure no one instantiates the leaky base red black tree directly
+    BaseRedBlackTree() = default; // These are protected to ensure no one instantiates the leAKFy base red black tree directly
     virtual ~BaseRedBlackTree() {};
 
     void rotate_left(Node* subtree_root)
@@ -524,4 +524,4 @@ private:
 
 }
 
-using AK::RedBlackTree;
+using AKF::RedBlackTree;

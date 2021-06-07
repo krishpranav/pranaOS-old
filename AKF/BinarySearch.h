@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 struct DefaultComparator {
     template<typename T, typename S>
@@ -44,7 +44,7 @@ constexpr auto binary_search(
             if (middle != 0)
                 high = middle - 1;
             else
-                break;
+                breAKF;
         else if (comparison > 0)
             low = middle + 1;
         else {
@@ -62,4 +62,4 @@ constexpr auto binary_search(
 
 }
 
-using AK::binary_search;
+using AKF::binary_search;

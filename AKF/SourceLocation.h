@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/Format.h>
-#include <AK/StringView.h>
-#include <AK/Types.h>
+#include <AKF/Format.h>
+#include <AKF/StringView.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class SourceLocation {
 public:
@@ -37,11 +37,11 @@ private:
 }
 
 template<>
-struct AK::Formatter<AK::SourceLocation> : AK::Formatter<FormatString> {
-    void format(FormatBuilder& builder, AK::SourceLocation location)
+struct AKF::Formatter<AKF::SourceLocation> : AKF::Formatter<FormatString> {
+    void format(FormatBuilder& builder, AKF::SourceLocation location)
     {
-        return AK::Formatter<FormatString>::format(builder, "[{} @ {}:{}]", location.function_name(), location.filename(), location.line_number());
+        return AKF::Formatter<FormatString>::format(builder, "[{} @ {}:{}]", location.function_name(), location.filename(), location.line_number());
     }
 };
 
-using AK::SourceLocation;
+using AKF::SourceLocation;

@@ -1,14 +1,14 @@
-#include <AK/MemMem.h>
-#include <AK/Memory.h>
-#include <AK/Optional.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringUtils.h>
-#include <AK/StringView.h>
-#include <AK/Vector.h>
+#include <AKF/MemMem.h>
+#include <AKF/Memory.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringUtils.h>
+#include <AKF/StringView.h>
+#include <AKF/Vector.h>
 #include <ctype.h>
 
-namespace AK {
+namespace AKF {
 
 namespace StringUtils {
 
@@ -54,14 +54,14 @@ bool matches(const StringView& str, const StringView& mask, CaseSensitivity case
                 ++string_ptr;
             record_span(string_start_ptr - string_start, string_ptr - string_start_ptr);
             --string_ptr;
-            break;
+            breAKF;
         case '?':
             record_span(string_ptr - string_start, 1);
-            break;
+            breAKF;
         default:
             if (!matches_one(*string_ptr, *mask_ptr, case_sensitivity))
                 return false;
-            break;
+            breAKF;
         }
         ++string_ptr;
         ++mask_ptr;
@@ -267,7 +267,7 @@ bool contains(const StringView& str, const StringView& needle, CaseSensitivity c
         for (size_t ni = 0; si + ni < str.length(); ni++) {
             if (to_lowercase(str_chars[si + ni]) != to_lowercase(needle_chars[ni])) {
                 si += ni;
-                break;
+                breAKF;
             }
             if (ni + 1 == needle.length())
                 return true;
@@ -295,7 +295,7 @@ StringView trim_whitespace(const StringView& str, TrimMode mode)
             if (substring_length == 0)
                 return "";
             if (!isspace(str[i]))
-                break;
+                breAKF;
             ++substring_start;
             --substring_length;
         }
@@ -306,7 +306,7 @@ StringView trim_whitespace(const StringView& str, TrimMode mode)
             if (substring_length == 0)
                 return "";
             if (!isspace(str[i]))
-                break;
+                breAKF;
             --substring_length;
         }
     }
@@ -316,12 +316,12 @@ StringView trim_whitespace(const StringView& str, TrimMode mode)
 
 Optional<size_t> find(const StringView& haystack, const StringView& needle)
 {
-    return AK::memmem_optional(
+    return AKF::memmem_optional(
         haystack.characters_without_null_termination(), haystack.length(),
         needle.characters_without_null_termination(), needle.length());
 }
 
-String to_snakecase(const StringView& str)
+String to_snAKFecase(const StringView& str)
 {
     auto should_insert_underscore = [&](auto i, auto current_char) {
         if (i == 0)

@@ -1,12 +1,12 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/HashMap.h>
-#include <AK/JsonArray.h>
-#include <AK/JsonObject.h>
-#include <AK/JsonValue.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/HashMap.h>
+#include <AKF/JsonArray.h>
+#include <AKF/JsonObject.h>
+#include <AKF/JsonValue.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 
 TEST_CASE(load_form)
 {
@@ -17,7 +17,7 @@ TEST_CASE(load_form)
     for (;;) {
         char buffer[1024];
         if (!fgets(buffer, sizeof(buffer), fp))
-            break;
+            breAKF;
         builder.append(buffer);
     }
 

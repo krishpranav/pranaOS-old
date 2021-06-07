@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
+#include <AKF/Assertions.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class Ptr32 {
@@ -32,4 +32,4 @@ private:
 
 }
 
-using AK::Ptr32;
+using AKF::Ptr32;

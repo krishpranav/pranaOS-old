@@ -2,9 +2,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/SinglyLinkedList.h>
+#include <AKF/SinglyLinkedList.h>
 
-static SinglyLinkedList<int> make_list()
+static SinglyLinkedList<int> mAKFe_list()
 {
     SinglyLinkedList<int> list {};
     list.append(0);
@@ -22,7 +22,7 @@ static SinglyLinkedList<int> make_list()
 
 TEST_CASE(should_find_mutable)
 {
-    auto sut = make_list();
+    auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find(4));
 
@@ -31,7 +31,7 @@ TEST_CASE(should_find_mutable)
 
 TEST_CASE(should_find_mutable_with_predicate)
 {
-    auto sut = make_list();
+    auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find_if([](const auto v) { return v == 4; }));
 
@@ -40,7 +40,7 @@ TEST_CASE(should_find_mutable_with_predicate)
 
 TEST_CASE(should_find_const)
 {
-    const auto sut = make_list();
+    const auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find(4));
 
@@ -49,7 +49,7 @@ TEST_CASE(should_find_const)
 
 TEST_CASE(should_find_const_with_predicate)
 {
-    const auto sut = make_list();
+    const auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find_if([](const auto v) { return v == 4; }));
 

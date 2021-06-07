@@ -2,7 +2,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/EnumBits.h>
+#include <AKF/EnumBits.h>
 
 enum class VideoIntro : u8 {
     None = 0x0,
@@ -13,7 +13,7 @@ enum class VideoIntro : u8 {
     CompleteIntro = Well | Hello | Friends | ExclimationMark,
 };
 
-AK_ENUM_BITWISE_OPERATORS(VideoIntro);
+AKF_ENUM_BITWISE_OPERATORS(VideoIntro);
 
 TEST_CASE(bitwise_or)
 {

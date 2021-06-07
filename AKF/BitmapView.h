@@ -1,13 +1,13 @@
 #pragma once
 
-#include <AK/Noncopyable.h>
-#include <AK/Optional.h>
-#include <AK/Platform.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/Optional.h>
+#include <AKF/Platform.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 class BitmapView {
 public:
@@ -388,7 +388,7 @@ public:
                 start += max_region_size;
             } else {
                 // No ranges which are bigger than current were found.
-                break;
+                breAKF;
             }
         }
 
@@ -428,7 +428,7 @@ public:
                 start += length_of_found_range.value();
             } else {
                 // There are no ranges which can fit requested length.
-                break;
+                breAKF;
             }
         }
 
@@ -447,4 +447,4 @@ private:
 
 }
 
-using AK::BitmapView;
+using AKF::BitmapView;

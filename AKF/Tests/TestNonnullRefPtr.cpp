@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/NonnullRefPtr.h>
-#include <AK/String.h>
+#include <AKF/NonnullRefPtr.h>
+#include <AKF/String.h>
 
 struct Object : public RefCounted<Object> {
     int x;

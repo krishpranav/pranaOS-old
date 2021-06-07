@@ -1,20 +1,20 @@
 
 #pragma once
 
-#include <AK/CheckedFormatString.h>
+#include <AKF/CheckedFormatString.h>
 
-#include <AK/AllOf.h>
-#include <AK/AnyOf.h>
-#include <AK/Array.h>
-#include <AK/GenericLexer.h>
-#include <AK/Optional.h>
-#include <AK/StringView.h>
+#include <AKF/AllOf.h>
+#include <AKF/AnyOf.h>
+#include <AKF/Array.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/Optional.h>
+#include <AKF/StringView.h>
 
 #ifndef KERNEL
 #    include <stdio.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 class TypeErasedFormatParams;
 class FormatParser;
@@ -206,7 +206,7 @@ public:
     Span<const TypeErasedParameter> parameters() const { return m_parameters; }
 
     void set_parameters(Span<const TypeErasedParameter> parameters) { m_parameters = parameters; }
-    size_t take_next_index() { return m_next_index++; }
+    size_t tAKFe_next_index() { return m_next_index++; }
 
 private:
     Span<const TypeErasedParameter> m_parameters;
@@ -237,7 +237,7 @@ private:
     Array<TypeErasedParameter, sizeof...(Parameters)> m_data;
 };
 
-// We use the same format for most types for consistency. This is taken directly from
+// We use the same format for most types for consistency. This is tAKFen directly from
 // std::format. One difference is that we are not counting the width or sign towards the
 // total width when calculating zero padding for numbers.
 // https://en.cppreference.com/w/cpp/utility/format/formatter#Standard_format_specification
@@ -471,7 +471,7 @@ struct Formatter<FormatIfSupported<T>> : __FormatIfSupported<T, HasFormatter<T>>
 };
 
 // This is a helper class, the idea is that if you want to implement a formatter you can inherit
-// from this class to "break down" the formatting.
+// from this class to "breAKF down" the formatting.
 struct FormatString {
 };
 template<>
@@ -484,23 +484,23 @@ struct Formatter<FormatString> : Formatter<String> {
     void vformat(FormatBuilder& builder, StringView fmtstr, TypeErasedFormatParams params);
 };
 
-} // namespace AK
+} // namespace AKF
 
 #ifdef KERNEL
-using AK::dmesgln;
+using AKF::dmesgln;
 #else
-using AK::out;
-using AK::outln;
+using AKF::out;
+using AKF::outln;
 
-using AK::warn;
-using AK::warnln;
+using AKF::warn;
+using AKF::warnln;
 #endif
 
-using AK::dbgln;
+using AKF::dbgln;
 
-using AK::CheckedFormatString;
-using AK::FormatIfSupported;
-using AK::FormatString;
+using AKF::CheckedFormatString;
+using AKF::FormatIfSupported;
+using AKF::FormatString;
 
 #define dbgln_if(flag, fmt, ...)       \
     do {                               \

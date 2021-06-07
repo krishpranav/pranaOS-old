@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/Forward.h>
-#include <AK/HashMap.h>
-#include <AK/Types.h>
+#include <AKF/Forward.h>
+#include <AKF/HashMap.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 namespace Detail {
 
@@ -57,7 +57,7 @@ class Trie {
         }
         void pop_and_get_next()
         {
-            m_state.take_last();
+            m_state.tAKFe_last();
             if (m_state.is_empty()) {
                 m_current_node = nullptr;
                 return;
@@ -127,7 +127,7 @@ public:
     {
         auto it = m_children.find(value);
         if (it == m_children.end()) {
-            auto node = make<Trie>(value, move(metadata));
+            auto node = mAKFe<Trie>(value, move(metadata));
             auto& node_ref = *node;
             m_children.set(move(value), move(node));
             return static_cast<BaseType&>(node_ref);
@@ -184,7 +184,7 @@ public:
     {
         Trie root(m_value, m_metadata);
         for (auto& it : m_children)
-            root.m_children.set(it.key, make<Trie>(it.value->deep_copy()));
+            root.m_children.set(it.key, mAKFe<Trie>(it.value->deep_copy()));
         return static_cast<BaseType&&>(move(root));
     }
 
@@ -220,4 +220,4 @@ public:
 
 }
 
-using AK::Trie;
+using AKF::Trie;

@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/AllOf.h>
-#include <AK/Array.h>
+#include <AKF/AllOf.h>
+#include <AKF/Array.h>
 
 TEST_CASE(should_determine_if_predicate_applies_to_all_elements_in_container)
 {

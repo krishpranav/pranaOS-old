@@ -1,7 +1,7 @@
 
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class Badge {
@@ -21,4 +21,4 @@ private:
 
 }
 
-using AK::Badge;
+using AKF::Badge;

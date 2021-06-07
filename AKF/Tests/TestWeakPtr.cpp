@@ -1,19 +1,19 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/String.h>
-#include <AK/WeakPtr.h>
-#include <AK/Weakable.h>
+#include <AKF/String.h>
+#include <AKF/WeAKFPtr.h>
+#include <AKF/WeAKFable.h>
 
 #ifdef __clang__
 #    pragma clang diagnostic push
 #    pragma clang diagnostic ignored "-Wunused-private-field"
 #endif
 
-class SimpleWeakable : public Weakable<SimpleWeakable>
-    , public RefCounted<SimpleWeakable> {
+class SimpleWeAKFable : public WeAKFable<SimpleWeAKFable>
+    , public RefCounted<SimpleWeAKFable> {
 public:
-    SimpleWeakable() = default;
+    SimpleWeAKFable() = default;
 
 private:
     int m_member { 123 };
@@ -23,39 +23,39 @@ private:
 #    pragma clang diagnostic pop
 #endif
 
-TEST_CASE(basic_weak)
+TEST_CASE(basic_weAKF)
 {
-    WeakPtr<SimpleWeakable> weak1;
-    WeakPtr<SimpleWeakable> weak2;
+    WeAKFPtr<SimpleWeAKFable> weAKF1;
+    WeAKFPtr<SimpleWeAKFable> weAKF2;
 
     {
-        auto simple = adopt_ref(*new SimpleWeakable);
-        weak1 = simple;
-        weak2 = simple;
-        EXPECT_EQ(weak1.is_null(), false);
-        EXPECT_EQ(weak2.is_null(), false);
-        EXPECT_EQ(weak1.strong_ref().ptr(), simple.ptr());
-        EXPECT_EQ(weak1.strong_ref().ptr(), weak2.strong_ref().ptr());
+        auto simple = adopt_ref(*new SimpleWeAKFable);
+        weAKF1 = simple;
+        weAKF2 = simple;
+        EXPECT_EQ(weAKF1.is_null(), false);
+        EXPECT_EQ(weAKF2.is_null(), false);
+        EXPECT_EQ(weAKF1.strong_ref().ptr(), simple.ptr());
+        EXPECT_EQ(weAKF1.strong_ref().ptr(), weAKF2.strong_ref().ptr());
     }
 
-    EXPECT_EQ(weak1.is_null(), true);
-    EXPECT_EQ(weak1.strong_ref().ptr(), nullptr);
-    EXPECT_EQ(weak1.strong_ref().ptr(), weak2.strong_ref().ptr());
+    EXPECT_EQ(weAKF1.is_null(), true);
+    EXPECT_EQ(weAKF1.strong_ref().ptr(), nullptr);
+    EXPECT_EQ(weAKF1.strong_ref().ptr(), weAKF2.strong_ref().ptr());
 }
 
-TEST_CASE(weakptr_move)
+TEST_CASE(weAKFptr_move)
 {
-    WeakPtr<SimpleWeakable> weak1;
-    WeakPtr<SimpleWeakable> weak2;
+    WeAKFPtr<SimpleWeAKFable> weAKF1;
+    WeAKFPtr<SimpleWeAKFable> weAKF2;
 
     {
-        auto simple = adopt_ref(*new SimpleWeakable);
-        weak1 = simple;
-        weak2 = move(weak1);
-        EXPECT_EQ(weak1.is_null(), true);
-        EXPECT_EQ(weak2.is_null(), false);
-        EXPECT_EQ(weak2.strong_ref().ptr(), simple.ptr());
+        auto simple = adopt_ref(*new SimpleWeAKFable);
+        weAKF1 = simple;
+        weAKF2 = move(weAKF1);
+        EXPECT_EQ(weAKF1.is_null(), true);
+        EXPECT_EQ(weAKF2.is_null(), false);
+        EXPECT_EQ(weAKF2.strong_ref().ptr(), simple.ptr());
     }
 
-    EXPECT_EQ(weak2.is_null(), true);
+    EXPECT_EQ(weAKF2.is_null(), true);
 }

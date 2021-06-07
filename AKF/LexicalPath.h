@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/String.h>
-#include <AK/Vector.h>
+#include <AKF/String.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class LexicalPath {
 public:
@@ -50,4 +50,4 @@ struct Formatter<LexicalPath> : Formatter<StringView> {
 
 };
 
-using AK::LexicalPath;
+using AKF::LexicalPath;

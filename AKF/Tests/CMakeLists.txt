@@ -1,4 +1,4 @@
-set(AK_TEST_SOURCES
+set(AKF_TEST_SOURCES
     TestAllOf.cpp
     TestAnyOf.cpp
     TestArray.cpp
@@ -57,12 +57,12 @@ set(AK_TEST_SOURCES
     TestURL.cpp
     TestUtf8.cpp
     TestVector.cpp
-    TestWeakPtr.cpp
+    TestWeAKFPtr.cpp
 )
 
-foreach(source ${AK_TEST_SOURCES})
-    pranaos_test(${source} AK)
+foreach(source ${AKF_TEST_SOURCES})
+    pranaos_test(${source} AKF)
 endforeach()
 
 get_filename_component(TEST_FRM_RESOLVED ./test.frm REALPATH)
-install(FILES ${TEST_FRM_RESOLVED} DESTINATION usr/Tests/AK)
+install(FILES ${TEST_FRM_RESOLVED} DESTINATION usr/Tests/AKF)

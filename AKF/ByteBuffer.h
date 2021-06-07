@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/NonnullRefPtr.h>
-#include <AK/RefCounted.h>
-#include <AK/RefPtr.h>
-#include <AK/Span.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/NonnullRefPtr.h>
+#include <AKF/RefCounted.h>
+#include <AKF/RefPtr.h>
+#include <AKF/Span.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 class ByteBufferImpl : public RefCounted<ByteBufferImpl> {
 public:
@@ -223,7 +223,7 @@ public:
 
     void overwrite(size_t offset, const void* data, size_t data_size)
     {
-        // make sure we're not told to write past the end
+        // mAKFe sure we're not told to write past the end
         VERIFY(offset + data_size <= size());
         __builtin_memcpy(this->data() + offset, data, data_size);
     }
@@ -305,4 +305,4 @@ inline NonnullRefPtr<ByteBufferImpl> ByteBufferImpl::copy(const void* data, size
 
 }
 
-using AK::ByteBuffer;
+using AKF::ByteBuffer;

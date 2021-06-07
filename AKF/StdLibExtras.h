@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/StdLibExtraDetails.h>
+#include <AKF/StdLibExtraDetails.h>
 
-#include <AK/Assertions.h>
+#include <AKF/Assertions.h>
 
 constexpr unsigned round_up_to_power_of_two(unsigned value, unsigned power_of_two)
 {
@@ -25,14 +25,14 @@ constexpr T&& move(T& arg)
 
 using std::move;
 
-namespace AK::Detail {
+namespace AKF::Detail {
 template<typename T>
 struct _RawPtr {
     using Type = T*;
 };
 }
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 auto declval() -> T;
@@ -110,13 +110,13 @@ using RawPtr = typename Detail::_RawPtr<T>::Type;
 
 }
 
-using AK::array_size;
-using AK::ceil_div;
-using AK::clamp;
-using AK::declval;
-using AK::exchange;
-using AK::forward;
-using AK::max;
-using AK::min;
-using AK::RawPtr;
-using AK::swap;
+using AKF::array_size;
+using AKF::ceil_div;
+using AKF::clamp;
+using AKF::declval;
+using AKF::exchange;
+using AKF::forward;
+using AKF::max;
+using AKF::min;
+using AKF::RawPtr;
+using AKF::swap;

@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/BitCast.h>
-#include <AK/Forward.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/BitCast.h>
+#include <AKF/Forward.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 namespace Detail {
 template<typename T, typename Container = RawPtr<T>>
@@ -53,8 +53,8 @@ public:
     [[nodiscard]] Container first() const;
     [[nodiscard]] Container last() const;
 
-    [[nodiscard]] Container take_first();
-    [[nodiscard]] Container take_last();
+    [[nodiscard]] Container tAKFe_first();
+    [[nodiscard]] Container tAKFe_last();
 
     class Iterator {
     public:
@@ -136,11 +136,11 @@ public:
     static constexpr bool IsRaw = IsPointer<Container>;
 
     // Note: For some reason, clang does not consider `member` as declared here, and as declared above (`IntrusiveListNode<T, Container> T::*`)
-    //       to be of equal types. so for now, just make the members public on clang.
+    //       to be of equal types. so for now, just mAKFe the members public on clang.
 #ifndef __clang__
 private:
     template<class T_, typename Container_, IntrusiveListNode<T_, Container_> T_::*member>
-    friend class ::AK::IntrusiveList;
+    friend class ::AKF::IntrusiveList;
 #endif
 
     IntrusiveListStorage<T, Container>* m_storage = nullptr;
@@ -245,7 +245,7 @@ inline Container IntrusiveList<T, Container, member>::first() const
 }
 
 template<class T, typename Container, IntrusiveListNode<T, Container> T::*member>
-inline Container IntrusiveList<T, Container, member>::take_first()
+inline Container IntrusiveList<T, Container, member>::tAKFe_first()
 {
     if (Container ptr = first()) {
         remove(*ptr);
@@ -255,7 +255,7 @@ inline Container IntrusiveList<T, Container, member>::take_first()
 }
 
 template<class T, typename Container, IntrusiveListNode<T, Container> T::*member>
-inline Container IntrusiveList<T, Container, member>::take_last()
+inline Container IntrusiveList<T, Container, member>::tAKFe_last()
 {
     if (Container ptr = last()) {
         remove(*ptr);
@@ -305,7 +305,7 @@ inline T* IntrusiveList<T, Container, member>::node_to_value(IntrusiveListNode<T
     //       `node` is a reference that resides in some part of the actual value (of type T), the
     //       placement (i.e. offset) of which is described by the pointer-to-data-member parameter
     //       named `member`.
-    //       This function effectively takes in the address of the data member, and returns the address
+    //       This function effectively tAKFes in the address of the data member, and returns the address
     //       of the value (of type T) holding that member.
     return bit_cast<T*>(bit_cast<unsigned char*>(&node) - bit_cast<unsigned char*>(member));
 }
@@ -348,7 +348,7 @@ inline bool IntrusiveListNode<T, Container>::is_in_list() const
 
 // Specialise IntrusiveList for NonnullRefPtr
 // By default, intrusive lists cannot contain null entries anyway, so switch to RefPtr
-// and just make the user-facing functions deref the pointers.
+// and just mAKFe the user-facing functions deref the pointers.
 
 template<class T, IntrusiveListNode<T, NonnullRefPtr<T>> T::*member>
 class IntrusiveList<T, NonnullRefPtr<T>, member> : public IntrusiveList<T, RefPtr<T>, member> {
@@ -356,11 +356,11 @@ public:
     [[nodiscard]] NonnullRefPtr<T> first() const { return *IntrusiveList<T, RefPtr<T>, member>::first(); }
     [[nodiscard]] NonnullRefPtr<T> last() const { return *IntrusiveList<T, RefPtr<T>, member>::last(); }
 
-    [[nodiscard]] NonnullRefPtr<T> take_first() { return *IntrusiveList<T, RefPtr<T>, member>::take_first(); }
-    [[nodiscard]] NonnullRefPtr<T> take_last() { return *IntrusiveList<T, RefPtr<T>, member>::take_last(); }
+    [[nodiscard]] NonnullRefPtr<T> tAKFe_first() { return *IntrusiveList<T, RefPtr<T>, member>::tAKFe_first(); }
+    [[nodiscard]] NonnullRefPtr<T> tAKFe_last() { return *IntrusiveList<T, RefPtr<T>, member>::tAKFe_last(); }
 };
 
 }
 
-using AK::IntrusiveList;
-using AK::IntrusiveListNode;
+using AKF::IntrusiveList;
+using AKF::IntrusiveListNode;

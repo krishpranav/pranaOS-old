@@ -1,10 +1,10 @@
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/OwnPtr.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/OwnPtr.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename>
 class Function;
@@ -16,13 +16,13 @@ public:
 
     template<typename CallableType, class = typename EnableIf<!(IsPointer<CallableType> && IsFunction<RemovePointer<CallableType>>)&&IsRvalueReference<CallableType&&>>::Type>
     Function(CallableType&& callable)
-        : m_callable_wrapper(make<CallableWrapper<CallableType>>(move(callable)))
+        : m_callable_wrapper(mAKFe<CallableWrapper<CallableType>>(move(callable)))
     {
     }
 
     template<typename FunctionType, class = typename EnableIf<IsPointer<FunctionType> && IsFunction<RemovePointer<FunctionType>>>::Type>
     Function(FunctionType f)
-        : m_callable_wrapper(make<CallableWrapper<FunctionType>>(move(f)))
+        : m_callable_wrapper(mAKFe<CallableWrapper<FunctionType>>(move(f)))
     {
     }
 
@@ -37,14 +37,14 @@ public:
     template<typename CallableType, class = typename EnableIf<!(IsPointer<CallableType> && IsFunction<RemovePointer<CallableType>>)&&IsRvalueReference<CallableType&&>>::Type>
     Function& operator=(CallableType&& callable)
     {
-        m_callable_wrapper = make<CallableWrapper<CallableType>>(move(callable));
+        m_callable_wrapper = mAKFe<CallableWrapper<CallableType>>(move(callable));
         return *this;
     }
 
     template<typename FunctionType, class = typename EnableIf<IsPointer<FunctionType> && IsFunction<RemovePointer<FunctionType>>>::Type>
     Function& operator=(FunctionType f)
     {
-        m_callable_wrapper = make<CallableWrapper<FunctionType>>(move(f));
+        m_callable_wrapper = mAKFe<CallableWrapper<FunctionType>>(move(f));
         return *this;
     }
 
@@ -94,4 +94,4 @@ private:
 
 }
 
-using AK::Function;
+using AKF::Function;

@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/NonnullPtrVector.h>
-#include <AK/NonnullRefPtr.h>
+#include <AKF/NonnullPtrVector.h>
+#include <AKF/NonnullRefPtr.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, size_t inline_capacity>
 class NonnullRefPtrVector : public NonnullPtrVector<NonnullRefPtr<T>, inline_capacity> {
@@ -12,4 +12,4 @@ class NonnullRefPtrVector : public NonnullPtrVector<NonnullRefPtr<T>, inline_cap
 
 }
 
-using AK::NonnullRefPtrVector;
+using AKF::NonnullRefPtrVector;

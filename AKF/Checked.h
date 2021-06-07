@@ -1,10 +1,10 @@
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/NumericLimits.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/NumericLimits.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Destination, typename Source, bool destination_is_wider = (sizeof(Destination) >= sizeof(Source)), bool destination_is_signed = NumericLimits<Destination>::is_signed(), bool source_is_signed = NumericLimits<Source>::is_signed()>
 struct TypeBoundsChecker;
@@ -30,7 +30,7 @@ template<typename Destination, typename Source>
 struct TypeBoundsChecker<Destination, Source, false, false, true> {
     static constexpr bool is_within_range(Source value)
     {
-        return static_cast<MakeUnsigned<Source>>(value) <= NumericLimits<Destination>::max();
+        return static_cast<MAKFeUnsigned<Source>>(value) <= NumericLimits<Destination>::max();
     }
 };
 
@@ -383,12 +383,12 @@ constexpr bool operator!=(T a, const Checked<T>& b)
 }
 
 template<typename T>
-constexpr Checked<T> make_checked(T value)
+constexpr Checked<T> mAKFe_checked(T value)
 {
     return Checked<T>(value);
 }
 
 }
 
-using AK::Checked;
-using AK::make_checked;
+using AKF::Checked;
+using AKF::mAKFe_checked;

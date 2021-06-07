@@ -1,15 +1,15 @@
 
 #pragma once
 
-#include <AK/Noncopyable.h>
-#include <AK/Types.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class NeverDestroyed {
-    AK_MAKE_NONCOPYABLE(NeverDestroyed);
-    AK_MAKE_NONMOVABLE(NeverDestroyed);
+    AKF_MAKFE_NONCOPYABLE(NeverDestroyed);
+    AKF_MAKFE_NONMOVABLE(NeverDestroyed);
 
 public:
     template<typename... Args>
@@ -35,4 +35,4 @@ private:
 
 }
 
-using AK::NeverDestroyed;
+using AKF::NeverDestroyed;

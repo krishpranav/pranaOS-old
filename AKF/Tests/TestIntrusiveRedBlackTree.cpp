@@ -2,9 +2,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/IntrusiveRedBlackTree.h>
-#include <AK/NonnullOwnPtrVector.h>
-#include <AK/Random.h>
+#include <AKF/IntrusiveRedBlackTree.h>
+#include <AKF/NonnullOwnPtrVector.h>
+#include <AKF/Random.h>
 
 class IntrusiveTest {
 public:
@@ -81,7 +81,7 @@ TEST_CASE(key_ordered_iteration)
 
     // insert random keys
     for (size_t i = 0; i < amount; i++) {
-        auto entry = make<IntrusiveTest>(keys[i], keys[i]);
+        auto entry = mAKFe<IntrusiveTest>(keys[i], keys[i]);
         test.insert(*entry);
         m_entries.append(move(entry));
     }
@@ -92,7 +92,7 @@ TEST_CASE(key_ordered_iteration)
         EXPECT(value.m_some_value == index++);
     }
 
-    // ensure we can remove all of them (aka, tree structure is not destroyed somehow)
+    // ensure we can remove all of them (AKFa, tree structure is not destroyed somehow)
     for (size_t i = 0; i < amount; i++) {
         EXPECT(test.remove(i));
     }
@@ -103,7 +103,7 @@ TEST_CASE(clear)
     IntrusiveRedBlackTree<int, IntrusiveTest, &IntrusiveTest::m_tree_node> test;
     NonnullOwnPtrVector<IntrusiveTest> m_entries;
     for (size_t i = 0; i < 1000; i++) {
-        auto entry = make<IntrusiveTest>(i, i);
+        auto entry = mAKFe<IntrusiveTest>(i, i);
         test.insert(*entry);
         m_entries.append(move(entry));
     }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <AK/Format.h>
-#include <AK/Traits.h>
-#include <AK/Types.h>
+#include <AKF/Format.h>
+#include <AKF/Traits.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, typename X, bool Incr, bool Cmp, bool Bool, bool Flags, bool Shift, bool Arith>
 class DistinctNumeric {
@@ -135,7 +135,7 @@ public:
     }
 
     // Only implemented when `Shift` is true:
-    // TODO: Should this take `int` instead?
+    // TODO: Should this tAKFe `int` instead?
     constexpr Self operator<<(const Self& other) const
     {
         static_assert(Shift, "'a<<b' is only available for DistinctNumeric types with 'Shift'.");
@@ -250,9 +250,9 @@ struct Formatter<DistinctNumeric<T, X, Incr, Cmp, Bool, Flags, Shift, Arith>> : 
 // TODO: Further type aliases?
 
 template<typename T, typename X, auto... Args>
-struct Traits<AK::DistinctNumeric<T, X, Args...>> : public GenericTraits<AK::DistinctNumeric<T, X, Args...>> {
+struct Traits<AKF::DistinctNumeric<T, X, Args...>> : public GenericTraits<AKF::DistinctNumeric<T, X, Args...>> {
     static constexpr bool is_trivial() { return true; }
     static constexpr auto hash(const DistinctNumeric<T, X, Args...>& d) { return Traits<T>::hash(d.value()); }
 };
 
-using AK::DistinctNumeric;
+using AKF::DistinctNumeric;

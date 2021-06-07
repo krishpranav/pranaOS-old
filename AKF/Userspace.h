@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
-// HACK: This is just here to make syntax highlighting work in Qt Creator.
+// HACK: This is just here to mAKFe syntax highlighting work in Qt Creator.
 //       Once it supports C++20 concepts, we can remove this.
 #if defined(__cpp_concepts) && !defined(__COVERITY__)
 template<typename T>
@@ -69,5 +69,5 @@ inline Userspace<T> static_ptr_cast(const Userspace<U>& ptr)
 
 }
 
-using AK::static_ptr_cast;
-using AK::Userspace;
+using AKF::static_ptr_cast;
+using AKF::Userspace;

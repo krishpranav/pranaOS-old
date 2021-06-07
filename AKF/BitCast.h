@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 template<typename T, typename U>
 inline T bit_cast(const U& a)
@@ -16,4 +16,4 @@ inline T bit_cast(const U& a)
 
 }
 
-using AK::bit_cast;
+using AKF::bit_cast;

@@ -1,9 +1,9 @@
 
 
-#include <AK/Checked.h>
-#include <AK/Time.h>
+#include <AKF/Checked.h>
+#include <AKF/Time.h>
 
-// Make a reasonable guess as to which timespec/timeval definition to use.
+// MAKFe a reasonable guess as to which timespec/timeval definition to use.
 // It doesn't really matter, since both are identical.
 #ifdef KERNEL
 #    include <Kernel/UnixTypes.h>
@@ -11,7 +11,7 @@
 #    include <sys/time.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 int day_of_year(int year, unsigned month, int day)
 {

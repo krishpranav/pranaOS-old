@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/BinaryHeap.h>
-#include <AK/String.h>
+#include <AKF/BinaryHeap.h>
+#include <AKF/String.h>
 
 TEST_CASE(construct)
 {

@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Types.h>
+#include <AKF/Types.h>
 
-namespace AK::SIMD {
+namespace AKF::SIMD {
 
 using i8x2 = i8 __attribute__((vector_size(2)));
 using i8x4 = i8 __attribute__((vector_size(4)));

@@ -6,13 +6,13 @@
 #endif
 
 #ifdef KERNEL
-#    define AK_MAKE_ETERNAL                                               \
+#    define AKF_MAKFE_ETERNAL                                               \
     public:                                                               \
         void* operator new(size_t size) { return kmalloc_eternal(size); } \
                                                                           \
     private:
 #else
-#    define AK_MAKE_ETERNAL
+#    define AKF_MAKFE_ETERNAL
 #endif
 
 #if defined(KERNEL)

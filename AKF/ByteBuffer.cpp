@@ -1,6 +1,6 @@
-#include <AK/ByteBuffer.h>
+#include <AKF/ByteBuffer.h>
 
-namespace AK {
+namespace AKF {
 
 bool ByteBuffer::operator==(const ByteBuffer& other) const
 {

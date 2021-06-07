@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/StdLibExtras.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK::Concepts {
+namespace AKF::Concepts {
 
 #if defined(__cpp_concepts) && !defined(__COVERITY__)
 
@@ -28,10 +28,10 @@ concept Unsigned = IsUnsigned<T>;
 
 #if defined(__cpp_concepts) && !defined(__COVERITY__)
 
-using AK::Concepts::Arithmetic;
-using AK::Concepts::FloatingPoint;
-using AK::Concepts::Integral;
-using AK::Concepts::Signed;
-using AK::Concepts::Unsigned;
+using AKF::Concepts::Arithmetic;
+using AKF::Concepts::FloatingPoint;
+using AKF::Concepts::Integral;
+using AKF::Concepts::Signed;
+using AKF::Concepts::Unsigned;
 
 #endif

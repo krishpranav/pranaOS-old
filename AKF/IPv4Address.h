@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/Endian.h>
-#include <AK/Optional.h>
-#include <AK/String.h>
-#include <AK/StringView.h>
-#include <AK/Vector.h>
+#include <AKF/Endian.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class [[gnu::packed]] IPv4Address {
     enum class SubnetClass : int {
@@ -127,4 +127,4 @@ struct Formatter<IPv4Address> : Formatter<String> {
 
 }
 
-using AK::IPv4Address;
+using AKF::IPv4Address;

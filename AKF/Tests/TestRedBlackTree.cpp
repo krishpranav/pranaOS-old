@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Random.h>
-#include <AK/RedBlackTree.h>
+#include <AKF/Random.h>
+#include <AKF/RedBlackTree.h>
 
 TEST_CASE(construct)
 {
@@ -67,7 +67,7 @@ TEST_CASE(key_ordered_iteration)
         EXPECT(value == index++);
     }
 
-    // ensure we can remove all of them (aka, tree structure is not destroyed somehow)
+    // ensure we can remove all of them (AKFa, tree structure is not destroyed somehow)
     for (size_t i = 0; i < amount; i++) {
         EXPECT(test.remove(i));
     }

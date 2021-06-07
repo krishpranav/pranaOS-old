@@ -2,9 +2,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/CircularDeque.h>
-#include <AK/StdLibExtras.h>
-#include <AK/String.h>
+#include <AKF/CircularDeque.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/String.h>
 
 TEST_CASE(enqueue_begin)
 {

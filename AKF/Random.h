@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include <AK/Platform.h>
-#include <AK/Types.h>
+#include <AKF/Platform.h>
+#include <AKF/Types.h>
 
 #if defined(__pranaos__)
 #    include <stdlib.h>
@@ -16,7 +16,7 @@
 #    include <sys/random.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 inline void fill_with_random([[maybe_unused]] void* buffer, [[maybe_unused]] size_t length)
 {
@@ -38,5 +38,5 @@ inline T get_random()
 
 }
 
-using AK::fill_with_random;
-using AK::get_random;
+using AKF::fill_with_random;
+using AKF::get_random;

@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 
 TEST_CASE(is_integral_works_properly)
 {
@@ -190,7 +190,7 @@ struct A {
 struct B {
 };
 template<>
-struct AK::Formatter<B> : Formatter<StringView> {
+struct AKF::Formatter<B> : Formatter<StringView> {
     void format(FormatBuilder& builder, B)
     {
         Formatter<StringView>::format(builder, "B");
@@ -262,10 +262,10 @@ struct C {
     int i;
 };
 template<>
-struct AK::Formatter<C> : AK::Formatter<FormatString> {
+struct AKF::Formatter<C> : AKF::Formatter<FormatString> {
     void format(FormatBuilder& builder, C c)
     {
-        return AK::Formatter<FormatString>::format(builder, "C(i={})", c.i);
+        return AKF::Formatter<FormatString>::format(builder, "C(i={})", c.i);
     }
 };
 
@@ -279,7 +279,7 @@ TEST_CASE(long_long_regression)
     EXPECT_EQ(String::formatted("{}", 0x0123456789abcdefLL), "81985529216486895");
 
     StringBuilder builder;
-    AK::FormatBuilder fmtbuilder { builder };
+    AKF::FormatBuilder fmtbuilder { builder };
     fmtbuilder.put_i64(0x0123456789abcdefLL);
 
     EXPECT_EQ(builder.string_view(), "81985529216486895");

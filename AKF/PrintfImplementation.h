@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/Format.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
+#include <AKF/Format.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
 #include <stdarg.h>
 
 #ifdef __pranaos__
@@ -88,7 +88,7 @@ ALWAYS_INLINE int print_number(PutChFunc putch, char*& bufptr, u32 number, bool 
         if (!padding || divisor == 1)
             *(p++) = ch;
         if (divisor == 1)
-            break;
+            breAKF;
         divisor /= 10;
     }
 
@@ -129,7 +129,7 @@ ALWAYS_INLINE int print_u64(PutChFunc putch, char*& bufptr, u64 number, bool lef
         if (!padding || divisor == 1)
             *(p++) = ch;
         if (divisor == 1)
-            break;
+            breAKF;
         divisor /= 10;
     }
 
@@ -203,7 +203,7 @@ ALWAYS_INLINE int print_octal_number(PutChFunc putch, char*& bufptr, u32 number,
         if (!padding || divisor == 1)
             *(p++) = ch;
         if (divisor == 1)
-            break;
+            breAKF;
         divisor /= 8;
     }
 
@@ -387,7 +387,7 @@ struct VaArgNextArgument {
 #define PRINTF_IMPL_DELEGATE_TO_IMPL(c)    \
     case* #c:                              \
         ret += impl.format_##c(state, ap); \
-        break;
+        breAKF;
 
 template<typename PutChFunc, template<typename T, typename U, template<typename X, typename Y> typename V> typename Impl = PrintfImpl, typename ArgumentListT = va_list, template<typename T, typename V = decltype(declval<ArgumentListT&>())> typename NextArgument = VaArgNextArgument>
 ALWAYS_INLINE int printf_internal(PutChFunc putch, char* buffer, const char*& fmt, ArgumentListT ap)
@@ -462,7 +462,7 @@ ALWAYS_INLINE int printf_internal(PutChFunc putch, char* buffer, const char*& fm
             switch (*p) {
             case '%':
                 ret += impl.format_percent(state, ap);
-                break;
+                breAKF;
 
                 PRINTF_IMPL_DELEGATE_TO_IMPL(P);
                 PRINTF_IMPL_DELEGATE_TO_IMPL(Q);
@@ -483,7 +483,7 @@ ALWAYS_INLINE int printf_internal(PutChFunc putch, char* buffer, const char*& fm
                 PRINTF_IMPL_DELEGATE_TO_IMPL(x);
             default:
                 ret += impl.format_unrecognized(*p, fmt, state, ap);
-                break;
+                breAKF;
             }
         } else {
             putch(bufptr, *p);

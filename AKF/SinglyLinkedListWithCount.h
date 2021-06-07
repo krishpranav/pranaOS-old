@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/SinglyLinkedList.h>
+#include <AKF/SinglyLinkedList.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class SinglyLinkedListWithCount : private SinglyLinkedList<T> {
@@ -49,10 +49,10 @@ public:
         return List::last();
     }
 
-    T take_first()
+    T tAKFe_first()
     {
         m_count--;
-        return List::take_first();
+        return List::tAKFe_first();
     }
 
     template<typename U = T>
@@ -125,4 +125,4 @@ private:
 
 }
 
-using AK::SinglyLinkedListWithCount;
+using AKF::SinglyLinkedListWithCount;

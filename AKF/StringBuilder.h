@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/ByteBuffer.h>
-#include <AK/Format.h>
-#include <AK/Forward.h>
-#include <AK/StringView.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/Format.h>
+#include <AKF/Forward.h>
+#include <AKF/StringView.h>
 #include <stdarg.h>
 
-namespace AK {
+namespace AKF {
 
 class StringBuilder {
 public:
@@ -70,4 +70,4 @@ private:
 
 }
 
-using AK::StringBuilder;
+using AKF::StringBuilder;

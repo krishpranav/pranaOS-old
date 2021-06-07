@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/String.h>
-#include <AK/StringView.h>
-#include <AK/URLParser.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
+#include <AKF/URLParser.h>
 
-namespace AK {
+namespace AKF {
 
 // FIXME: URL needs query string parsing.
 

@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/Forward.h>
-#include <AK/IPv4Address.h>
-#include <AK/Optional.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/Forward.h>
+#include <AKF/IPv4Address.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 
-namespace AK {
+namespace AKF {
 
 class JsonValue {
 public:
@@ -248,4 +248,4 @@ struct Formatter<JsonValue> : Formatter<StringView> {
 
 }
 
-using AK::JsonValue;
+using AKF::JsonValue;

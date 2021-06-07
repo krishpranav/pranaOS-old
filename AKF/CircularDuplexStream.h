@@ -1,14 +1,14 @@
 #pragma once
 
-#include <AK/CircularQueue.h>
-#include <AK/Stream.h>
+#include <AKF/CircularQueue.h>
+#include <AKF/Stream.h>
 
-namespace AK {
+namespace AKF {
 
 // FIXME: There are a lot of raw loops here, that's not necessary an issue but it
 //        has to be verified that the optimizer is able to insert memcpy instead.
 template<size_t Capacity>
-class CircularDuplexStream : public AK::DuplexStream {
+class CircularDuplexStream : public AKF::DuplexStream {
 public:
     size_t write(ReadonlyBytes bytes) override
     {
@@ -114,4 +114,4 @@ private:
 
 }
 
-using AK::CircularDuplexStream;
+using AKF::CircularDuplexStream;

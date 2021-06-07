@@ -1,9 +1,9 @@
 #pragma once
 
-#include <AK/Iterator.h>
-#include <AK/Span.h>
+#include <AKF/Iterator.h>
+#include <AKF/Span.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, size_t Size>
 struct Array {
@@ -78,10 +78,10 @@ template<typename T, T N>
 constexpr static auto iota_array(const T offset = {})
 {
     static_assert(N >= T {}, "Negative sizes not allowed in iota_array()");
-    return Detail::integer_sequence_generate_array<T>(offset, MakeIntegerSequence<T, N>());
+    return Detail::integer_sequence_generate_array<T>(offset, MAKFeIntegerSequence<T, N>());
 }
 
 }
 
-using AK::Array;
-using AK::iota_array;
+using AKF::Array;
+using AKF::iota_array;

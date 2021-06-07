@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/OwnPtr.h>
-#include <AK/SinglyLinkedList.h>
-#include <AK/Vector.h>
+#include <AKF/OwnPtr.h>
+#include <AKF/SinglyLinkedList.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, int segment_size = 1000>
 class Queue {
@@ -20,7 +20,7 @@ public:
     void enqueue(U&& value)
     {
         if (m_segments.is_empty() || m_segments.last()->size() >= segment_size)
-            m_segments.append(make<Vector<T, segment_size>>());
+            m_segments.append(mAKFe<Vector<T, segment_size>>());
         m_segments.last()->append(forward<U>(value));
         ++m_size;
     }
@@ -30,7 +30,7 @@ public:
         VERIFY(!is_empty());
         auto value = move((*m_segments.first())[m_index_into_first++]);
         if (m_index_into_first == segment_size) {
-            m_segments.take_first();
+            m_segments.tAKFe_first();
             m_index_into_first = 0;
         }
         --m_size;
@@ -58,4 +58,4 @@ private:
 
 }
 
-using AK::Queue;
+using AKF::Queue;

@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include <AK/Concepts.h>
-#include <AK/Endian.h>
-#include <AK/Forward.h>
-#include <AK/Optional.h>
-#include <AK/Span.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Concepts.h>
+#include <AKF/Endian.h>
+#include <AKF/Forward.h>
+#include <AKF/Optional.h>
+#include <AKF/Span.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK::Detail {
+namespace AKF::Detail {
 
 class Stream {
 public:
@@ -47,9 +47,9 @@ private:
 
 }
 
-namespace AK {
+namespace AKF {
 
-class InputStream : public virtual AK::Detail::Stream {
+class InputStream : public virtual AKF::Detail::Stream {
 public:
     // Reads at least one byte unless none are requested or none are available. Does nothing
     // and returns zero if there is already an error.
@@ -70,7 +70,7 @@ public:
     virtual bool discard_or_error(size_t count) = 0;
 };
 
-class OutputStream : public virtual AK::Detail::Stream {
+class OutputStream : public virtual AKF::Detail::Stream {
 public:
     virtual size_t write(ReadonlyBytes) = 0;
     virtual bool write_or_error(ReadonlyBytes) = 0;

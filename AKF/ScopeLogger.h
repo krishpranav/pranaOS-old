@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <AK/SourceLocation.h>
-#include <AK/StringBuilder.h>
+#include <AKF/SourceLocation.h>
+#include <AKF/StringBuilder.h>
 
-namespace AK {
+namespace AKF {
 class ScopeLogger {
 public:
 #ifdef DEBUG_SPAM
@@ -36,4 +36,4 @@ private:
 };
 }
 
-using AK::ScopeLogger;
+using AKF::ScopeLogger;

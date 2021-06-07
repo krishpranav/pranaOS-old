@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Atomic.h>
-#include <AK/Checked.h>
-#include <AK/Noncopyable.h>
-#include <AK/Platform.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/Atomic.h>
+#include <AKF/Checked.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/Platform.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<class T>
 constexpr auto call_will_be_destroyed_if_present(const T* object) -> decltype(const_cast<T*>(object)->will_be_destroyed(), TrueType {})
@@ -35,8 +35,8 @@ constexpr auto call_one_ref_left_if_present(...) -> FalseType
 }
 
 class RefCountedBase {
-    AK_MAKE_NONCOPYABLE(RefCountedBase);
-    AK_MAKE_NONMOVABLE(RefCountedBase);
+    AKF_MAKFE_NONCOPYABLE(RefCountedBase);
+    AKF_MAKFE_NONMOVABLE(RefCountedBase);
 
 public:
     using RefCountType = unsigned int;
@@ -44,38 +44,38 @@ public:
 
     ALWAYS_INLINE void ref() const
     {
-        auto old_ref_count = m_ref_count.fetch_add(1, AK::MemoryOrder::memory_order_relaxed);
+        auto old_ref_count = m_ref_count.fetch_add(1, AKF::MemoryOrder::memory_order_relaxed);
         VERIFY(old_ref_count > 0);
         VERIFY(!Checked<RefCountType>::addition_would_overflow(old_ref_count, 1));
     }
 
     [[nodiscard]] ALWAYS_INLINE bool try_ref() const
     {
-        RefCountType expected = m_ref_count.load(AK::MemoryOrder::memory_order_relaxed);
+        RefCountType expected = m_ref_count.load(AKF::MemoryOrder::memory_order_relaxed);
         for (;;) {
             if (expected == 0)
                 return false;
             VERIFY(!Checked<RefCountType>::addition_would_overflow(expected, 1));
-            if (m_ref_count.compare_exchange_strong(expected, expected + 1, AK::MemoryOrder::memory_order_acquire))
+            if (m_ref_count.compare_exchange_strong(expected, expected + 1, AKF::MemoryOrder::memory_order_acquire))
                 return true;
         }
     }
 
     ALWAYS_INLINE RefCountType ref_count() const
     {
-        return m_ref_count.load(AK::MemoryOrder::memory_order_relaxed);
+        return m_ref_count.load(AKF::MemoryOrder::memory_order_relaxed);
     }
 
 protected:
     RefCountedBase() = default;
     ALWAYS_INLINE ~RefCountedBase()
     {
-        VERIFY(m_ref_count.load(AK::MemoryOrder::memory_order_relaxed) == 0);
+        VERIFY(m_ref_count.load(AKF::MemoryOrder::memory_order_relaxed) == 0);
     }
 
     ALWAYS_INLINE RefCountType deref_base() const
     {
-        auto old_ref_count = m_ref_count.fetch_sub(1, AK::MemoryOrder::memory_order_acq_rel);
+        auto old_ref_count = m_ref_count.fetch_sub(1, AKF::MemoryOrder::memory_order_acq_rel);
         VERIFY(old_ref_count > 0);
         return old_ref_count - 1;
     }
@@ -102,4 +102,4 @@ public:
 
 }
 
-using AK::RefCounted;
+using AKF::RefCounted;

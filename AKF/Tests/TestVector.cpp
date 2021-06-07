@@ -1,10 +1,10 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/NonnullOwnPtrVector.h>
-#include <AK/OwnPtr.h>
-#include <AK/String.h>
-#include <AK/Vector.h>
+#include <AKF/NonnullOwnPtrVector.h>
+#include <AKF/OwnPtr.h>
+#include <AKF/String.h>
+#include <AKF/Vector.h>
 
 TEST_CASE(construct)
 {
@@ -19,11 +19,11 @@ TEST_CASE(ints)
     ints.append(2);
     ints.append(3);
     EXPECT_EQ(ints.size(), 3u);
-    EXPECT_EQ(ints.take_last(), 3);
+    EXPECT_EQ(ints.tAKFe_last(), 3);
     EXPECT_EQ(ints.size(), 2u);
-    EXPECT_EQ(ints.take_last(), 2);
+    EXPECT_EQ(ints.tAKFe_last(), 2);
     EXPECT_EQ(ints.size(), 1u);
-    EXPECT_EQ(ints.take_last(), 1);
+    EXPECT_EQ(ints.tAKFe_last(), 1);
     EXPECT_EQ(ints.size(), 0u);
 
     ints.clear();
@@ -120,16 +120,16 @@ TEST_CASE(prepend_vector_object)
     };
 
     Vector<Object> objects;
-    objects.empend(make<SubObject>(1));
-    objects.empend(make<SubObject>(2));
-    objects.empend(make<SubObject>(3));
+    objects.empend(mAKFe<SubObject>(1));
+    objects.empend(mAKFe<SubObject>(2));
+    objects.empend(mAKFe<SubObject>(3));
 
     EXPECT_EQ(objects.size(), 3u);
 
     Vector<Object> more_objects;
-    more_objects.empend(make<SubObject>(4));
-    more_objects.empend(make<SubObject>(5));
-    more_objects.empend(make<SubObject>(6));
+    more_objects.empend(mAKFe<SubObject>(4));
+    more_objects.empend(mAKFe<SubObject>(5));
+    more_objects.empend(mAKFe<SubObject>(6));
     EXPECT_EQ(more_objects.size(), 3u);
 
     objects.prepend(move(more_objects));
@@ -171,7 +171,7 @@ TEST_CASE(vector_compare)
 
 TEST_CASE(grow_past_inline_capacity)
 {
-    auto make_vector = [] {
+    auto mAKFe_vector = [] {
         Vector<String, 16> strings;
         for (int i = 0; i < 32; ++i) {
             strings.append(String::number(i));
@@ -179,7 +179,7 @@ TEST_CASE(grow_past_inline_capacity)
         return strings;
     };
 
-    auto strings = make_vector();
+    auto strings = mAKFe_vector();
 
     EXPECT_EQ(strings.size(), 32u);
     EXPECT_EQ(strings[31], "31");
@@ -188,7 +188,7 @@ TEST_CASE(grow_past_inline_capacity)
     EXPECT_EQ(strings.size(), 0u);
     EXPECT_EQ(strings.capacity(), 16u);
 
-    strings = make_vector();
+    strings = mAKFe_vector();
 
     strings.clear_with_capacity();
     EXPECT_EQ(strings.size(), 0u);
@@ -244,12 +244,12 @@ TEST_CASE(vector_remove)
     EXPECT_EQ(ints[1], 4);
     EXPECT_EQ(ints[2], 5);
 
-    ints.take_last();
+    ints.tAKFe_last();
     EXPECT_EQ(ints.size(), 2u);
     EXPECT_EQ(ints[0], 3);
     EXPECT_EQ(ints[1], 4);
 
-    ints.take_first();
+    ints.tAKFe_first();
     EXPECT_EQ(ints.size(), 1u);
     EXPECT_EQ(ints[0], 4);
 }
@@ -261,10 +261,10 @@ TEST_CASE(nonnullownptrvector)
     };
     NonnullOwnPtrVector<Object> objects;
 
-    objects.append(make<Object>());
+    objects.append(mAKFe<Object>());
     EXPECT_EQ(objects.size(), 1u);
 
-    OwnPtr<Object> o = make<Object>();
+    OwnPtr<Object> o = mAKFe<Object>();
     objects.append(o.release_nonnull());
     EXPECT(o == nullptr);
     EXPECT_EQ(objects.size(), 2u);

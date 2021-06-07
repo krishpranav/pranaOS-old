@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Types.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 struct NumericLimits {
@@ -119,4 +119,4 @@ struct NumericLimits<long double> {
 
 }
 
-using AK::NumericLimits;
+using AKF::NumericLimits;

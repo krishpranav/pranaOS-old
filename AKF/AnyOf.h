@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Iterator.h>
+#include <AKF/Iterator.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Container, typename ValueType>
 constexpr bool any_of(
@@ -22,4 +22,4 @@ constexpr bool any_of(
 
 }
 
-using AK::any_of;
+using AKF::any_of;

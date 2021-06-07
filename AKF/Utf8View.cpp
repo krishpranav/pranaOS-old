@@ -1,10 +1,10 @@
 
 
-#include <AK/Assertions.h>
-#include <AK/Format.h>
-#include <AK/Utf8View.h>
+#include <AKF/Assertions.h>
+#include <AKF/Format.h>
+#include <AKF/Utf8View.h>
 
-namespace AK {
+namespace AKF {
 
 Utf8View::Utf8View(const String& string)
     : m_string(string)
@@ -93,8 +93,8 @@ bool Utf8View::validate(size_t& valid_bytes) const
     for (auto ptr = begin_ptr(); ptr < end_ptr(); ptr++) {
         size_t code_point_length_in_bytes;
         u32 value;
-        bool first_byte_makes_sense = decode_first_byte(*ptr, code_point_length_in_bytes, value);
-        if (!first_byte_makes_sense)
+        bool first_byte_mAKFes_sense = decode_first_byte(*ptr, code_point_length_in_bytes, value);
+        if (!first_byte_mAKFes_sense)
             return false;
 
         for (size_t i = 1; i < code_point_length_in_bytes; i++) {
@@ -160,9 +160,9 @@ Utf8CodepointIterator& Utf8CodepointIterator::operator++()
 
     size_t code_point_length_in_bytes = 0;
     u32 value;
-    bool first_byte_makes_sense = decode_first_byte(*m_ptr, code_point_length_in_bytes, value);
+    bool first_byte_mAKFes_sense = decode_first_byte(*m_ptr, code_point_length_in_bytes, value);
 
-    VERIFY(first_byte_makes_sense);
+    VERIFY(first_byte_mAKFes_sense);
 
     VERIFY(code_point_length_in_bytes <= m_length);
     m_ptr += code_point_length_in_bytes;
@@ -176,8 +176,8 @@ size_t Utf8CodepointIterator::code_point_length_in_bytes() const
     VERIFY(m_length > 0);
     size_t code_point_length_in_bytes = 0;
     u32 value;
-    bool first_byte_makes_sense = decode_first_byte(*m_ptr, code_point_length_in_bytes, value);
-    VERIFY(first_byte_makes_sense);
+    bool first_byte_mAKFes_sense = decode_first_byte(*m_ptr, code_point_length_in_bytes, value);
+    VERIFY(first_byte_mAKFes_sense);
     return code_point_length_in_bytes;
 }
 
@@ -188,10 +188,10 @@ u32 Utf8CodepointIterator::operator*() const
     u32 code_point_value_so_far = 0;
     size_t code_point_length_in_bytes = 0;
 
-    bool first_byte_makes_sense = decode_first_byte(m_ptr[0], code_point_length_in_bytes, code_point_value_so_far);
-    if (!first_byte_makes_sense)
-        dbgln("First byte doesn't make sense, bytes: {}", StringView { (const char*)m_ptr, m_length });
-    VERIFY(first_byte_makes_sense);
+    bool first_byte_mAKFes_sense = decode_first_byte(m_ptr[0], code_point_length_in_bytes, code_point_value_so_far);
+    if (!first_byte_mAKFes_sense)
+        dbgln("First byte doesn't mAKFe sense, bytes: {}", StringView { (const char*)m_ptr, m_length });
+    VERIFY(first_byte_mAKFes_sense);
     if (code_point_length_in_bytes > m_length)
         dbgln("Not enough bytes (need {}, have {}), first byte is: {:#02x}, '{}'", code_point_length_in_bytes, m_length, m_ptr[0], (const char*)m_ptr);
     VERIFY(code_point_length_in_bytes <= m_length);

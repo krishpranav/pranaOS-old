@@ -2,7 +2,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/DistinctNumeric.h>
+#include <AKF/DistinctNumeric.h>
 
 template<typename T>
 class ForType {
@@ -271,7 +271,7 @@ TEST_CASE(negative_incompatible)
     // And this is the entire point of `DistinctNumeric`:
     // Theoretically, the operation *could* be supported, but we declared those int types incompatible.
     [[maybe_unused]] auto res = (a + b);
-    // error: no match for ‘operator+’ (operand types are ‘GeneralNumeric’ {aka ‘AK::DistinctNumeric<int, true, true, true, true, true, true, 64, 64>’} and ‘ArithNumeric’ {aka ‘AK::DistinctNumeric<int, false, false, false, false, false, true, 64, 63>’})
+    // error: no match for ‘operator+’ (operand types are ‘GeneralNumeric’ {AKFa ‘AKF::DistinctNumeric<int, true, true, true, true, true, true, 64, 64>’} and ‘ArithNumeric’ {AKFa ‘AKF::DistinctNumeric<int, false, false, false, false, false, true, 64, 63>’})
     //    313 |     [[maybe_unused]] auto res = (a + b);
     //        |                                  ~ ^ ~
     //        |                                  |   |

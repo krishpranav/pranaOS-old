@@ -1,13 +1,13 @@
 
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 enum class IterationDecision {
     Continue,
-    Break,
+    BreAKF,
 };
 
 }
 
-using AK::IterationDecision;
+using AKF::IterationDecision;

@@ -1,10 +1,10 @@
 
-#include <AK/LexicalPath.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringView.h>
-#include <AK/Vector.h>
+#include <AKF/LexicalPath.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringView.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 LexicalPath::LexicalPath(String s)
     : m_string(move(s))
@@ -39,7 +39,7 @@ void LexicalPath::canonicalize()
             } else {
                 if (canonical_parts.last() != "..") {
                     // A .. and a previous non-.. part cancel each other.
-                    canonical_parts.take_last();
+                    canonical_parts.tAKFe_last();
                     continue;
                 }
             }

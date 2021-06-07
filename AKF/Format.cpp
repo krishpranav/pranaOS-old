@@ -1,8 +1,8 @@
-#include <AK/Format.h>
-#include <AK/GenericLexer.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
-#include <AK/kstdio.h>
+#include <AKF/Format.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/kstdio.h>
 #include <ctype.h>
 
 #if defined(__pranaos__) && !defined(KERNEL)
@@ -16,13 +16,13 @@
 #    include <stdio.h>
 #endif
 
-namespace AK {
+namespace AKF {
 
 namespace {
 
 static constexpr size_t use_next_index = NumericLimits<size_t>::max();
 
-// The worst case is that we have the largest 64-bit value formatted as binary number, this would take
+// The worst case is that we have the largest 64-bit value formatted as binary number, this would tAKFe
 // 65 bytes. Choosing a larger power of two won't hurt and is a bit of mitigation against out-of-bounds accesses.
 static constexpr size_t convert_unsigned_to_string(u64 value, Array<u8, 128>& buffer, u8 base, bool upper_case)
 {
@@ -64,7 +64,7 @@ void vformat_impl(TypeErasedFormatParams& params, FormatBuilder& builder, Format
     }
 
     if (specifier.index == use_next_index)
-        specifier.index = params.take_next_index();
+        specifier.index = params.tAKFe_next_index();
 
     auto& parameter = params.parameters().at(specifier.index);
 
@@ -74,7 +74,7 @@ void vformat_impl(TypeErasedFormatParams& params, FormatBuilder& builder, Format
     vformat_impl(params, builder, parser);
 }
 
-} // namespace AK::{anonymous}
+} // namespace AKF::{anonymous}
 
 FormatParser::FormatParser(StringView input)
     : GenericLexer(input)
@@ -345,7 +345,7 @@ void FormatBuilder::put_f64(
     if (precision > 0) {
         // FIXME: This is a terrible approximation but doing it properly would be a lot of work. If someone is up for that, a good
         // place to start would be the following video from CppCon 2019:
-        // https://youtu.be/4P_kbF0EbZM (Stephan T. Lavavej “Floating-Point <charconv>: Making Your Code 10x Faster With C++17's Final Boss”)
+        // https://youtu.be/4P_kbF0EbZM (Stephan T. Lavavej “Floating-Point <charconv>: MAKFing Your Code 10x Faster With C++17's Final Boss”)
         value -= static_cast<i64>(value);
 
         double epsilon = 0.5;
@@ -355,7 +355,7 @@ void FormatBuilder::put_f64(
         size_t visible_precision = 0;
         for (; visible_precision < precision; ++visible_precision) {
             if (value - static_cast<i64>(value) < epsilon)
-                break;
+                breAKF;
             value *= 10.0;
             epsilon *= 10.0;
         }
@@ -407,7 +407,7 @@ void StandardFormatter::parse(TypeErasedFormatParams& params, FormatParser& pars
 
     if (size_t index = 0; parser.consume_replacement_field(index)) {
         if (index == use_next_index)
-            index = params.take_next_index();
+            index = params.tAKFe_next_index();
 
         m_width = params.parameters().at(index).to_size();
     } else if (size_t width = 0; parser.consume_number(width)) {
@@ -417,7 +417,7 @@ void StandardFormatter::parse(TypeErasedFormatParams& params, FormatParser& pars
     if (parser.consume_specific('.')) {
         if (size_t index = 0; parser.consume_replacement_field(index)) {
             if (index == use_next_index)
-                index = params.take_next_index();
+                index = params.tAKFe_next_index();
 
             m_precision = params.parameters().at(index).to_size();
         } else if (size_t precision = 0; parser.consume_number(precision)) {
@@ -534,7 +534,7 @@ void Formatter<T, typename EnableIf<IsIntegral<T>>::Type>::format(FormatBuilder&
 
     m_width = m_width.value_or(0);
 
-    if constexpr (IsSame<MakeUnsigned<T>, T>)
+    if constexpr (IsSame<MAKFeUnsigned<T>, T>)
         builder.put_u64(value, base, m_alternative_form, upper_case, m_zero_pad, m_align, m_width.value(), m_fill, m_sign_mode);
     else
         builder.put_i64(value, base, m_alternative_form, upper_case, m_zero_pad, m_align, m_width.value(), m_fill, m_sign_mode);
@@ -684,4 +684,4 @@ template struct Formatter<long, void>;
 template struct Formatter<long long, void>;
 template struct Formatter<signed char, void>;
 
-} // namespace AK
+} // namespace AKF

@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/Forward.h>
-#include <AK/HashFunctions.h>
+#include <AKF/Forward.h>
+#include <AKF/HashFunctions.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 struct GenericTraits {
@@ -77,5 +77,5 @@ struct Traits<T*> : public GenericTraits<T*> {
 
 }
 
-using AK::GenericTraits;
-using AK::Traits;
+using AKF::GenericTraits;
+using AKF::Traits;

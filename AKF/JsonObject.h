@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/HashMap.h>
-#include <AK/JsonArray.h>
-#include <AK/JsonObjectSerializer.h>
-#include <AK/JsonValue.h>
-#include <AK/String.h>
+#include <AKF/HashMap.h>
+#include <AKF/JsonArray.h>
+#include <AKF/JsonObjectSerializer.h>
+#include <AKF/JsonValue.h>
+#include <AKF/String.h>
 
-namespace AK {
+namespace AKF {
 
 class JsonObject {
 public:
@@ -135,36 +135,36 @@ inline void JsonValue::serialize(Builder& builder) const
         builder.append("\"");
         builder.append_escaped_for_json({ m_value.as_string->characters(), m_value.as_string->length() });
         builder.append("\"");
-    } break;
+    } breAKF;
     case Type::Array:
         m_value.as_array->serialize(builder);
-        break;
+        breAKF;
     case Type::Object:
         m_value.as_object->serialize(builder);
-        break;
+        breAKF;
     case Type::Bool:
         builder.append(m_value.as_bool ? "true" : "false");
-        break;
+        breAKF;
 #if !defined(KERNEL)
     case Type::Double:
         builder.appendff("{}", m_value.as_double);
-        break;
+        breAKF;
 #endif
     case Type::Int32:
         builder.appendff("{}", as_i32());
-        break;
+        breAKF;
     case Type::Int64:
         builder.appendff("{}", as_i64());
-        break;
+        breAKF;
     case Type::UnsignedInt32:
         builder.appendff("{}", as_u32());
-        break;
+        breAKF;
     case Type::UnsignedInt64:
         builder.appendff("{}", as_u64());
-        break;
+        breAKF;
     case Type::Null:
         builder.append("null");
-        break;
+        breAKF;
     default:
         VERIFY_NOT_REACHED();
     }
@@ -180,4 +180,4 @@ inline typename Builder::OutputType JsonValue::serialized() const
 
 }
 
-using AK::JsonObject;
+using AKF::JsonObject;

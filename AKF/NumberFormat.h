@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/String.h>
+#include <AKF/String.h>
 
-namespace AK {
+namespace AKF {
 
 // FIXME: Remove this hackery once printf() supports floats.
 static String number_string_with_one_decimal(u64 number, u64 unit, const char* suffix)
@@ -40,5 +40,5 @@ static inline String human_readable_size_long(u64 size)
 
 }
 
-using AK::human_readable_size;
-using AK::human_readable_size_long;
+using AKF::human_readable_size;
+using AKF::human_readable_size_long;

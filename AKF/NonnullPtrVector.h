@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/Vector.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename PtrType, size_t inline_capacity = 0>
 class NonnullPtrVector : public Vector<PtrType, inline_capacity> {
@@ -48,7 +48,7 @@ public:
     ALWAYS_INLINE const T& last() const { return at(size() - 1); }
 
 private:
-    // NOTE: You can't use resize() on a NonnullFooPtrVector since making the vector
+    // NOTE: You can't use resize() on a NonnullFooPtrVector since mAKFing the vector
     //       bigger would require being able to default-construct NonnullFooPtrs.
     //       Instead, use shrink(new_size).
     void resize(size_t) = delete;

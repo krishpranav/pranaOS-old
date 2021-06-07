@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/Platform.h>
-#include <AK/Types.h>
+#include <AKF/Platform.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 static inline void atomic_signal_fence(MemoryOrder order) noexcept
 {
@@ -18,8 +18,8 @@ static inline void atomic_thread_fence(MemoryOrder order) noexcept
 
 static inline void full_memory_barrier() noexcept
 {
-    atomic_signal_fence(AK::MemoryOrder::memory_order_acq_rel);
-    atomic_thread_fence(AK::MemoryOrder::memory_order_acq_rel);
+    atomic_signal_fence(AKF::MemoryOrder::memory_order_acq_rel);
+    atomic_thread_fence(AKF::MemoryOrder::memory_order_acq_rel);
 }
 
 template<typename T>
@@ -127,7 +127,7 @@ static inline void atomic_store(volatile T** var, std::nullptr_t, MemoryOrder or
     __atomic_store_n(const_cast<V**>(var), nullptr, order);
 }
 
-template<typename T, MemoryOrder DefaultMemoryOrder = AK::MemoryOrder::memory_order_seq_cst>
+template<typename T, MemoryOrder DefaultMemoryOrder = AKF::MemoryOrder::memory_order_seq_cst>
 class Atomic {
     T m_value { 0 };
 
@@ -361,5 +361,5 @@ public:
 
 }
 
-using AK::Atomic;
-using AK::full_memory_barrier;
+using AKF::Atomic;
+using AKF::full_memory_barrier;

@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Find.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/Find.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename ListType, typename ElementType>
 class DoublyLinkedListIterator {
@@ -139,12 +139,12 @@ public:
 
     ConstIterator find(const T& value) const
     {
-        return AK::find(begin(), end(), value);
+        return AKF::find(begin(), end(), value);
     }
 
     Iterator find(const T& value)
     {
-        return AK::find(begin(), end(), value);
+        return AKF::find(begin(), end(), value);
     }
 
     void remove(Iterator it)
@@ -175,4 +175,4 @@ private:
 
 }
 
-using AK::DoublyLinkedList;
+using AKF::DoublyLinkedList;

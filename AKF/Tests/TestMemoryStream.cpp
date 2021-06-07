@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Array.h>
-#include <AK/MemoryStream.h>
+#include <AKF/Array.h>
+#include <AKF/MemoryStream.h>
 
 TEST_CASE(read_an_integer)
 {

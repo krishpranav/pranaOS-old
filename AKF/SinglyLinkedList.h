@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Find.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Traits.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Find.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Traits.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename ListType, typename ElementType>
 class SinglyLinkedListIterator {
@@ -98,7 +98,7 @@ public:
         return tail()->value;
     }
 
-    T take_first()
+    T tAKFe_first()
     {
         VERIFY(m_head);
         auto* prev_head = m_head;
@@ -141,13 +141,13 @@ public:
     template<typename TUnaryPredicate>
     ConstIterator find_if(TUnaryPredicate&& pred) const
     {
-        return AK::find_if(begin(), end(), forward<TUnaryPredicate>(pred));
+        return AKF::find_if(begin(), end(), forward<TUnaryPredicate>(pred));
     }
 
     template<typename TUnaryPredicate>
     Iterator find_if(TUnaryPredicate&& pred)
     {
-        return AK::find_if(begin(), end(), forward<TUnaryPredicate>(pred));
+        return AKF::find_if(begin(), end(), forward<TUnaryPredicate>(pred));
     }
 
     ConstIterator find(const T& value) const
@@ -213,4 +213,4 @@ private:
 
 }
 
-using AK::SinglyLinkedList;
+using AKF::SinglyLinkedList;

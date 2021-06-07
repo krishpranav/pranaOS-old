@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/StdLibExtras.h>
-#include <AK/TypeList.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/TypeList.h>
 
 #define STATIC_EXPECT_EQ(lhs, rhs) \
     static_assert(IsSame<lhs, rhs>, "");

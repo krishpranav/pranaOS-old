@@ -1,7 +1,7 @@
 
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class TemporaryChange {
@@ -21,4 +21,4 @@ private:
 
 }
 
-using AK::TemporaryChange;
+using AKF::TemporaryChange;

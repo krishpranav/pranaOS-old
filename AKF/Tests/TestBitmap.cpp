@@ -2,7 +2,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Bitmap.h>
+#include <AKF/Bitmap.h>
 
 TEST_CASE(construct_empty)
 {

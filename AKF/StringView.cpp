@@ -1,13 +1,13 @@
 
-#include <AK/AnyOf.h>
-#include <AK/ByteBuffer.h>
-#include <AK/Find.h>
-#include <AK/FlyString.h>
-#include <AK/Memory.h>
-#include <AK/String.h>
-#include <AK/StringView.h>
+#include <AKF/AnyOf.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/Find.h>
+#include <AKF/FlyString.h>
+#include <AKF/Memory.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 StringView::StringView(const String& string)
     : m_characters(string.characters())
@@ -231,7 +231,7 @@ bool StringView::operator==(const String& string) const
 
 Optional<size_t> StringView::find_first_of(char c) const
 {
-    if (const auto location = AK::find(begin(), end(), c); location != end()) {
+    if (const auto location = AKF::find(begin(), end(), c); location != end()) {
         return location.index();
     }
     return {};
@@ -239,7 +239,7 @@ Optional<size_t> StringView::find_first_of(char c) const
 
 Optional<size_t> StringView::find_first_of(const StringView& view) const
 {
-    if (const auto location = AK::find_if(begin(), end(),
+    if (const auto location = AKF::find_if(begin(), end(),
             [&](const auto c) {
                 return any_of(view.begin(), view.end(),
                     [&](const auto view_char) {

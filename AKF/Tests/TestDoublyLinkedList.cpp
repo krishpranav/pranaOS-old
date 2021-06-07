@@ -2,9 +2,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/DoublyLinkedList.h>
+#include <AKF/DoublyLinkedList.h>
 
-static DoublyLinkedList<int> make_list()
+static DoublyLinkedList<int> mAKFe_list()
 {
     DoublyLinkedList<int> list {};
     list.append(0);
@@ -22,7 +22,7 @@ static DoublyLinkedList<int> make_list()
 
 TEST_CASE(should_find_mutable)
 {
-    auto sut = make_list();
+    auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find(4));
 
@@ -31,7 +31,7 @@ TEST_CASE(should_find_mutable)
 
 TEST_CASE(should_find_const)
 {
-    const auto sut = make_list();
+    const auto sut = mAKFe_list();
 
     EXPECT_EQ(4, *sut.find(4));
 

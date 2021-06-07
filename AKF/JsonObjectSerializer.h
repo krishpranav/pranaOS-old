@@ -1,9 +1,9 @@
 #pragma once
 
-#include <AK/JsonArraySerializer.h>
-#include <AK/JsonValue.h>
+#include <AKF/JsonArraySerializer.h>
+#include <AKF/JsonValue.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Builder>
 class JsonObjectSerializer {
@@ -146,4 +146,4 @@ JsonObjectSerializer<Builder> JsonArraySerializer<Builder>::add_object()
 
 }
 
-using AK::JsonObjectSerializer;
+using AKF::JsonObjectSerializer;

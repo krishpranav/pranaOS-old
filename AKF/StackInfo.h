@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Types.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class StackInfo {
 public:
@@ -27,4 +27,4 @@ private:
 
 }
 
-using AK::StackInfo;
+using AKF::StackInfo;

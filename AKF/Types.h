@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/IterationDecision.h>
-#include <AK/Platform.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/IterationDecision.h>
+#include <AKF/Platform.h>
+#include <AKF/StdLibExtras.h>
 
 using u64 = __UINT64_TYPE__;
 using u32 = __UINT32_TYPE__;
@@ -17,7 +17,7 @@ using i8 = __INT8_TYPE__;
 #ifdef __pranaos__
 
 using size_t = __SIZE_TYPE__;
-using ssize_t = MakeSigned<size_t>;
+using ssize_t = MAKFeSigned<size_t>;
 
 using ptrdiff_t = __PTRDIFF_TYPE__;
 
@@ -81,7 +81,7 @@ enum class [[nodiscard]] TriState : u8 {
     Unknown
 };
 
-namespace AK {
+namespace AKF {
 
 enum MemoryOrder {
     memory_order_relaxed = __ATOMIC_RELAXED,

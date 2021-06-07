@@ -2,8 +2,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/GenericLexer.h>
-#include <AK/StringView.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/StringView.h>
 
 TEST_CASE(should_constexpr_construct_from_empty_string_view)
 {

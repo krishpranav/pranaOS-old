@@ -1,8 +1,8 @@
 #pragma once
 
-#include <AK/JsonValue.h>
+#include <AKF/JsonValue.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename Builder>
 class JsonObjectSerializer;
@@ -86,4 +86,4 @@ private:
 
 }
 
-using AK::JsonArraySerializer;
+using AKF::JsonArraySerializer;

@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Checked.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Checked.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class Utf32View;
 
@@ -114,4 +114,4 @@ private:
 
 }
 
-using AK::Utf32View;
+using AKF::Utf32View;

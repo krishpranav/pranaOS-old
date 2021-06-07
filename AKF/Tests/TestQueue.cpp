@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Queue.h>
-#include <AK/String.h>
+#include <AKF/Queue.h>
+#include <AKF/String.h>
 
 TEST_CASE(construct)
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <AK/Optional.h>
-#include <AK/Stream.h>
+#include <AKF/Optional.h>
+#include <AKF/Stream.h>
 
-namespace AK {
+namespace AKF {
 
 class InputBitStream final : public InputStream {
 public:
@@ -193,5 +193,5 @@ private:
 
 }
 
-using AK::InputBitStream;
-using AK::OutputBitStream;
+using AKF::InputBitStream;
+using AKF::OutputBitStream;

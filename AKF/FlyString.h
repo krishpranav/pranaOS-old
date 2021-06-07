@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/String.h>
+#include <AKF/String.h>
 
-namespace AK {
+namespace AKF {
 
 class FlyString {
 public:
@@ -89,4 +89,4 @@ struct Traits<FlyString> : public GenericTraits<FlyString> {
 
 }
 
-using AK::FlyString;
+using AKF::FlyString;

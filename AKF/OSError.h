@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/Format.h>
+#include <AKF/Format.h>
 #include <errno.h>
 #include <string.h>
 
-namespace AK {
+namespace AKF {
 
 class OSError {
 public:
@@ -32,4 +32,4 @@ struct Formatter<OSError> : Formatter<StringView> {
 
 }
 
-using AK::OSError;
+using AKF::OSError;

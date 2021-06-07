@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <AK/String.h>
-#include <AK/Types.h>
-#include <AK/Vector.h>
+#include <AKF/String.h>
+#include <AKF/Types.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 class JsonPathElement {
 public:
@@ -95,5 +95,5 @@ public:
 
 }
 
-using AK::JsonPath;
-using AK::JsonPathElement;
+using AKF::JsonPath;
+using AKF::JsonPathElement;

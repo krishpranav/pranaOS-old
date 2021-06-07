@@ -1,16 +1,16 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Find.h>
-#include <AK/Forward.h>
-#include <AK/Iterator.h>
-#include <AK/Optional.h>
-#include <AK/Span.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Traits.h>
-#include <AK/TypedTransfer.h>
-#include <AK/kmalloc.h>
+#include <AKF/Assertions.h>
+#include <AKF/Find.h>
+#include <AKF/Forward.h>
+#include <AKF/Iterator.h>
+#include <AKF/Optional.h>
+#include <AKF/Span.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Traits.h>
+#include <AKF/TypedTransfer.h>
+#include <AKF/kmalloc.h>
 
 // NOTE: We can't include <initializer_list> during the toolchain bootstrap,
 //       since it's part of libstdc++, and libstdc++ depends on LibC.
@@ -23,7 +23,7 @@
 #    include <new>
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename T, size_t inline_capacity>
 class Vector {
@@ -184,7 +184,7 @@ public:
     const T& last() const { return at(size() - 1); }
     T& last() { return at(size() - 1); }
 
-    T take_last()
+    T tAKFe_last()
     {
         VERIFY(!is_empty());
         T value = move(last());
@@ -193,7 +193,7 @@ public:
         return value;
     }
 
-    T take_first()
+    T tAKFe_first()
     {
         VERIFY(!is_empty());
         T value = move(first());
@@ -201,18 +201,18 @@ public:
         return value;
     }
 
-    T take(size_t index)
+    T tAKFe(size_t index)
     {
         T value = move(at(index));
         remove(index);
         return value;
     }
 
-    T unstable_take(size_t index)
+    T unstable_tAKFe(size_t index)
     {
         VERIFY(index < m_size);
         swap(at(index), at(m_size - 1));
-        return take_last();
+        return tAKFe_last();
     }
 
     void remove(size_t index)
@@ -648,28 +648,28 @@ public:
     template<typename TUnaryPredicate>
     ConstIterator find_if(TUnaryPredicate&& finder) const
     {
-        return AK::find_if(begin(), end(), forward<TUnaryPredicate>(finder));
+        return AKF::find_if(begin(), end(), forward<TUnaryPredicate>(finder));
     }
 
     template<typename TUnaryPredicate>
     Iterator find_if(TUnaryPredicate&& finder)
     {
-        return AK::find_if(begin(), end(), forward<TUnaryPredicate>(finder));
+        return AKF::find_if(begin(), end(), forward<TUnaryPredicate>(finder));
     }
 
     ConstIterator find(const T& value) const
     {
-        return AK::find(begin(), end(), value);
+        return AKF::find(begin(), end(), value);
     }
 
     Iterator find(const T& value)
     {
-        return AK::find(begin(), end(), value);
+        return AKF::find(begin(), end(), value);
     }
 
     Optional<size_t> find_first_index(const T& value)
     {
-        if (const auto index = AK::find_index(begin(), end(), value);
+        if (const auto index = AKF::find_index(begin(), end(), value);
             index < size()) {
             return index;
         }
@@ -710,4 +710,4 @@ private:
 
 }
 
-using AK::Vector;
+using AKF::Vector;

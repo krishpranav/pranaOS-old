@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/AllOf.h>
-#include <AK/Array.h>
-#include <AK/Assertions.h>
-#include <AK/String.h>
-#include <AK/Types.h>
+#include <AKF/AllOf.h>
+#include <AKF/Array.h>
+#include <AKF/Assertions.h>
+#include <AKF/String.h>
+#include <AKF/Types.h>
 
 class [[gnu::packed]] MACAddress {
     static constexpr size_t s_mac_address_length = 6u;
@@ -63,7 +63,7 @@ private:
 
 static_assert(sizeof(MACAddress) == 6u);
 
-namespace AK {
+namespace AKF {
 
 template<>
 struct Traits<MACAddress> : public GenericTraits<MACAddress> {

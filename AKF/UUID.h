@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <AK/Array.h>
-#include <AK/ByteBuffer.h>
-#include <AK/StringView.h>
-#include <AK/Types.h>
+#include <AKF/Array.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/StringView.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class UUID {
 public:
@@ -35,4 +35,4 @@ private:
 
 }
 
-using AK::UUID;
+using AKF::UUID;

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <AK/ByteBuffer.h>
-#include <AK/String.h>
-#include <AK/StringView.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 size_t calculate_base64_decoded_length(const StringView&);
 
@@ -16,5 +16,5 @@ String encode_base64(ReadonlyBytes);
 
 }
 
-using AK::decode_base64;
-using AK::encode_base64;
+using AKF::decode_base64;
+using AKF::encode_base64;

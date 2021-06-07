@@ -1,9 +1,9 @@
 
-#include <AK/JsonObject.h>
-#include <AK/JsonPath.h>
-#include <AK/JsonValue.h>
+#include <AKF/JsonObject.h>
+#include <AKF/JsonPath.h>
+#include <AKF/JsonValue.h>
 
-namespace AK {
+namespace AKF {
 
 JsonPathElement JsonPathElement::any_array_element { Kind::AnyIndex };
 JsonPathElement JsonPathElement::any_object_element { Kind::AnyKey };
@@ -15,10 +15,10 @@ JsonValue JsonPath::resolve(const JsonValue& top_root) const
         switch (element.kind()) {
         case JsonPathElement::Kind::Key:
             root = JsonValue { root.as_object().get(element.key()) };
-            break;
+            breAKF;
         case JsonPathElement::Kind::Index:
             root = JsonValue { root.as_array().at(element.index()) };
-            break;
+            breAKF;
         default:
             VERIFY_NOT_REACHED();
         }

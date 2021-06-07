@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Types.h>
+#include <AKF/Assertions.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class InlineLinkedList;
@@ -300,5 +300,5 @@ inline void InlineLinkedList<T>::append(InlineLinkedList<T>& other)
 
 }
 
-using AK::InlineLinkedList;
-using AK::InlineLinkedListNode;
+using AKF::InlineLinkedList;
+using AKF::InlineLinkedListNode;

@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Forward.h>
-#include <AK/StdLibExtras.h>
+#include <AKF/Assertions.h>
+#include <AKF/Forward.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename T, size_t Capacity>
 class CircularQueue {
@@ -106,4 +106,4 @@ protected:
 
 }
 
-using AK::CircularQueue;
+using AKF::CircularQueue;

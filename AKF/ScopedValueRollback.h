@@ -1,7 +1,7 @@
 
 #pragma once
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 class ScopedValueRollback {
@@ -29,4 +29,4 @@ private:
 
 }
 
-using AK::ScopedValueRollback;
+using AKF::ScopedValueRollback;

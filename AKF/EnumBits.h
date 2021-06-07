@@ -1,21 +1,21 @@
 
 #pragma once
 
-#include "AK/StdLibExtras.h"
+#include "AKF/StdLibExtras.h"
 
 // Enables bitwise operators for the specified Enum type.
 //
-#define AK_ENUM_BITWISE_OPERATORS(Enum) \
-    _AK_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, )
+#define AKF_ENUM_BITWISE_OPERATORS(Enum) \
+    _AKF_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, )
 
 // Enables bitwise operators for the specified Enum type, this
 // version is meant for use on enums which are private to the
 // containing type.
 //
-#define AK_ENUM_BITWISE_FRIEND_OPERATORS(Enum) \
-    _AK_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, friend)
+#define AKF_ENUM_BITWISE_FRIEND_OPERATORS(Enum) \
+    _AKF_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, friend)
 
-#define _AK_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, Prefix)             \
+#define _AKF_ENUM_BITWISE_OPERATORS_INTERNAL(Enum, Prefix)             \
                                                                       \
     [[nodiscard]] Prefix constexpr Enum operator|(Enum lhs, Enum rhs) \
     {                                                                 \

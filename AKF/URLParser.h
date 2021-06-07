@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/StringView.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 String urlencode(const StringView&, const StringView& exclude = {});
 String urldecode(const StringView&);
 
 }
 
-using AK::urldecode;
-using AK::urlencode;
+using AKF::urldecode;
+using AKF::urlencode;

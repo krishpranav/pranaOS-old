@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/GenericLexer.h>
-#include <AK/JsonValue.h>
+#include <AKF/GenericLexer.h>
+#include <AKF/JsonValue.h>
 
-namespace AK {
+namespace AKF {
 
 class JsonParser : private GenericLexer {
 public:
@@ -32,4 +32,4 @@ private:
 
 }
 
-using AK::JsonParser;
+using AKF::JsonParser;

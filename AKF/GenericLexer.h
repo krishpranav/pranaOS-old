@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/StringView.h>
+#include <AKF/StringView.h>
 
-namespace AK {
+namespace AKF {
 
 class GenericLexer {
 public:
@@ -202,7 +202,7 @@ constexpr auto is_quote = is_any_of("'\"");
 
 }
 
-using AK::GenericLexer;
-using AK::is_any_of;
-using AK::is_path_separator;
-using AK::is_quote;
+using AKF::GenericLexer;
+using AKF::is_any_of;
+using AKF::is_path_separator;
+using AKF::is_quote;

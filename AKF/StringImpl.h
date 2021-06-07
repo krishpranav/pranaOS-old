@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <AK/Badge.h>
-#include <AK/RefCounted.h>
-#include <AK/RefPtr.h>
-#include <AK/Span.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/Badge.h>
+#include <AKF/RefCounted.h>
+#include <AKF/RefPtr.h>
+#include <AKF/Span.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 enum ShouldChomp {
     NoChomp,
@@ -115,7 +115,7 @@ struct Formatter<StringImpl> : Formatter<StringView> {
 
 }
 
-using AK::Chomp;
-using AK::NoChomp;
-using AK::string_hash;
-using AK::StringImpl;
+using AKF::Chomp;
+using AKF::NoChomp;
+using AKF::string_hash;
+using AKF::StringImpl;

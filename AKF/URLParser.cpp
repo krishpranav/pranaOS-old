@@ -1,12 +1,12 @@
 
 
-#include <AK/Optional.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
-#include <AK/StringUtils.h>
-#include <AK/URLParser.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
+#include <AKF/StringUtils.h>
+#include <AKF/URLParser.h>
 
-namespace AK {
+namespace AKF {
 
 static bool is_ascii_hex_digit(u8 ch)
 {

@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Atomic.h>
-#include <AK/Noncopyable.h>
+#include <AKF/Assertions.h>
+#include <AKF/Atomic.h>
+#include <AKF/Noncopyable.h>
 #ifdef KERNEL
 #    include <Kernel/Arch/x86/CPU.h>
 #endif
@@ -13,7 +13,7 @@
 #    include <new>
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename T>
 struct SingletonInstanceCreator {
@@ -25,8 +25,8 @@ struct SingletonInstanceCreator {
 
 template<typename T, T* (*InitFunction)() = SingletonInstanceCreator<T>::create>
 class Singleton {
-    AK_MAKE_NONCOPYABLE(Singleton);
-    AK_MAKE_NONMOVABLE(Singleton);
+    AKF_MAKFE_NONCOPYABLE(Singleton);
+    AKF_MAKFE_NONMOVABLE(Singleton);
 
 public:
     Singleton() = default;
@@ -34,17 +34,17 @@ public:
     template<bool allow_create = true>
     static T* get(T*& obj_var)
     {
-        T* obj = AK::atomic_load(&obj_var, AK::memory_order_acquire);
+        T* obj = AKF::atomic_load(&obj_var, AKF::memory_order_acquire);
         if (FlatPtr(obj) <= 0x1) {
             // If this is the first time, see if we get to initialize it
 #ifdef KERNEL
             Kernel::ScopedCritical critical;
 #endif
             if constexpr (allow_create) {
-                if (obj == nullptr && AK::atomic_compare_exchange_strong(&obj_var, obj, (T*)0x1, AK::memory_order_acq_rel)) {
+                if (obj == nullptr && AKF::atomic_compare_exchange_strong(&obj_var, obj, (T*)0x1, AKF::memory_order_acq_rel)) {
                     // We're the first one
                     obj = InitFunction();
-                    AK::atomic_store(&obj_var, obj, AK::memory_order_release);
+                    AKF::atomic_store(&obj_var, obj, AKF::memory_order_release);
                     return obj;
                 }
             }
@@ -55,7 +55,7 @@ public:
 #else
                 // TODO: yield
 #endif
-                obj = AK::atomic_load(&obj_var, AK::memory_order_acquire);
+                obj = AKF::atomic_load(&obj_var, AKF::memory_order_acquire);
             }
             if constexpr (allow_create) {
                 // We should always return an instance if we allow creating one
@@ -93,7 +93,7 @@ public:
 
     bool is_initialized() const
     {
-        T* obj = AK::atomic_load(&m_obj, AK::memory_order_consume);
+        T* obj = AKF::atomic_load(&m_obj, AKF::memory_order_consume);
         return FlatPtr(obj) > 0x1;
     }
 

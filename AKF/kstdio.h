@@ -5,7 +5,7 @@
 #    ifdef KERNEL
 #        include <Kernel/kstdio.h>
 #    else
-#        include <AK/Types.h>
+#        include <AKF/Types.h>
 #        include <stdarg.h>
 extern "C" {
 void dbgputstr(const char*, size_t);

@@ -1,7 +1,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Trie.h>
+#include <AKF/Trie.h>
 
 TEST_CASE(normal_behaviour)
 {

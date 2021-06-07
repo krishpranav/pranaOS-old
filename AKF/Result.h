@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <AK/Assertions.h>
-#include <AK/Optional.h>
+#include <AKF/Assertions.h>
+#include <AKF/Optional.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename ValueType, typename ErrorType>
 class [[nodiscard]] Result {
@@ -103,4 +103,4 @@ private:
 
 }
 
-using AK::Result;
+using AKF::Result;

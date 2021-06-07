@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/Types.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 class Bitmap;
 class ByteBuffer;
@@ -44,7 +44,7 @@ class SimpleIterator;
 using ReadonlyBytes = Span<const u8>;
 using Bytes = Span<u8>;
 
-template<typename T, AK::MemoryOrder DefaultMemoryOrder>
+template<typename T, AKF::MemoryOrder DefaultMemoryOrder>
 class Atomic;
 
 template<typename T>
@@ -102,56 +102,56 @@ template<typename T>
 class OwnPtr;
 
 template<typename T>
-class WeakPtr;
+class WeAKFPtr;
 
 template<typename T, size_t inline_capacity = 0>
 class Vector;
 
 }
 
-using AK::Array;
-using AK::Atomic;
-using AK::Badge;
-using AK::Bitmap;
-using AK::ByteBuffer;
-using AK::Bytes;
-using AK::CircularDuplexStream;
-using AK::CircularQueue;
-using AK::DoublyLinkedList;
-using AK::DuplexMemoryStream;
-using AK::FlyString;
-using AK::Function;
-using AK::HashMap;
-using AK::HashTable;
-using AK::InlineLinkedList;
-using AK::InputBitStream;
-using AK::InputMemoryStream;
-using AK::InputStream;
-using AK::IPv4Address;
-using AK::JsonArray;
-using AK::JsonObject;
-using AK::JsonValue;
-using AK::NonnullOwnPtr;
-using AK::NonnullOwnPtrVector;
-using AK::NonnullRefPtr;
-using AK::NonnullRefPtrVector;
-using AK::Optional;
-using AK::OutputBitStream;
-using AK::OutputMemoryStream;
-using AK::OutputStream;
-using AK::OwnPtr;
-using AK::ReadonlyBytes;
-using AK::RefPtr;
-using AK::SinglyLinkedList;
-using AK::Span;
-using AK::StackInfo;
-using AK::String;
-using AK::StringBuilder;
-using AK::StringImpl;
-using AK::StringView;
-using AK::Time;
-using AK::Traits;
-using AK::URL;
-using AK::Utf32View;
-using AK::Utf8View;
-using AK::Vector;
+using AKF::Array;
+using AKF::Atomic;
+using AKF::Badge;
+using AKF::Bitmap;
+using AKF::ByteBuffer;
+using AKF::Bytes;
+using AKF::CircularDuplexStream;
+using AKF::CircularQueue;
+using AKF::DoublyLinkedList;
+using AKF::DuplexMemoryStream;
+using AKF::FlyString;
+using AKF::Function;
+using AKF::HashMap;
+using AKF::HashTable;
+using AKF::InlineLinkedList;
+using AKF::InputBitStream;
+using AKF::InputMemoryStream;
+using AKF::InputStream;
+using AKF::IPv4Address;
+using AKF::JsonArray;
+using AKF::JsonObject;
+using AKF::JsonValue;
+using AKF::NonnullOwnPtr;
+using AKF::NonnullOwnPtrVector;
+using AKF::NonnullRefPtr;
+using AKF::NonnullRefPtrVector;
+using AKF::Optional;
+using AKF::OutputBitStream;
+using AKF::OutputMemoryStream;
+using AKF::OutputStream;
+using AKF::OwnPtr;
+using AKF::ReadonlyBytes;
+using AKF::RefPtr;
+using AKF::SinglyLinkedList;
+using AKF::Span;
+using AKF::StackInfo;
+using AKF::String;
+using AKF::StringBuilder;
+using AKF::StringImpl;
+using AKF::StringView;
+using AKF::Time;
+using AKF::Traits;
+using AKF::URL;
+using AKF::Utf32View;
+using AKF::Utf8View;
+using AKF::Vector;

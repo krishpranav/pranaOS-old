@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <AK/StdLibExtras.h>
+#include <AKF/StdLibExtras.h>
 
-namespace AK {
+namespace AKF {
 
 template<typename... Types>
 struct TypeList;
@@ -44,7 +44,7 @@ constexpr void for_each_type_impl(F&& f, IndexSequence<Indices...>)
 template<typename List, typename F>
 constexpr void for_each_type(F&& f)
 {
-    for_each_type_impl<List>(forward<F>(f), MakeIndexSequence<List::size> {});
+    for_each_type_impl<List>(forward<F>(f), MAKFeIndexSequence<List::size> {});
 }
 
 template<typename ListA, typename ListB, typename F, unsigned... Indices>
@@ -57,13 +57,13 @@ template<typename ListA, typename ListB, typename F>
 constexpr void for_each_type_zipped(F&& f)
 {
     static_assert(ListA::size == ListB::size, "Can't zip TypeLists that aren't the same size!");
-    for_each_type_zipped_impl<ListA, ListB>(forward<F>(f), MakeIndexSequence<ListA::size> {});
+    for_each_type_zipped_impl<ListA, ListB>(forward<F>(f), MAKFeIndexSequence<ListA::size> {});
 }
 
 }
 
-using AK::for_each_type;
-using AK::for_each_type_zipped;
-using AK::TypeList;
-using AK::TypeListElement;
-using AK::TypeWrapper;
+using AKF::for_each_type;
+using AKF::for_each_type_zipped;
+using AKF::TypeList;
+using AKF::TypeListElement;
+using AKF::TypeWrapper;

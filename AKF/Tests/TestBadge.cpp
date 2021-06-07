@@ -2,7 +2,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Badge.h>
+#include <AKF/Badge.h>
 
 TEST_CASE(should_provide_underlying_type)
 {

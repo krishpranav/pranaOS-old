@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <AK/HashTable.h>
-#include <AK/Optional.h>
-#include <AK/Vector.h>
+#include <AKF/HashTable.h>
+#include <AKF/Optional.h>
+#include <AKF/Vector.h>
 
 // NOTE: We can't include <initializer_list> during the toolchain bootstrap,
 //       since it's part of libstdc++, and libstdc++ depends on LibC.
@@ -12,7 +12,7 @@
 #    include <initializer_list>
 #endif
 
-namespace AK {
+namespace AKF {
 
 template<typename K, typename V, typename KeyTraits>
 class HashMap {
@@ -131,4 +131,4 @@ private:
 
 }
 
-using AK::HashMap;
+using AKF::HashMap;

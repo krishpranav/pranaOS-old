@@ -1,8 +1,8 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Optional.h>
-#include <AK/String.h>
+#include <AKF/Optional.h>
+#include <AKF/String.h>
 
 TEST_CASE(basic_optional)
 {
@@ -28,13 +28,13 @@ TEST_CASE(move_optional)
     EXPECT_EQ(x.has_value(), false);
 }
 
-TEST_CASE(optional_leak_1)
+TEST_CASE(optional_leAKF_1)
 {
     struct Structure {
         Optional<String> str;
     };
 
-    // This used to leak, it does not anymore.
+    // This used to leAKF, it does not anymore.
     Vector<Structure> vec;
     vec.append({ "foo" });
     EXPECT_EQ(vec[0].str.has_value(), true);

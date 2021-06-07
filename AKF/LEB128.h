@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <AK/Stream.h>
-#include <AK/Types.h>
+#include <AKF/Stream.h>
+#include <AKF/Types.h>
 
-namespace AK {
+namespace AKF {
 
 struct LEB128 {
     template<typename StreamT, typename ValueType = size_t>
@@ -33,7 +33,7 @@ struct LEB128 {
 
             result = (result) | (static_cast<ValueType>(byte & ~(1 << 7)) << (num_bytes * 7));
             if (!(byte & (1 << 7)))
-                break;
+                breAKF;
             ++num_bytes;
         }
 
@@ -43,7 +43,7 @@ struct LEB128 {
     template<typename StreamT, typename ValueType = ssize_t>
     static bool read_signed(StreamT& stream, ValueType& result)
     {
-        using UValueType = MakeUnsigned<ValueType>;
+        using UValueType = MAKFeUnsigned<ValueType>;
         [[maybe_unused]] size_t backup_offset = 0;
         if constexpr (requires { stream.offset(); })
             backup_offset = stream.offset();
@@ -79,4 +79,4 @@ struct LEB128 {
 
 }
 
-using AK::LEB128;
+using AKF::LEB128;

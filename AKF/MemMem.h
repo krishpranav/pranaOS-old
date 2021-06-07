@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include <AK/Array.h>
-#include <AK/Assertions.h>
-#include <AK/Span.h>
-#include <AK/Types.h>
-#include <AK/Vector.h>
+#include <AKF/Array.h>
+#include <AKF/Assertions.h>
+#include <AKF/Span.h>
+#include <AKF/Types.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 namespace {
 const static void* bitap_bitwise(const void* haystack, size_t haystack_length, const void* needle, size_t needle_length)

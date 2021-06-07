@@ -2,7 +2,7 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/Hex.h>
+#include <AKF/Hex.h>
 
 TEST_CASE(should_decode_hex_digit)
 {

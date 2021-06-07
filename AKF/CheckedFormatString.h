@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <AK/AllOf.h>
-#include <AK/AnyOf.h>
-#include <AK/StdLibExtras.h>
-#include <AK/StringView.h>
+#include <AKF/AllOf.h>
+#include <AKF/AnyOf.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/StringView.h>
 
 #ifdef ENABLE_COMPILETIME_FORMAT_CHECK
 // FIXME: Seems like clang doesn't like calling 'consteval' functions inside 'consteval' functions quite the same way as GCC does,
@@ -16,7 +16,7 @@
 #endif
 
 #ifdef ENABLE_COMPILETIME_FORMAT_CHECK
-namespace AK::Format::Detail {
+namespace AKF::Format::Detail {
 
 // We have to define a local "purely constexpr" Array that doesn't lead back to us (via e.g. VERIFY)
 template<typename T, size_t Size>
@@ -49,7 +49,7 @@ consteval auto extract_used_argument_index(const char (&fmt)[N], size_t specifie
     for (size_t i = specifier_start_index; i < specifier_end_index; ++i) {
         auto c = fmt[i];
         if (c > '9' || c < '0')
-            break;
+            breAKF;
 
         state.index_value *= 10;
         state.index_value += c - '0';
@@ -96,7 +96,7 @@ consteval auto count_fmt_params(const char (&fmt)[N])
             result.last_format_specifier_start[result.total_used_last_format_specifier_start_count++] = i + 1;
 
             ++result.unclosed_braces;
-            break;
+            breAKF;
         case '}':
             if (i + 1 < N && fmt[i + 1] == '}') {
                 ++i;
@@ -121,7 +121,7 @@ consteval auto count_fmt_params(const char (&fmt)[N])
             } else {
                 ++result.extra_closed_braces;
             }
-            break;
+            breAKF;
         default:
             continue;
         }
@@ -132,7 +132,7 @@ consteval auto count_fmt_params(const char (&fmt)[N])
 
 #endif
 
-namespace AK::Format::Detail {
+namespace AKF::Format::Detail {
 template<typename... Args>
 struct CheckedFormatString {
     template<size_t N>
@@ -166,7 +166,7 @@ private:
         {
             auto begin = check.used_arguments.begin();
             auto end = check.used_arguments.begin() + check.total_used_argument_count;
-            auto has_all_referenced_arguments = !AK::any_of(begin, end, [](auto& entry) { return entry >= param_count; });
+            auto has_all_referenced_arguments = !AKF::any_of(begin, end, [](auto& entry) { return entry >= param_count; });
             if (!has_all_referenced_arguments)
                 compiletime_fail("Format string references nonexistent parameter");
         }
@@ -189,7 +189,7 @@ private:
 
                 return false;
             };
-            auto references_all_arguments = AK::all_of(
+            auto references_all_arguments = AKF::all_of(
                 all_parameters.begin(),
                 all_parameters.end(),
                 [&](auto& entry) {
@@ -210,7 +210,7 @@ private:
 };
 }
 
-namespace AK {
+namespace AKF {
 
 template<typename... Args>
 using CheckedFormatString = Format::Detail::CheckedFormatString<IdentityType<Args>...>;

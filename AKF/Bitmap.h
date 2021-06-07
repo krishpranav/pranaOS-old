@@ -1,17 +1,17 @@
 #pragma once
 
-#include <AK/BitmapView.h>
-#include <AK/Noncopyable.h>
-#include <AK/Optional.h>
-#include <AK/Platform.h>
-#include <AK/StdLibExtras.h>
-#include <AK/Types.h>
-#include <AK/kmalloc.h>
+#include <AKF/BitmapView.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/Optional.h>
+#include <AKF/Platform.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/Types.h>
+#include <AKF/kmalloc.h>
 
-namespace AK {
+namespace AKF {
 
 class Bitmap {
-    AK_MAKE_NONCOPYABLE(Bitmap);
+    AKF_MAKFE_NONCOPYABLE(Bitmap);
 
 public:
     Bitmap() = default;
@@ -136,4 +136,4 @@ private:
 
 }
 
-using AK::Bitmap;
+using AKF::Bitmap;

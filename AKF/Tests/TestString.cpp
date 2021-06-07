@@ -1,9 +1,9 @@
 
 #include <LibTest/TestCase.h>
 
-#include <AK/FlyString.h>
-#include <AK/String.h>
-#include <AK/StringBuilder.h>
+#include <AKF/FlyString.h>
+#include <AKF/String.h>
+#include <AKF/StringBuilder.h>
 #include <cstring>
 
 TEST_CASE(construct_empty)

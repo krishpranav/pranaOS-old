@@ -1,17 +1,17 @@
 
 #pragma once
 
-#include <AK/Noncopyable.h>
-#include <AK/NonnullRefPtr.h>
-#include <AK/OSError.h>
-#include <AK/RefCounted.h>
-#include <AK/Result.h>
+#include <AKF/Noncopyable.h>
+#include <AKF/NonnullRefPtr.h>
+#include <AKF/OSError.h>
+#include <AKF/RefCounted.h>
+#include <AKF/Result.h>
 
-namespace AK {
+namespace AKF {
 
 class MappedFile : public RefCounted<MappedFile> {
-    AK_MAKE_NONCOPYABLE(MappedFile);
-    AK_MAKE_NONMOVABLE(MappedFile);
+    AKF_MAKFE_NONCOPYABLE(MappedFile);
+    AKF_MAKFE_NONMOVABLE(MappedFile);
 
 public:
     static Result<NonnullRefPtr<MappedFile>, OSError> map(const String& path);
@@ -33,4 +33,4 @@ private:
 
 }
 
-using AK::MappedFile;
+using AKF::MappedFile;

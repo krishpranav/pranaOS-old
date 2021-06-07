@@ -1,14 +1,14 @@
 
-#include <AK/ByteBuffer.h>
-#include <AK/FlyString.h>
-#include <AK/Format.h>
-#include <AK/Memory.h>
-#include <AK/StdLibExtras.h>
-#include <AK/String.h>
-#include <AK/StringView.h>
-#include <AK/Vector.h>
+#include <AKF/ByteBuffer.h>
+#include <AKF/FlyString.h>
+#include <AKF/Format.h>
+#include <AKF/Memory.h>
+#include <AKF/StdLibExtras.h>
+#include <AKF/String.h>
+#include <AKF/StringView.h>
+#include <AKF/Vector.h>
 
-namespace AK {
+namespace AKF {
 
 String::String(const StringView& view)
 {
@@ -255,7 +255,7 @@ String String::bijective_base_from(size_t value, unsigned base, StringView map)
     } while (value > 0);
 
     // NOTE: Weird as this may seem, the thing that comes after 'Z' is 'AA', which as a number would be '00'
-    //       to make this work, only the most significant digit has to be in a range of (1..25) as opposed to (0..25),
+    //       to mAKFe this work, only the most significant digit has to be in a range of (1..25) as opposed to (0..25),
     //       but only if it's not the only digit in the string.
     if (i > 1)
         --buffer[i - 1];
@@ -308,12 +308,12 @@ int String::replace(const String& needle, const String& replacement, bool all_oc
     for (;;) {
         const char* ptr = strstr(characters() + start, needle.characters());
         if (!ptr)
-            break;
+            breAKF;
 
         pos = ptr - characters();
         positions.append(pos);
         if (!all_occurrences)
-            break;
+            breAKF;
 
         start = pos + 1;
     }
@@ -377,9 +377,9 @@ String String::to_uppercase() const
     return m_impl->to_uppercase();
 }
 
-String String::to_snakecase() const
+String String::to_snAKFecase() const
 {
-    return StringUtils::to_snakecase(*this);
+    return StringUtils::to_snAKFecase(*this);
 }
 
 bool operator<(const char* characters, const String& string)
