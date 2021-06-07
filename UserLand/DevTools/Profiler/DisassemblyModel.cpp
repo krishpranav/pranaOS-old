@@ -29,5 +29,10 @@ static const Gfx::Bitmap& heat_gradient()
     return *bitmap;
 }
 
+static Color color_for_percent(int percent)
+{
+    VERIFY(percent >= 0 && percent <= 100);
+    return heat_gradient().get_pixel(percent, 0);
+}
 
 }
