@@ -100,4 +100,9 @@ DisassemblyModel::~DisassemblyModel()
 {
 }
 
+int DisassemblyModel::row_count(const GUI::ModelIndex&)  const
+{
+    return m_instructions.size();
+}
+
 }
