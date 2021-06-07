@@ -56,6 +56,7 @@ void Keypad::type_decimal_point()
     }
 }
 
+
 void Keypad::type_backspace()
 {
     switch (m_state) {

@@ -11,6 +11,5 @@ set architecture i386
 # Add KERNEL file for debugging information
 add-symbol-file KERNEL 0xC0001000
 
-# For both ;)
 set disassemble-next-line on
 set disassembly-flavor intel

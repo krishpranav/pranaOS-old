@@ -17,6 +17,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
+
     auto app = GUI::Application::construct(argc, argv);
 
     if (pledge("stdio recvfd sendfd rpath accept", nullptr) < 0) {
