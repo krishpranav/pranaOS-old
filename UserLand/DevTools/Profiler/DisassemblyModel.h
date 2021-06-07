@@ -10,3 +10,12 @@
 // includes
 #include <LibGUI/Model.h>
 #include <LibX86/Instruction.h>
+
+namespace Profiler {
+
+class Profile;
+class ProfileNode;
+
+
+
+}
