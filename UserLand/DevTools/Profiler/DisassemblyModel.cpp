@@ -121,4 +121,10 @@ String DisassemblyModel::column_name(int column) const
         return {};
     }
 }
+
+struct ColorPair {
+    Color background;
+    Color foreground;
+};
+
 }
