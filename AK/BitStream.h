@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, the krishpranav.
+ * Copyright (c) 2021, Krisna Pranav
  * Copyright (c) 2021, krishpranav <krisna.pranav@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
