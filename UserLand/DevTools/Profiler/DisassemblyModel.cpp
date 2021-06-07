@@ -105,16 +105,20 @@ int DisassemblyModel::row_count(const GUI::ModelIndex&)  const
     return m_instructions.size();
 }
 
-String DisassemblyModel::column_name(int column)
+String DisassemblyModel::column_name(int column) const
 {
     switch (column) {
     case Column::SampleCount:
         return m_profile.show_percentages() ? "% Samples" : "# Samples";
     case Column::Address:
-        return "Address"
-
-
+        return "Address";
+    case Column::InstructionBytes:
+        return "Insn Bytes";
+    case Column::Disassembly:
+        return "Disassembly";
+    default:
+        VERIFY_NOT_REACHED();
+        return {};
     }
 }
-
 }
