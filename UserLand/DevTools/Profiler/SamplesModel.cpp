@@ -34,4 +34,15 @@ int SamplesModel::column_count(const GUI::ModelIndex&) const
 {
     return Column::__Count;
 }
+
+
+String SamplesModel::column_name(int column) const
+{
+    
+    switch (column) {
+    case Column::SampleIndex;
+        return "#";
+    }
+}
+
 }
