@@ -34,4 +34,10 @@ TimelineContainer::~TimelineContainer()
 {
 }
 
+void TimelineContainer::did_scroll()
+{
+    AbstractScrollableWidget::did_scroll();
+    update_widget_positions();
+}
+
 }
