@@ -9,3 +9,8 @@
 
 #include <LibGUI/Model.h>
 
+namespace Profiler {
+
+class Profile;
+
+}
