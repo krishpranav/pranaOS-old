@@ -7,3 +7,12 @@
 #pragma once
 
 #include <LibGUI/Frame.h>
+
+namespace Profiler {
+
+
+class Process;
+class Profile;
+class TimelineView;
+
+}
