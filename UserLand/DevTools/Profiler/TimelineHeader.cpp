@@ -35,4 +35,31 @@ TimelineHeader::~TimelineHeader()
 {
 }
 
+void TimelineHeader::paint_event(GUI::PaintEvent& event)
+{
+    GUI::Frame::paint_event(event);
+    GUI::Painter painter(*this);
+    painter.add_clip_rect(event.rect());
+
+    painter.fill_rect(frame_inner_rect(), m_selected ? palette().selection() : palette().button());
+
+    Gfx::IntRect icon_rect { frame_thickness() + 2, 0, 32, 32 };
+    icon_rect.center_vertically_within(frame_inner_rect());
+
+    if (m_icon)
+        painter.blit(icon_rect.location(), *m_icon, m_icon->rect());
+
+    Gfx::IntRect text_rect {
+        icon_rect.right() + 6,
+        icon_rect.y(),
+        width() - 32,
+        32
+    };
+    text_rect.center_vertically_within(frame_inner_rect());
+
+    auto& font = m_selected ? painter.font().bold_variant() : painter.font();
+    auto color = m_selected ? palette().selection_text() : palette().button_text();
+    painter.draw_text(text_rect, m_text, font, Gfx::TextAlignment::CenterLeft, color);
+}
+
 }
