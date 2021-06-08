@@ -37,7 +37,10 @@ static MappedObject* get_or_create_mapped_object(const String& path)
         return it->value.ptr();
 
     auto file_or_error = MappedFile::map(path);
-    
+    if (file_or_error.is_error()) {
+        g_mapped_object_cache.set(path, {});
+        return nullptr;
+    }
 }
 
 }
