@@ -8,3 +8,11 @@
 #pragma once
 
 #include <LibGUI/AbstractScrollableWidget.h>
+
+namespace Profiler {
+
+
+class TimelineView;
+
+
+}
