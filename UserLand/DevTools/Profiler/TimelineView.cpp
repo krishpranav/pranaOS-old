@@ -30,4 +30,16 @@ u64 TimelineView::timestamp_at_x(int x) const
     return m_profile.first_timestamp() + (u64)ms_into_profile;
 }
 
+void TimelineView::mousedown_event(GUI::MouseEvent& event)
+{
+    if (event.button() != GUI::MouseButton::Left)
+        return;
+
+    set_selecting(true);
+    set_select_start_time(timestamp_at_x(event.x()));
+    set_select_end_time(select_start_time());
+    m_profile.set_timestamp_filter_range(select_start_time(), select_end_time());
+    update();
+}
+
 }
