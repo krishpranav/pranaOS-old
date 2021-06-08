@@ -54,4 +54,14 @@ void TimelineView::mousemove_event(GUI::MouseEvent& event)
     update();
 }
 
+void TimelineView::mouseup_event(GUI::MouseEvent& event)
+{
+    if (event.button() != GUI::MouseButton::Left)
+        return;
+
+    set_selecting(false);
+    if (select_start_time() == select_end_time())
+        m_profile.clear_timestamp_filter_range();
+}
+
 }
