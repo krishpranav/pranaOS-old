@@ -11,7 +11,6 @@
 
 namespace Profiler {
 
-
 class TimelineView;
 
 class TimelineContainer : public GUI::AbstractScrollableWidget {
@@ -24,6 +23,14 @@ protected:
     virtual void did_scroll() override;
     virtual void resize_event(GUI::ResizeEvent&) override;
 
-}
+private:
+    void update_widget_sizes();
+    void update_widget_positions();
+
+    TimelineContainer(GUI::Widget& header_container, TimelineView&);
+
+    RefPtr<TimelineView> m_timeline_view;
+    RefPtr<GUI::Widget> m_header_container;
+};
 
 }
