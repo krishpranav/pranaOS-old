@@ -5,3 +5,9 @@
  */
 
 #include "Process.h"
+
+namespace Profiler {
+
+
+
+}
