@@ -8,6 +8,9 @@
 
 namespace Profiler {
 
-
+Thread* Process::find_thread(pid_t tid, EventSerialNumber serial)
+{
+    
+}
 
 }
