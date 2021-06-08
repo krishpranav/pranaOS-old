@@ -23,5 +23,11 @@ TimelineView::~TimelineView()
 {
 }
 
+u64 TimelineView::timestamp_at_x(int x) const
+{
+    float column_width = (float)width() / (float)m_profile.length_in_ms();
+    float ms_into_profile = (float)x / column_width;
+    return m_profile.first_timestamp() + (u64)ms_into_profile;
+}
 
 }
