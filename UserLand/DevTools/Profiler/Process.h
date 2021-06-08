@@ -20,5 +20,8 @@ namespace Profiler {
         ELF::Image elf;
     }; 
 
+    extern HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
+
+
 
 }
