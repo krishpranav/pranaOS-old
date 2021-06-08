@@ -24,7 +24,15 @@ namespace Profiler {
 
     class LibraryMetadata {
     public:
+        struct Library {
+            FlatPtr      base;
+            size_t        size;
+            String        name;
+            FlatPtr       text_base;
+            MappedObject* object { nullptr };
 
+            String symbolicate(FlatPtr, u32* offset) const;
+        };
     }
 
 }
