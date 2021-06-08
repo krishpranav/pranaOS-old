@@ -20,4 +20,9 @@ Thread* Process::find_thread(pid_t tid, EventSerialNumber serial)
     return nullptr;
 }
 
+void Process::handle_thread_exit(pid_t, tid, EventSerialNumber serial)
+{
+    
+}
+
 }
