@@ -42,4 +42,16 @@ void TimelineView::mousedown_event(GUI::MouseEvent& event)
     update();
 }
 
+void TimelineView::mousemove_event(GUI::MouseEvent& event)
+{
+    set_hover_time(timestamp_at_x(event.x()));
+
+    if (is_selecting()) {
+        set_select_end_time(hover_time());
+        m_profile.set_timestamp_filter_range(select_start_time(), select_end_time());
+    }
+
+    update();
+}
+
 }
