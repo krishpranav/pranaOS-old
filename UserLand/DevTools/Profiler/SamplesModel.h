@@ -20,6 +20,17 @@ public:
         return adopt_ref(*new SamplesModel(profile));
     }
 
+    enum Column {
+        SampleIndex,
+        Timestamp,
+        ProcessID,
+        ThreadID,
+        ExecutableName,
+        LostSamples,
+        InnermostStackFrame,
+        __Count
+    };
+
 
 }
 
