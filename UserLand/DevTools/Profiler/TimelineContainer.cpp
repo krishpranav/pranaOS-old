@@ -40,4 +40,10 @@ void TimelineContainer::did_scroll()
     update_widget_positions();
 }
 
+void TimelineContainer::update_widget_positions()
+{
+    m_header_container->move_to(0, -vertical_scrollbar().value());
+    m_timeline_view->move_to(m_header_container->width() + -horizontal_scrollbar().value(), -vertical_scrollbar().value());
+}
+
 }
