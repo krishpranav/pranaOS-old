@@ -30,4 +30,8 @@ TimelineContainer::TimelineContainer(GUI::Widget& header_container, TimelineView
     };
 }
 
+TimelineContainer::~TimelineContainer()
+{
+}
+
 }
