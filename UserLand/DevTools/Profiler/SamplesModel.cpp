@@ -12,7 +12,6 @@
 
 namespace Profiler {
 
-
 SamplesModel::SamplesModel(Profile& profile)
     : m_profile(profile)
 {
@@ -24,7 +23,6 @@ SamplesModel::~SamplesModel()
 {
 }
 
-
 int SamplesModel::row_count(const GUI::ModelIndex&) const
 {
     return m_profile.filtered_event_indices().size();
@@ -34,7 +32,6 @@ int SamplesModel::column_count(const GUI::ModelIndex&) const
 {
     return Column::__Count;
 }
-
 
 String SamplesModel::column_name(int column) const
 {
