@@ -37,4 +37,33 @@ GUI::ModelIndex ProfileModel::index(int row, int column, const GUI::ModelIndex& 
     return create_index(row, column, remote_parent.children().at(row).ptr());
 }
 
+
+GUI::ModelIndex ProfileModel::parent_index(const GUI::ModelIndex& index) const
+{
+    if (!index.is_valid())
+        return {};
+    auto& node = *static_cast<ProfileNode*>(index.internal_data());
+    if (!node.parent())
+        return {};
+
+    if (!node.parent()->parent()) {
+        for (size_t row = 0; row < m_profile.roots().size(); ++row) {
+            if (m_profile.roots()[row].ptr() == node.parent()) {
+                return create_index(row, index.column(), node.parent());
+            }
+        }
+        VERIFY_NOT_REACHED();
+        return {};
+    }
+
+    for (size_t row = 0; row < node.parent()->parent()->children().size(); ++row) {
+        if (node.parent()->parent()->children()[row].ptr() == node.parent())
+            return create_index(row, index.column(), node.parent());
+    }
+
+    VERIFY_NOT_REACHED();
+    return {};
+}
+
+
 }
