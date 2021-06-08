@@ -17,7 +17,6 @@
 
 namespace Profiler {
 
-
 TimelineHeader::TimelineHeader(Profile& profile, Process const& process)
     : m_profile(profile)
     , m_process(process)
@@ -68,5 +67,12 @@ void TimelineHeader::update_selection()
     update();
 }
 
+void TimelineHeader::mousedown_event(GUI::MouseEvent& event)
+{
+    if (event.button() != GUI::MouseButton::Left)
+        return;
+    m_selected = !m_selected;
+    on_selection_change(m_selected);
+}
 
 }
