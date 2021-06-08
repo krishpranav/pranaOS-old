@@ -92,6 +92,9 @@ void LibraryMetadata::handle_mmap(FlatPtr base, size_t size, const String& name)
 
 String LibraryMetadata::Library::symbolicate(FlatPtr ptr, u32* offset) const
 {
+    if (!object)
+        return String::formatted("?? <{:p}>", ptr);
+
     
 }
 
