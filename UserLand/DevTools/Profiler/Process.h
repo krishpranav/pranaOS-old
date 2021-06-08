@@ -33,6 +33,9 @@ namespace Profiler {
 
             String symbolicate(FlatPtr, u32* offset) const;
         };
+
+        void handle_mmap(FlatPtr base, size_t size, const String& name);
+        const Library* library_containing(FlatPtr) const;
     }
 
 }
