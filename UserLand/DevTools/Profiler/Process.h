@@ -12,3 +12,13 @@
 #include <AK/OwnPtr.h>
 #include <AK/Vector.h>
 #include <LibELF/Image.h>
+
+namespace Profiler {
+
+    struct MappedObject {
+        NonnullRefPtr<MappedFile> file;
+        ELF::Image elf;
+    }; 
+
+
+}
