@@ -31,7 +31,22 @@ public:
         __Count
     };
 
+    virtual ~SamplesModel() override;
 
-}
+    virtual int row_count(const GUI::ModelIndex& = GUI::ModelIndex()) const override;
+    virtual int column_count(const GUI::ModelIndex& = GUI::ModelIndex()) const override;
+    virtual String column_name(int) const override;
+    virtual GUI::Variant data(const GUI::ModelIndex&, GUI::ModelRole) const override;
+    virtual void update() override;
+    virtual bool is_column_sortable(int) const override { return false; }
+
+private:
+    explicit SamplesModel(Profile&);
+
+    Profile& m_profile;
+
+    GUI::Icon m_user_frame_icon;
+    GUI::Icon m_kernel_frame_icon;
+};
 
 }
