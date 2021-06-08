@@ -22,6 +22,9 @@ namespace Profiler {
 
     extern HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
 
+    class LibraryMetadata {
+    public:
 
+    }
 
 }
