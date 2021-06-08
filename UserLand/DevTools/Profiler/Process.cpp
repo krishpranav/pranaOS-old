@@ -28,4 +28,6 @@ void Process::handle_thread_exit(pid_t tid, EventSerialNumber serial)
     thread->end_valid = serial;
 }
 
+HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
+
 }
