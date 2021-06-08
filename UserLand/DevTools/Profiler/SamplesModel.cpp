@@ -58,5 +58,12 @@ String SamplesModel::column_name(int column) const
     }
 }
 
+GUI::Variant SamplesModel::data(const GUI::ModelIndex& index, GUI::ModelRole role) const
+{
+    u32 event_index = m_profile.filtered_event_indices()[index.row()];
+    auto& event = m_profile.events().at(event_index);
+
+    
+}
 
 }
