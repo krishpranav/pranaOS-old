@@ -62,4 +62,11 @@ void TimelineHeader::paint_event(GUI::PaintEvent& event)
     painter.draw_text(text_rect, m_text, font, Gfx::TextAlignment::CenterLeft, color);
 }
 
+void TimelineHeader::update_selection()
+{
+    m_selected = m_profile.has_process_filter() && m_profile.process_filter_contains(m_process.pid, m_process.start_valid);
+    update();
+}
+
+
 }
