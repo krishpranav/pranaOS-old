@@ -40,3 +40,14 @@ public:
 private:
     mutable HashMap<String, NonnullOwnPtr<Library>> m_libraries;
 };
+
+struct Thread {
+    pid_t tid;
+    EventSerialNumber start_valid;
+    EventSerialNumber end_valid;
+
+    bool valid_at(EventSerialNumber serial) const
+    {
+        return serial >= start_valid && (end_valid == EventSerialNumber {} || serial <= end_valid);
+    }
+};
