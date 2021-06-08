@@ -27,7 +27,11 @@ SamplesModel::~SamplesModel()
 
 int SamplesModel::row_count(const GUI::ModelIndex&) const
 {
-    retrn m_profile.filtered_event_indices().size();
+    return m_profile.filtered_event_indices().size();
 }
 
+int SamplesModel::column_count(const GUI::ModelIndex&) const
+{
+    return Column::__Count;
+}
 }
