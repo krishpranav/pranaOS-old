@@ -16,6 +16,12 @@ class TimelineView;
 
 class TimelineContainer : public GUI::AbstractScrollableWidget {
     C_OBJECT(TimelineContainer);
+
+public:
+    virtual ~TimelineContainer();
+
+
+
 }
 
 }
