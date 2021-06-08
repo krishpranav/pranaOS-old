@@ -6,6 +6,7 @@
 
 #pragma once
 
+// includes
 #include "EventSerialNumber.h"
 #include <AK/HashMap.h>
 #include <AK/MappedFile.h>
@@ -51,3 +52,24 @@ struct Thread {
         return serial >= start_valid && (end_valid == EventSerialNumber {} || serial <= end_valid);
     }
 };
+
+struct Process {
+    pid_t pid {};
+    String executable;
+    String basename;
+    HashMap<int, Vector<Thread>> threads {};
+    LibraryMetadata library_metadata {};
+    EventSerialNumber start_valid;
+    EventSerialNumber end_valid;
+
+    Thread* find_thread(pid_t tid, EventSerialNumber serial);
+    void handle_thread_create(pid_t tid, EventSerialNumber serial);
+    void handle_thread_exit(pid_t tid, EventSerialNumber serial);
+
+    bool valid_at(EventSerialNumber serial) const
+    {
+        return serial >= start_valid && (end_valid == EventSerialNumber {} || serial <= end_valid);
+    }
+};
+
+}
