@@ -40,8 +40,10 @@ String SamplesModel::column_name(int column) const
 {
     
     switch (column) {
-    case Column::SampleIndex;
+    case Column::SampleIndex:
         return "#";
+    case Column::Timestamp:
+        return "Timestamp";
     }
 }
 
