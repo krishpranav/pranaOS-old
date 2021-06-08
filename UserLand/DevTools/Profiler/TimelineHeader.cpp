@@ -31,4 +31,8 @@ TimelineHeader::TimelineHeader(Profile& profile, Process const& process)
     m_text = String::formatted("{} ({})", LexicalPath(m_process.executable).basename(), m_process.pid);
 }
 
+TimelineHeader::~TimelineHeader()
+{
+}
+
 }
