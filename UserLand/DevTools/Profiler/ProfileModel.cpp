@@ -23,7 +23,18 @@ ProfileModel::ProfileModel(Profile& profile)
 
 ProfileModel::~ProfileModel()
 {
-    
+
+}
+
+GUI::ModelIndex ProfileModel::index(int row, int column, const GUI::ModelIndex& parent) const
+{
+    if (!parent.is_valid()) {
+        if (m_profile.roots().is_empty())
+            return {};
+        return create_index(row, column, m_profile.roots().at(row).ptr());
+    }
+    auto& remote_parent = *static_cast<ProfileNode*>(parent.internal_data());
+    return create_index(row, column, remote_parent.children().at(row).ptr());
 }
 
 }
