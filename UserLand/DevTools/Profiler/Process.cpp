@@ -95,7 +95,7 @@ String LibraryMetadata::Library::symbolicate(FlatPtr ptr, u32* offset) const
     if (!object)
         return String::formatted("?? <{:p}>", ptr);
 
-    
+    return object->elf.symbolicate(ptr - base + text_base, offset);
 }
 
 }
