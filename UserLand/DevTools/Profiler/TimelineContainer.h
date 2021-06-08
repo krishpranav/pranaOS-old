@@ -20,7 +20,9 @@ class TimelineContainer : public GUI::AbstractScrollableWidget {
 public:
     virtual ~TimelineContainer();
 
-
+protected:
+    virtual void did_scroll() override;
+    virtual void resize_event(GUI::ResizeEvent&) override;
 
 }
 
