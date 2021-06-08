@@ -16,6 +16,10 @@ ninja gcc compiler needed
 
 prana os is under development
 
+
+- building prana-os
+![See the full steps to build prana-os](https://github.com/krishpranav/prana-os/blob/master/Documentation/INSTALL.md)
+
 # Languages Used
 
 | Languages       |                                               
