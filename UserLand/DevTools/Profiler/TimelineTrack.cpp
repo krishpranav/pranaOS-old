@@ -27,4 +27,9 @@ TimelineTrack::TimelineTrack(TimelineView const& view, Profile const& profile, P
     set_frame_thickness(1);
 }
 
+
+TimelineTrack::~TimelineTrack()
+{
+}
+
 }
