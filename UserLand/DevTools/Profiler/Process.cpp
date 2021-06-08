@@ -20,6 +20,18 @@ Thread* Process::find_thread(pid_t tid, EventSerialNumber serial)
     return nullptr;
 }
 
+void Process::handle_thread_create(pid_t tid, EventSerialNumber serial)
+{
+    auto it = threads.find(tid);
+    if (it == threads.end()) {
+        threads.set(tid, {});
+        it = threads.find(tid);
+    }
+
+    auto thread = Thread { tid, serial, {} };
+    it->value.append(move(thread));
+}
+
 void Process::handle_thread_exit(pid_t tid, EventSerialNumber serial)
 {
     auto* thread = find_thread(tid, serial);
@@ -29,7 +41,6 @@ void Process::handle_thread_exit(pid_t tid, EventSerialNumber serial)
 }
 
 HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
-
 
 static MappedObject* get_or_create_mapped_object(const String& path)
 {
@@ -54,7 +65,6 @@ static MappedObject* get_or_create_mapped_object(const String& path)
     g_mapped_object_cache.set(path, move(new_mapped_object));
     return ptr;
 }
-
 
 void LibraryMetadata::handle_mmap(FlatPtr base, size_t size, const String& name)
 {
