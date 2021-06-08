@@ -63,9 +63,39 @@ GUI::Variant SamplesModel::data(const GUI::ModelIndex& index, GUI::ModelRole rol
     u32 event_index = m_profile.filtered_event_indices()[index.row()];
     auto& event = m_profile.events().at(event_index);
 
-    if (role ==  GUI::ModelRole::Custom) {
+    if (role == GUI::ModelRole::Custom) {
         return event_index;
     }
-}
 
+    if (role == GUI::ModelRole::Display) {
+        if (index.column() == Column::SampleIndex)
+            return event_index;
+
+        if (index.column() == Column::ProcessID)
+            return event.pid;
+
+        if (index.column() == Column::ThreadID)
+            return event.tid;
+
+        if (index.column() == Column::ExecutableName) {
+            if (auto* process = m_profile.find_process(event.pid, event.serial))
+                return process->executable;
+            return "";
+        }
+
+        if (index.column() == Column::Timestamp) {
+            return (u32)event.timestamp;
+        }
+
+        if (index.column() == Column::LostSamples) {
+            return event.lost_samples;
+        }
+
+        if (index.column() == Column::InnermostStackFrame) {
+            return event.frames.last().symbol;
+        }
+        return {};
+    }
+    return {};
+}
 }
