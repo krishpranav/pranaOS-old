@@ -55,4 +55,39 @@ static MappedObject* get_or_create_mapped_object(const String& path)
     return ptr;
 }
 
+
+void LibraryMetadata::handle_mmap(FlatPtr base, size_t size, const String& name)
+{
+    String path;
+    if (name.contains("Loader.so"))
+        path = "Loader.so";
+    else if (!name.contains(":"))
+        return;
+    else
+        path = name.substring(0, name.view().find_first_of(":").value());
+
+    String full_path;
+    if (name.contains(".so"))
+        full_path = String::formatted("/usr/lib/{}", path);
+    else
+        full_path = path;
+
+    auto* mapped_object = get_or_create_mapped_object(full_path);
+    if (!mapped_object) {
+        full_path = String::formatted("/usr/local/lib/{}", path);
+        mapped_object = get_or_create_mapped_object(full_path);
+        if (!mapped_object)
+            return;
+    }
+
+    FlatPtr text_base {};
+    mapped_object->elf.for_each_program_header([&](const ELF::Image::ProgramHeader& ph) {
+        if (ph.is_executable())
+            text_base = ph.vaddr().get();
+        return IterationDecision::Continue;
+    });
+
+    m_libraries.set(name, adopt_own(*new Library { base, size, name, text_base, mapped_object }));
+}
+
 }
