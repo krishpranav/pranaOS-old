@@ -38,13 +38,25 @@ int SamplesModel::column_count(const GUI::ModelIndex&) const
 
 String SamplesModel::column_name(int column) const
 {
-    
     switch (column) {
     case Column::SampleIndex:
         return "#";
     case Column::Timestamp:
         return "Timestamp";
+    case Column::ProcessID:
+        return "PID";
+    case Column::ThreadID:
+        return "TID";
+    case Column::ExecutableName:
+        return "Executable";
+    case Column::LostSamples:
+        return "Lost Samples";
+    case Column::InnermostStackFrame:
+        return "Innermost Frame";
+    default:
+        VERIFY_NOT_REACHED();
     }
 }
+
 
 }
