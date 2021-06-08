@@ -90,4 +90,9 @@ void LibraryMetadata::handle_mmap(FlatPtr base, size_t size, const String& name)
     m_libraries.set(name, adopt_own(*new Library { base, size, name, text_base, mapped_object }));
 }
 
+String LibraryMetadata::Library::symbolicate(FlatPtr ptr, u32* offset) const
+{
+    
+}
+
 }
