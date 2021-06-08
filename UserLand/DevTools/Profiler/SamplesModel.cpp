@@ -24,4 +24,10 @@ SamplesModel::~SamplesModel()
 {
 }
 
+
+int SamplesModel::row_count(const GUI::ModelIndex&) const
+{
+    retrn m_profile.filtered_event_indices().size();
+}
+
 }
