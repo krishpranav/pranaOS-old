@@ -12,3 +12,7 @@
 #include <LibGUI/Painter.h>
 #include <LibGfx/Font.h>
 #include <LibGfx/Palette.h>
+
+namespace Profiler {
+
+}
