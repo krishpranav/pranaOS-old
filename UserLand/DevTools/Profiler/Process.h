@@ -15,27 +15,28 @@
 
 namespace Profiler {
 
-    struct MappedObject {
-        NonnullRefPtr<MappedFile> file;
-        ELF::Image elf;
-    }; 
+struct MappedObject {
+    NonnullRefPtr<MappedFile> file;
+    ELF::Image elf;
+};
 
-    extern HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
+extern HashMap<String, OwnPtr<MappedObject>> g_mapped_object_cache;
 
-    class LibraryMetadata {
-    public:
-        struct Library {
-            FlatPtr      base;
-            size_t        size;
-            String        name;
-            FlatPtr       text_base;
-            MappedObject* object { nullptr };
+class LibraryMetadata {
+public:
+    struct Library {
+        FlatPtr base;
+        size_t size;
+        String name;
+        FlatPtr text_base;
+        MappedObject* object { nullptr };
 
-            String symbolicate(FlatPtr, u32* offset) const;
-        };
+        String symbolicate(FlatPtr, u32* offset) const;
+    };
 
-        void handle_mmap(FlatPtr base, size_t size, const String& name);
-        const Library* library_containing(FlatPtr) const;
-    }
+    void handle_mmap(FlatPtr base, size_t size, const String& name);
+    const Library* library_containing(FlatPtr) const;
 
-}
+private:
+    mutable HashMap<String, NonnullOwnPtr<Library>> m_libraries;
+};
