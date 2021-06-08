@@ -63,7 +63,9 @@ GUI::Variant SamplesModel::data(const GUI::ModelIndex& index, GUI::ModelRole rol
     u32 event_index = m_profile.filtered_event_indices()[index.row()];
     auto& event = m_profile.events().at(event_index);
 
-    
+    if (role ==  GUI::ModelRole::Custom) {
+        return event_index;
+    }
 }
 
 }
