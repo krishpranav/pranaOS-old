@@ -32,4 +32,16 @@ TimelineTrack::~TimelineTrack()
 {
 }
 
+void TimelineTrack::event(Core::Event& event)
+{
+    switch (event.type()) {
+    case GUI::Event::MouseUp:
+    case GUI::Event::MouseDown:
+    case GUI::Event::MouseMove:
+        event.ignore();
+    default:
+        break;
+    }
+    GUI::Frame::event(event);
+}
 }
