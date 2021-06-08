@@ -41,6 +41,18 @@ static MappedObject* get_or_create_mapped_object(const String& path)
         g_mapped_object_cache.set(path, {});
         return nullptr;
     }
+    auto elf = ELF::Image(file_or_error.value()->bytes());
+    if (!elf.is_valid()) {
+        g_mapped_object_cache.set(path, {});
+        return nullptr;
+    }
+    auto new_mapped_object = adopt_own(*new MappedObject {
+        .file = file_or_error.release_value(),
+        .elf = elf,
+    });
+    auto* ptr = new_mapped_object.ptr();
+    g_mapped_object_cache.set(path, move(new_mapped_object));
+    return ptr;
 }
 
 }
