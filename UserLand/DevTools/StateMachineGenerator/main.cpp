@@ -210,3 +210,5 @@ parse_state_machine(StringView input)
     }
     return state_machine;
 }
+
+void output_header(const StateMachine&, SourceGenerator&);
