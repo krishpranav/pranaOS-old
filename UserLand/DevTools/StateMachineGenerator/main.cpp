@@ -212,3 +212,12 @@ parse_state_machine(StringView input)
 }
 
 void output_header(const StateMachine&, SourceGenerator&);
+
+
+int main(int argc, char** argv)
+{
+    Core::ArgsParser args_parser;
+    const char* path = nullptr;
+    args_parser.add_positional_argument(path, "Path to parser description", "input", Core::ArgsParser::Required::Yes);
+    args_parser.parse(argc, argv);
+}
