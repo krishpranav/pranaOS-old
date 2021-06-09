@@ -27,8 +27,22 @@ struct StateTransition {
     Optional<String> action;
 };
 
-
 struct MatchedAction {
     Range range;
     StateTransition action;
+};
+
+struct State {
+    String name;
+    Vector<MatchedAction> actions;
+    Optional<String> entry_action;
+    Optional<String> exit_action;
+};
+
+struct StateMachine {
+    String name;
+    String initial_state;
+    Vector<State> states;
+    Optional<State> anywhere;
+    Optional<String> namespaces;
 };
