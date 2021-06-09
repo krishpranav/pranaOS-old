@@ -26,3 +26,9 @@ struct StateTransition {
     Optional<String> new_state;
     Optional<String> action;
 };
+
+
+struct MatchedAction {
+    Range range;
+    StateTransition action;
+};
