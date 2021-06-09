@@ -228,4 +228,10 @@ int main(int argc, char** argv)
 
     auto content = file_or_error.value()->read_all();
     auto state_machine = parse_state_machine(content);
+
+    StringBuilder builder;
+    SourceGenerator generator { builder };
+    output_header(*state_machine, generator);
+    outln("{}", generator.as_string_view());
+    return 0;
 }
