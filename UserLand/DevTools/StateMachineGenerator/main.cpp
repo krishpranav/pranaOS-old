@@ -213,7 +213,6 @@ parse_state_machine(StringView input)
 
 void output_header(const StateMachine&, SourceGenerator&);
 
-
 int main(int argc, char** argv)
 {
     Core::ArgsParser args_parser;
@@ -256,4 +255,199 @@ HashTable<String> actions(const StateMachine& machine)
     if (machine.anywhere.has_value())
         do_state(machine.anywhere.value());
     return move(table);
+}
+
+void generate_lookup_table(const StateMachine& machine, SourceGenerator& generator)
+{
+    generator.append(R"~~~(
+    static constexpr StateTransition STATE_TRANSITION_TABLE[][256] = {
+)~~~");
+
+    auto generate_for_state = [&](const State& s) {
+        auto table_generator = generator.fork();
+        table_generator.set("active_state", s.name);
+        table_generator.append("/* @active_state@ */ { ");
+        VERIFY(!s.name.is_empty());
+        Vector<StateTransition> row;
+        for (int i = 0; i < 256; i++)
+            row.append({ s.name, "_Ignore" });
+        for (auto action : s.actions) {
+            for (int range_element = action.range.begin; range_element <= action.range.end; range_element++) {
+                row[range_element] = { action.action.new_state, action.action.action };
+            }
+        }
+        for (int i = 0; i < 256; ++i) {
+            auto cell_generator = table_generator.fork();
+            cell_generator.set("cell_new_state", row[i].new_state.value_or(s.name));
+            cell_generator.set("cell_action", row[i].action.value_or("_Ignore"));
+            cell_generator.append(" {State::@cell_new_state@, Action::@cell_action@}, ");
+        }
+        table_generator.append("},\n");
+    };
+    if (machine.anywhere.has_value()) {
+        generate_for_state(machine.anywhere.value());
+    }
+    for (auto s : machine.states) {
+        generate_for_state(s);
+    }
+    generator.append(R"~~~(
+    };
+)~~~");
+}
+
+void output_header(const StateMachine& machine, SourceGenerator& generator)
+{
+    generator.set("class_name", machine.name);
+    generator.set("initial_state", machine.initial_state);
+    generator.set("state_count", String::number(machine.states.size() + 1));
+
+    generator.append(R"~~~(
+#pragma once
+
+#include <AK/Function.h>
+#include <AK/Platform.h>
+#include <AK/Types.h>
+                     )~~~");
+    if (machine.namespaces.has_value()) {
+        generator.set("namespace", machine.namespaces.value());
+        generator.append(R"~~~(
+namespace @namespace@ {
+)~~~");
+    }
+    generator.append(R"~~~(
+class @class_name@ {
+public:
+    enum class Action : u8 {
+        _Ignore,
+)~~~");
+    for (auto a : actions(machine)) {
+        if (a.is_empty())
+            continue;
+        auto action_generator = generator.fork();
+        action_generator.set("action.name", a);
+        action_generator.append(R"~~~(
+        @action.name@,
+    )~~~");
+    }
+
+    generator.append(R"~~~(
+    }; // end Action
+
+    using Handler = Function<void(Action, u8)>;
+
+    @class_name@(Handler handler)
+    : m_handler(move(handler))
+    {
+    }
+
+    void advance(u8 byte)
+    {
+        auto next_state = lookup_state_transition(byte);
+        bool state_will_change = next_state.new_state != m_state && next_state.new_state != State::_Anywhere;
+
+        // only run exit directive if state is being changed
+        if (state_will_change) {
+            switch (m_state) {
+)~~~");
+    for (auto s : machine.states) {
+        auto state_generator = generator.fork();
+        if (s.exit_action.has_value()) {
+            state_generator.set("state_name", s.name);
+            state_generator.set("action", s.exit_action.value());
+            state_generator.append(R"~~~(
+            case State::@state_name@:
+                m_handler(Action::@action@, byte);
+                break;
+)~~~");
+        }
+    }
+    generator.append(R"~~~(
+            default:
+                break;
+            }
+        }
+
+        if (next_state.action != Action::_Ignore)
+            m_handler(next_state.action, byte);
+        m_state = next_state.new_state;
+
+        // only run entry directive if state is being changed
+        if (state_will_change)
+        {
+            switch (next_state.new_state)
+            {
+)~~~");
+    for (auto state : machine.states) {
+        auto state_generator = generator.fork();
+        if (state.entry_action.has_value()) {
+            state_generator.set("state_name", state.name);
+            state_generator.set("action", state.entry_action.value());
+            state_generator.append(R"~~~(
+            case State::@state_name@:
+                m_handler(Action::@action@, byte);
+                break;
+)~~~");
+        }
+    }
+    generator.append(R"~~~(
+            default:
+                break;
+            }
+        }
+    }
+
+private:
+    enum class State : u8 {
+        _Anywhere,
+)~~~");
+
+    int largest_state_value = 0;
+    for (auto s : machine.states) {
+        auto state_generator = generator.fork();
+        state_generator.set("state.name", s.name);
+        largest_state_value++;
+        state_generator.append(R"~~~(
+        @state.name@,
+)~~~");
+    }
+    generator.append(R"~~~(
+    }; // end State
+
+    struct StateTransition {
+        State new_state;
+        Action action;
+    };
+
+    State m_state { State::@initial_state@ };
+
+    Handler m_handler;
+
+    ALWAYS_INLINE StateTransition lookup_state_transition(u8 byte)
+    {
+        VERIFY((u8)m_state < @state_count@);
+)~~~");
+    if (machine.anywhere.has_value()) {
+        generator.append(R"~~~(
+        auto anywhere_state = STATE_TRANSITION_TABLE[0][byte];
+        if (anywhere_state.new_state != State::_Anywhere || anywhere_state.action != Action::_Ignore)
+            return anywhere_state;
+        else
+)~~~");
+    }
+    generator.append(R"~~~(
+            return STATE_TRANSITION_TABLE[(u8)m_state][byte];
+    }
+)~~~");
+
+    auto table_generator = generator.fork();
+    generate_lookup_table(machine, table_generator);
+    generator.append(R"~~~(
+}; // end @class_name@
+)~~~");
+
+    if (machine.namespaces.has_value()) {
+        generator.append(R"~~~(
+} // end namespace
+)~~~");
+    }
 }
