@@ -23,3 +23,7 @@
 #include <sys/uio.h>
 #include <syscall.h>
 #include <termios.h>
+
+#if defined(__GNUC__) && !defined(__clang__)
+#    pragma GCC optimize("O3")
+#endif
