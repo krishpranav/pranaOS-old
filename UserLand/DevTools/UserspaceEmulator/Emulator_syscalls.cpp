@@ -255,10 +255,8 @@ u32 Emulator::virt_syscall(u32 function, u32 arg1, u32 arg2, u32 arg3)
         TODO();
     }
 }
-
-}
-
-int Emulator::virt$anon_create(size_t size, int options)
+    
+    int Emulator::virt$anon_create(size_t size, int options)
 {
     return syscall(SC_anon_create, size, options);
 }
@@ -292,3 +290,7 @@ int Emulator::virt$purge(int mode)
 {
     return syscall(SC_purge, mode);
 }
+
+}
+
+
