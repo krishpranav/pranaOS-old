@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pranaosOS C CXX ASM)
+project(pranaos C CXX ASM)
 
 if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
   message(FATAL
