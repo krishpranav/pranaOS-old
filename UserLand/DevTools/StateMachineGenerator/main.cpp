@@ -21,3 +21,8 @@ struct Range {
     int begin;
     int end;
 };
+
+struct StateTransition {
+    Optional<String> new_state;
+    Optional<String> action;
+};
