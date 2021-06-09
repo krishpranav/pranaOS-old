@@ -257,3 +257,38 @@ u32 Emulator::virt_syscall(u32 function, u32 arg1, u32 arg2, u32 arg3)
 }
 
 }
+
+int Emulator::virt$anon_create(size_t size, int options)
+{
+    return syscall(SC_anon_create, size, options);
+}
+
+int Emulator::virt$sendfd(int socket, int fd)
+{
+    return syscall(SC_sendfd, socket, fd);
+}
+
+int Emulator::virt$recvfd(int socket, int options)
+{
+    return syscall(SC_recvfd, socket, options);
+}
+
+int Emulator::virt$profiling_enable(pid_t pid)
+{
+    return syscall(SC_profiling_enable, pid);
+}
+
+int Emulator::virt$profiling_disable(pid_t pid)
+{
+    return syscall(SC_profiling_disable, pid);
+}
+
+int Emulator::virt$disown(pid_t pid)
+{
+    return syscall(SC_disown, pid);
+}
+
+int Emulator::virt$purge(int mode)
+{
+    return syscall(SC_purge, mode);
+}
