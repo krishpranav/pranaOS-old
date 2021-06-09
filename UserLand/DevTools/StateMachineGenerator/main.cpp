@@ -16,3 +16,8 @@
 #include <LibCore/File.h>
 #include <ctype.h>
 #include <string.h>
+
+struct Range {
+    int begin;
+    int end;
+};
