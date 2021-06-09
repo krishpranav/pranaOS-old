@@ -220,4 +220,12 @@ int main(int argc, char** argv)
     const char* path = nullptr;
     args_parser.add_positional_argument(path, "Path to parser description", "input", Core::ArgsParser::Required::Yes);
     args_parser.parse(argc, argv);
+
+    auto file_or_error = Core::File::open(path, Core::OpenMode::ReadOnly);
+    if (file_or_error.is_error()) {
+        fprintf(stderr, "Cannot open %s\n", path);
+    }
+
+    auto content = file_or_error.value()->read_all();
+    auto state_machine = parse_state_machine(content);
 }
