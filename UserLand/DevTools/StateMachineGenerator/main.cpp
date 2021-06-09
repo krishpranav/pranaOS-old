@@ -235,3 +235,25 @@ int main(int argc, char** argv)
     outln("{}", generator.as_string_view());
     return 0;
 }
+
+HashTable<String> actions(const StateMachine& machine)
+{
+    HashTable<String> table;
+
+    auto do_state = [&](const State& state) {
+        if (state.entry_action.has_value())
+            table.set(state.entry_action.value());
+        if (state.exit_action.has_value())
+            table.set(state.exit_action.value());
+        for (auto action : state.actions) {
+            if (action.action.action.has_value())
+                table.set(action.action.action.value());
+        }
+    };
+    for (auto state : machine.states) {
+        do_state(state);
+    }
+    if (machine.anywhere.has_value())
+        do_state(machine.anywhere.value());
+    return move(table);
+}
