@@ -21,6 +21,7 @@ class Canvas final : public GUI::Widget {
 public:
     virtual ~Canvas() override;
 
+
 private:
     Canvas();
     RefPtr<Gfx::Bitmap> m_bitmap;
