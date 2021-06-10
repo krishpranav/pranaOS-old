@@ -14,19 +14,4 @@ g++ version should be more than 10.0.0
 ninja gcc compiler needed
 ```
 
-prana os is under development
-
-
-- building prana-os
-![See the full steps to build prana-os](https://github.com/krishpranav/prana-os/blob/master/Documentation/INSTALL.md)
-
-# Languages Used
-
-| Languages       |                                               
-| ------------- | 					
-| c++          | 		
-| c          |        
-| javascript |           
-| shell  |          
-| python | 
-| game marker language      
+pranaOS has been moved to https://github.com/pranaOS/pranaOS
