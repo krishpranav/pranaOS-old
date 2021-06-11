@@ -29,6 +29,9 @@ class Emulator {
 public:
     static Emulator& the();
 
+
+    Emulator(const String& executable_path, const Vector<String>& arguments, const Vector<String>& environment);
+
 }
 
 }
