@@ -25,7 +25,17 @@ MallocTracer::MallocTracer(Emulator& emulator)
 template<typename Callback>
 inline void MallocTracer::for_each_mallocation(Callback callback) const
 {
-    
+    m_emulator.mmu().for_each_region([&](auto& region) {
+        if (is<MmapRegion>(region) && static_cast<const MmapRegion&>(region).is_malloc_block()) {
+            auto* malloc_data = static_cast<MmapRegion&>(region).malloc_metadata();
+            for (auto& mallocation : malloc_data->mallocations) {
+                if (mallocation.used && callback(mallocation) == IterationDecision::Break)
+                    return IterationDecision::Break;
+            }
+        }
+        return IterationDecision::Continue;
+    });
 }
+
 
 }
