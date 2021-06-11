@@ -41,6 +41,9 @@ public:
     bool is_malloc_block() const { return m_malloc; }
     void set_malloc(bool b) { m_malloc = b; }
 
+    NonnullOwnPtr<MmapRegion> split_at(VirtualAddress);
+    
+
 }
 
 }
