@@ -14,3 +14,12 @@
 #include <AK/OwnPtr.h>
 #include <AK/Types.h>
 #include <AK/Vector.h>
+
+namespace UserspaceEmulator {
+
+class Emulator;
+class SoftCPU;
+
+
+
+}
