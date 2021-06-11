@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "$DIR"
 
 ARCH=${ARCH:-"i686"}
-TARGET="$ARCH-pc-pranaos"
+TARGET="$ARCH-pc-pranaOS"
 PREFIX="$DIR/Local/$ARCH"
 BUILD="$DIR/../Build/$ARCH"
 SYSROOT="$BUILD/Root"
@@ -250,7 +250,7 @@ pushd "$DIR/Build/$ARCH"
         echo "XXX install gcc and libgcc"
         "$MAKE" install-gcc install-target-libgcc || exit 1
 
-        echo "XXX pranaos libc and libm headers"
+        echo "XXX pranaOS libc and libm headers"
         mkdir -p "$BUILD"
         pushd "$BUILD"
             mkdir -p Root/usr/include/
