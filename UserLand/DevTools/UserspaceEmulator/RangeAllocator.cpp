@@ -13,3 +13,12 @@
 #define VM_GUARD_PAGES
 #define PAGE ((FlatPtr)0xfffff000u)
 
+
+namespace UserspaceEmulator {
+
+RangeAllocator::RangeAllocator()
+    : m_total_range({}, 0)
+{
+}
+
+}
