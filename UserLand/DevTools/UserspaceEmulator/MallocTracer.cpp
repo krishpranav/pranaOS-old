@@ -107,4 +107,22 @@ ALWAYS_INLINE Mallocation* MallocRegionMetadata::mallocation_for_address(FlatPtr
     return &const_cast<Mallocation&>(this->mallocations[index.value()]);
 }
 
+ALWAYS_INLINE Optional<size_t> MallocRegionMetadata::chunk_index_for_address(FlatPtr address) const
+{
+    bool is_chunked_block = chunk_size <= size_classes[num_size_classes - 1];
+    if (!is_chunked_block) {
+        // This is a BigAllocationBlock
+        return 0;
+    }
+    auto offset_into_block = address - this->address;
+    if (offset_into_block < sizeof(ChunkedBlock))
+        return 0;
+    auto chunk_offset = offset_into_block - sizeof(ChunkedBlock);
+    auto chunk_index = chunk_offset / this->chunk_size;
+    if (chunk_index >= mallocations.size())
+        return {};
+    return chunk_index;
+}
+
+
 }
