@@ -21,6 +21,11 @@ public:
     Optional<Range> allocate_anywhere(size_t, size_t alignment = PAGE_SIZE);
     Optional<Range> allocate_specific(VirtualAddress, size_t);
     Optional<Range> allocate_randomized(size_t, size_t alignment);
+    void deallocate(const Range&);
+    
+    void dump() const;
+
+    bool contains(const Range& range) const { return m_total_range.contains(range);}
     
 }
 }
