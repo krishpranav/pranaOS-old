@@ -20,3 +20,15 @@
 #include <LibX86/Instruction.h>
 #include <signal.h>
 #include <sys/types.h>
+
+namespace  UserspaceEmulator {
+
+class MallocTracer;
+
+class Emulator {
+public:
+    static Emulator& the();
+
+}
+
+}
