@@ -30,5 +30,11 @@ struct GraphNode {
 
 using MemoryGraph = HashMap<FlatPtr, GraphNode>;
 
+struct Mallocation {
+    bool contains(FlatPtr a) const 
+    {
+        return a >= address && a < (address + size);
+    }
+}
 
 }
