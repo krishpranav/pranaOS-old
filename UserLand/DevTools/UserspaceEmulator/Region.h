@@ -17,5 +17,9 @@ namespace UserspaceEmulator {
 
 class Emulator;
 
+class Region {
+public:
+    virtual ~Region() { }
+}
 
 }
