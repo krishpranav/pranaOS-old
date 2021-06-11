@@ -20,6 +20,10 @@ namespace UserspaceEmulator {
 class Emulator;
 class SoftCPU;
 
-
+struct GraphNode {
+    Vector<FlatPtr> edges_from_node {};
+    
+    bool is_reachable { false };
+};
 
 }
