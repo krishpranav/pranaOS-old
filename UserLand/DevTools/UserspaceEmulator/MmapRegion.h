@@ -43,14 +43,31 @@ public:
 
     NonnullOwnPtr<MmapRegion> split_at(VirtualAddress);
 
-    int prot() const 
+    int prot() const
     {
         return (is_readable() ? PROT_READ : 0) | (is_writable() ? PROT_WRITE : 0) | (is_executable() ? PROT_EXEC : 0);
     }
     void set_prot(int prot);
 
-    
+    MallocRegionMetadata* malloc_metadata() { return m_malloc_metadata; }
+    void set_malloc_metadata(Badge<MallocTracer>, NonnullOwnPtr<MallocRegionMetadata> metadata) { m_malloc_metadata = move(metadata); }
 
-}
+    const String& name() const { return m_name; }
+    void set_name(String name) { m_name = move(name); }
+
+private:
+    MmapRegion(u32 base, u32 size, int prot, u8* data, u8* shadow_data);
+
+    u8* m_data { nullptr };
+    u8* m_shadow_data { nullptr };
+    bool m_file_backed { false };
+    bool m_malloc { false };
+
+    OwnPtr<MallocRegionMetadata> m_malloc_metadata;
+    String m_name;
+};
+
+template<>
+inline bool Region::fast_is<MmapRegion>() const { return m_mmap; }
 
 }
