@@ -13,7 +13,7 @@
 #include <AK/Format.h>
 #include <fcntl.h>
 #include <sched.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <strings.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>

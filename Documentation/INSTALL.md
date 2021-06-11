@@ -172,7 +172,7 @@ $ cmake ../.. -G Ninja
 $ ninja install
 ```
 
-This will compile all of SerenityOS and install the built files into `Root/` inside the build tree. `ninja` will automatically build as many jobs in parallel as it detects processors; `make` builds only one job in parallel. (Use the `-j` option with an argument if you want to change this.)
+This will compile all of pranaOS and install the built files into `Root/` inside the build tree. `ninja` will automatically build as many jobs in parallel as it detects processors; `make` builds only one job in parallel. (Use the `-j` option with an argument if you want to change this.)
 
 Now to build a disk image, run `ninja image`, and take it for a spin by using `ninja run`.
 

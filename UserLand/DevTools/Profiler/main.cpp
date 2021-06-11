@@ -33,7 +33,7 @@
 #include <LibGUI/TableView.h>
 #include <LibGUI/TreeView.h>
 #include <LibGUI/Window.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <string.h>
 
 using namespace Profiler;
