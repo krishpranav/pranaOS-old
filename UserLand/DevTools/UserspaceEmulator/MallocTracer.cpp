@@ -13,3 +13,13 @@
 #include <mallocdefs.h>
 #include <string.h>
 #include <unistd.h>
+
+namespace UserspaceEmulator {
+
+
+MallocTracer::MallocTracer(Emulator& emulator) 
+    : m_emulator(emulator)
+{
+}
+
+}
