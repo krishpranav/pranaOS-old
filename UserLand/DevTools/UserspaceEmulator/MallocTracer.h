@@ -28,4 +28,7 @@ struct GraphNode {
     bool is_reachable { false };
 };
 
+using MemoryGraph = HashMap<FlatPtr, GraphNode>;
+
+
 }
