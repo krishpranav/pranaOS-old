@@ -9,3 +9,11 @@
 // includes
 #include "SoftMMU.h"
 #include <sys/mman.h>
+
+namespace UserspaceEmulator {
+
+class MallocRegionMetadata;
+class MallocTracer;
+
+
+}
