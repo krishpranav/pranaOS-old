@@ -38,4 +38,9 @@ Emulator& Emulator::the()
     return *s_the;
 }
 
+Emulator::Emulator(const String& executable_path, const Vector<String>& arguments, const Vector<String>& environment)
+{
+    
+}
+
 }
