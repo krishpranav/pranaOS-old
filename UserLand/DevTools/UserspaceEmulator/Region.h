@@ -20,6 +20,12 @@ class Emulator;
 class Region {
 public:
     virtual ~Region() { }
+
+    const Range& range() const { return m_range; }
+
+    u32 base() const { return m_range.base().get(); }
+    u32 size() const { return m_range.size(); }
+    u32 end() const { return m_range.end().get(); }
 }
 
 }
