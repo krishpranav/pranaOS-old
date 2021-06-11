@@ -39,13 +39,31 @@ Emulator& Emulator::the()
 }
 
 Emulator::Emulator(const String& executable_path, const Vector<String>& arguments, const Vector<String>& environment)
-     : m_executable_path(executable_path)
+    : m_executable_path(executable_path)
     , m_arguments(arguments)
     , m_environment(environment)
     , m_mmu(*this)
     , m_cpu(*this)
 {
-    
+    m_malloc_tracer = make<MallocTracer>(*this);
+
+    static constexpr FlatPtr userspace_range_base = 0x00800000;
+    static constexpr FlatPtr userspace_range_ceiling = 0xbe000000;
+#ifdef UE_ASLR
+    static constexpr FlatPtr page_mask = 0xfffff000u;
+    size_t random_offset = (get_random<u8>() % 32 * MiB) & page_mask;
+    FlatPtr base = userspace_range_base + random_offset;
+#else
+    FlatPtr base = userspace_range_base;
+#endif
+
+    m_range_allocator.initialize_with_range(VirtualAddress(base), userspace_range_ceiling - base);
+
+    VERIFY(!s_the);
+    s_the = this;
+    register_signal_handlers();
+    setup_signal_trampoline();
 }
+
 
 }
