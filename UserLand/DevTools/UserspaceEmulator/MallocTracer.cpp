@@ -88,4 +88,15 @@ void MallocTracer::target_did_malloc(Badge<Emulator>, FlatPtr address, size_t si
     *mallocation = { address, size, true, false, m_emulator.raw_backtrace(), Vector<FlatPtr>() };
 }
 
+void MallocTracer::target_did_change_chunk_size(Badge<Emulator>, FlatPtr block, size_t chunk_size)
+{
+    if (m_emulator.is_in_loader_code())
+        return;
+    auto* region = m_emulator.mmu().find_region({ 0x23, block });
+    VERIFY(region);
+    VERIFY(is<MmapRegion>(*region));
+    auto& mmap_region = static_cast<MmapRegion&>(*region);
+    update_metadata(mmap_region, chunk_size);
+}
+
 }
