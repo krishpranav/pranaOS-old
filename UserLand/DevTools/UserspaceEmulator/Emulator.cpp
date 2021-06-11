@@ -68,6 +68,9 @@ Emulator::Emulator(const String& executable_path, const Vector<String>& argument
 Vector<ELF::AuxiliaryValue> Emulator::generate_auxiliary_vector(FlatPtr load_base, FlatPtr entry_eip, String executable_path, int executable_fd) const
 {
     Vector<ELF::AuxiliaryValue> auxv;
+
+    auxv.append({ ELF::AuxiliaryValue::PageSize, PAGE_SIZE });
+    
 }
 
 
