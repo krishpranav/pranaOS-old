@@ -58,5 +58,34 @@ void MallocTracer::update_metadata(MmapRegion& mmap_region, size_t chunk_size)
     mmap_region.set_malloc(true);
 }
 
+void MallocTracer::target_did_malloc(Badge<Emulator>, FlatPtr address, size_t size)
+{
+    if (m_emulator.is_in_loader_code())
+        return;
+    auto* region = m_emulator.mmu().find_region({ 0x23, address });
+    VERIFY(region);
+    VERIFY(is<MmapRegion>(*region));
+    auto& mmap_region = static_cast<MmapRegion&>(*region);
+
+    auto* shadow_bits = mmap_region.shadow_data() + address - mmap_region.base();
+    memset(shadow_bits, 0, size);
+
+    if (auto* existing_mallocation = find_mallocation(address)) {
+        VERIFY(existing_mallocation->freed);
+        existing_mallocation->size = size;
+        existing_mallocation->freed = false;
+        existing_mallocation->malloc_backtrace = m_emulator.raw_backtrace();
+        existing_mallocation->free_backtrace.clear();
+        return;
+    }
+
+    if (!mmap_region.is_malloc_block()) {
+        auto chunk_size = mmap_region.read32(offsetof(CommonHeader, m_size)).value();
+        update_metadata(mmap_region, chunk_size);
+    }
+    auto* mallocation = mmap_region.malloc_metadata()->mallocation_for_address(address);
+    VERIFY(mallocation);
+    *mallocation = { address, size, true, false, m_emulator.raw_backtrace(), Vector<FlatPtr>() };
+}
 
 }
