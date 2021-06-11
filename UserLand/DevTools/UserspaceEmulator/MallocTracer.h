@@ -45,4 +45,16 @@ struct Mallocation {
     Vector<FlatPtr> free_backtrace;
 };
 
+class MallocRegionMetadata {
+public:
+    MmapRegion& region;
+    FlatPtr address { 0 };
+    size_t chunk_size { 0 };
+
+    Optional<size_t> chunk_index_for_address(FlatPtr) const;
+    Mallocation* mallocation_for_address(FlatPtr) const;
+
+    Vector<Mallocation> mallocation;
+};
+
 }
