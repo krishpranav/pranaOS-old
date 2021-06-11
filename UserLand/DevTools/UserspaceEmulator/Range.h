@@ -11,5 +11,11 @@
 #include <Kernel/VirtualAddress.h>
 
 namespace UserspaceEmulator {
-    
+
+class Range {
+    friend class RangeAllocator;
+
+
+}
+
 }
