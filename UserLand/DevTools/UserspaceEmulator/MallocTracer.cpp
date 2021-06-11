@@ -99,4 +99,12 @@ void MallocTracer::target_did_change_chunk_size(Badge<Emulator>, FlatPtr block, 
     update_metadata(mmap_region, chunk_size);
 }
 
+ALWAYS_INLINE Mallocation* MallocRegionMetadata::mallocation_for_address(FlatPtr address) const
+{
+    auto index = chunk_index_for_address(address);
+    if (!index.has_value())
+        return nullptr;
+    return &const_cast<Mallocation&>(this->mallocations[index.value()]);
+}
+
 }
