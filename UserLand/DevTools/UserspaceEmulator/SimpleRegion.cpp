@@ -20,4 +20,10 @@ SimpleRegion::SimpleRegion(u32 base, u32 size)
     memset(m_shadow_data, 1, size);
 }
 
+SimpleRegion::~SimpleRegion()
+{
+    free(m_shadow_data);
+    free(m_data);
+}
+
 }
