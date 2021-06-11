@@ -47,6 +47,9 @@ public:
     {
         return (is_readable() ? PROT_READ : 0) | (is_writable() ? PROT_WRITE : 0) | (is_executable() ? PROT_EXEC : 0);
     }
+    void set_prot(int prot);
+
+    
 
 }
 
