@@ -29,8 +29,12 @@ class Emulator {
 public:
     static Emulator& the();
 
-
     Emulator(const String& executable_path, const Vector<String>& arguments, const Vector<String>& environment);
+
+    bool load_elf();
+    void dump_backtrace();
+    void dump_backtrace(const Vector<FlatPtr>&);
+    Vector<FlatPtr> raw_backtrace();
 
 }
 
