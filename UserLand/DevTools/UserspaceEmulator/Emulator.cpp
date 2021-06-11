@@ -32,4 +32,10 @@ static constexpr size_t stack_size = 1 * MiB;
 
 static Emulator* s_the;
 
+Emulator& Emulator::the()
+{
+    VERIFY(s_the);
+    return *s_the;
+}
+
 }
