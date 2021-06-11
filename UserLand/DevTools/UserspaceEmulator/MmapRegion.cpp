@@ -20,4 +20,10 @@ static void* mmap_initialized(size_t bytes, char initial_value, const char* name
     return ptr;
 }
 
+static void free_pages(void* ptr, size_t bytes)
+{
+    int rc = munmap(ptr, bytes);
+    VERIFY(rc == 0);
+}
+
 }
