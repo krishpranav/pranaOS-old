@@ -9,3 +9,13 @@
 // includes
 #include "Range.h"
 #include <AK/Vector.h>
+
+namespace UserspaceEmulator {
+
+class RangeAllocator {
+public:
+    RangeAllocator();
+
+    void initialize_with_range(VirtualAddress, size_t);
+}
+}
