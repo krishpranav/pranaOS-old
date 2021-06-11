@@ -26,4 +26,10 @@ SimpleRegion::~SimpleRegion()
     free(m_data);
 }
 
+ValueWithShadow<u8> SimpleRegion::read8(FlatPtr offset)
+{
+    VERIFY(offset < size());
+    return { *reinterpret_cast<const u8*>(m_data + offset), *reinterpret_cast<const u8*>(m_shadow_data + offset) };
+}
+
 }
