@@ -32,4 +32,11 @@ ValueWithShadow<u8> SimpleRegion::read8(FlatPtr offset)
     return { *reinterpret_cast<const u8*>(m_data + offset), *reinterpret_cast<const u8*>(m_shadow_data + offset) };
 }
 
+
+ValueWithShadow<u16> SimpleRegion::read16(u32 offset)
+{
+    VERIFY(offset + 1 < size());
+    return { *reinterpret_cast<const u16*>(m_data + offset), *reinterpret_cast<const u16*>(m_shadow_data + offset) };
+}
+
 }
