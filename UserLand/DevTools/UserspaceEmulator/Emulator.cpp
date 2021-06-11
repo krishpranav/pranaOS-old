@@ -68,10 +68,19 @@ Emulator::Emulator(const String& executable_path, const Vector<String>& argument
 Vector<ELF::AuxiliaryValue> Emulator::generate_auxiliary_vector(FlatPtr load_base, FlatPtr entry_eip, String executable_path, int executable_fd) const
 {
     Vector<ELF::AuxiliaryValue> auxv;
-
     auxv.append({ ELF::AuxiliaryValue::PageSize, PAGE_SIZE });
     auxv.append({ ELF::AuxiliaryValue::BaseAddress, (void*)load_base });
-    
+
+    auxv.append({ ELF::AuxiliaryValue::Entry, (void*)entry_eip });
+
+    auxv.append({ ELF::AuxiliaryValue::Platform, "i386" });
+
+    auxv.append({ ELF::AuxiliaryValue::ExecFilename, executable_path });
+
+    auxv.append({ ELF::AuxiliaryValue::ExecFileDescriptor, executable_fd });
+
+    auxv.append({ ELF::AuxiliaryValue::Null, 0L });
+    return auxv;
 }
 
 
