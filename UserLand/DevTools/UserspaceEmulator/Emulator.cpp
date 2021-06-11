@@ -83,5 +83,57 @@ Vector<ELF::AuxiliaryValue> Emulator::generate_auxiliary_vector(FlatPtr load_bas
     return auxv;
 }
 
+void Emulator::setup_stack(Vector<ELF::AuxiliaryValue> aux_vector)
+{
+    auto stack_region = make<SimpleRegion>(stack_location, stack_size);
+    stack_region->set_stack(true);
+    m_mmu.add_region(move(stack_region));
+    m_cpu.set_esp(shadow_wrap_as_initialized<u32>(stack_location + stack_size));
+
+    Vector<u32> argv_entries;
+
+    for (auto& argument : m_arguments) {
+        m_cpu.push_string(argument.characters());
+        argv_entries.append(m_cpu.esp().value());
+    }
+
+    Vector<u32> env_entries;
+
+    for (auto& variable : m_environment) {
+        m_cpu.push_string(variable.characters());
+        env_entries.append(m_cpu.esp().value());
+    }
+
+    for (auto& auxv : aux_vector) {
+        if (!auxv.optional_string.is_empty()) {
+            m_cpu.push_string(auxv.optional_string.characters());
+            auxv.auxv.a_un.a_ptr = (void*)m_cpu.esp().value();
+        }
+    }
+
+    for (ssize_t i = aux_vector.size() - 1; i >= 0; --i) {
+        auto& value = aux_vector[i].auxv;
+        m_cpu.push_buffer((const u8*)&value, sizeof(value));
+    }
+
+    m_cpu.push32(shadow_wrap_as_initialized<u32>(0)); // char** envp = { envv_entries..., nullptr }
+    for (ssize_t i = env_entries.size() - 1; i >= 0; --i)
+        m_cpu.push32(shadow_wrap_as_initialized(env_entries[i]));
+    u32 envp = m_cpu.esp().value();
+
+    m_cpu.push32(shadow_wrap_as_initialized<u32>(0)); // char** argv = { argv_entries..., nullptr }
+    for (ssize_t i = argv_entries.size() - 1; i >= 0; --i)
+        m_cpu.push32(shadow_wrap_as_initialized(argv_entries[i]));
+    u32 argv = m_cpu.esp().value();
+
+    m_cpu.push32(shadow_wrap_as_initialized<u32>(0)); // (alignment)
+
+    u32 argc = argv_entries.size();
+    m_cpu.push32(shadow_wrap_as_initialized(envp));
+    m_cpu.push32(shadow_wrap_as_initialized(argv));
+    m_cpu.push32(shadow_wrap_as_initialized(argc));
+    m_cpu.push32(shadow_wrap_as_initialized<u32>(0)); // (alignment)
+}
+
 
 }
