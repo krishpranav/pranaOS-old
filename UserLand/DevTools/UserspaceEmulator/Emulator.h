@@ -43,6 +43,15 @@ public:
 
     MallocTracer* malloc_tracer() { return m_malloc_tracer; }
 
+    bool is_in_malloc_or_free() const;
+    bool is_int_loader_code() const;
+    bool is_in_libsystem() const;
+    bool is_in_libc() const;
+
+    void did_receive_signal(int signum) { m_pending_signals |= (1 << signum); }
+
+    void dump_regions() const;
+
 }
 
 }
