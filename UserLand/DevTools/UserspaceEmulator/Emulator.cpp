@@ -70,6 +70,7 @@ Vector<ELF::AuxiliaryValue> Emulator::generate_auxiliary_vector(FlatPtr load_bas
     Vector<ELF::AuxiliaryValue> auxv;
 
     auxv.append({ ELF::AuxiliaryValue::PageSize, PAGE_SIZE });
+    auxv.append({ ELF::AuxiliaryValue::BaseAddress, (void*)load_base });
     
 }
 
