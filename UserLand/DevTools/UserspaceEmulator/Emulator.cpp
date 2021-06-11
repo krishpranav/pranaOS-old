@@ -39,6 +39,11 @@ Emulator& Emulator::the()
 }
 
 Emulator::Emulator(const String& executable_path, const Vector<String>& arguments, const Vector<String>& environment)
+     : m_executable_path(executable_path)
+    , m_arguments(arguments)
+    , m_environment(environment)
+    , m_mmu(*this)
+    , m_cpu(*this)
 {
     
 }
