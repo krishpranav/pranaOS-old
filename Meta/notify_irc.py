@@ -7,12 +7,12 @@ import requests
 # Must be exactly three lines each!
 # No trailing newline! (I.e. keep it as backslash-newline-tripleapostrophe.)
 TEMPLATE_PUSH = '''\
-{commit}{post_commit} (pushed master: {status}) {compare} https://github.com/prana-osOS/prana-os/actions/runs/{run_id}\
+{commit}{post_commit} (pushed master: {status}) {compare} https://github.com/krishpranav/pranaOS/actions/runs/{run_id}\
 '''
 TEMPLATE_PR = '''\
-{title} ({actor} {action}: {status}) {link} https://github.com/prana-osOS/prana-os/actions/runs/{run_id}\
+{title} ({actor} {action}: {status}) {link} https://github.com/krishpranav/pranaOS/actions/runs/{run_id}\
 '''
-prana-os_BOT = 'http://94.130.182.143:8080'
+pranaOS_BOT = 'http://94.130.182.143:8080'
 
 
 def compute_lines(wrapper):
@@ -95,7 +95,7 @@ def send_notification(line):
 
     print('> ' + line)
     try:
-        response = requests.post(prana-os_BOT, data={'msg': line})
+        response = requests.post(pranaOS_BOT, data={'msg': line})
     except BaseException as e:
         print('Notification failed: {}: {}'.format(type(e), e))
     else:

@@ -1,4 +1,4 @@
-Steps To Build prana-os
+Steps To Build pranaOS
 
 On Ubuntu it's in the repositories of 20.04 (Focal) and later - add the `ubuntu-toolchain-r/test` PPA if you're running an older version:
 
