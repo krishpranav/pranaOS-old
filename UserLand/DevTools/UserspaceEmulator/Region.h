@@ -12,3 +12,10 @@
 #include <AK/TypeCasts.h>
 #include <AK/Types.h>
 #include <LibX86/Types.h>
+
+namespace UserspaceEmulator {
+
+class Emulator;
+
+
+}
