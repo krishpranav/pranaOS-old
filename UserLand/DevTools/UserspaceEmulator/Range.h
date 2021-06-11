@@ -9,3 +9,7 @@
 // includes
 #include <AK/Types.h>
 #include <Kernel/VirtualAddress.h>
+
+namespace UserspaceEmulator {
+    
+}
