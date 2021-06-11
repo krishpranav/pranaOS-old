@@ -22,4 +22,10 @@ MallocTracer::MallocTracer(Emulator& emulator)
 {
 }
 
+template<typename Callback>
+inline void MallocTracer::for_each_mallocation(Callback callback) const
+{
+    
+}
+
 }
