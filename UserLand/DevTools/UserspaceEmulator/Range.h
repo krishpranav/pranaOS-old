@@ -22,6 +22,10 @@ public:
         , m_size(size)
     {
     }
+
+    VirtualAddress base() const { return m_base; }
+    size_t size() const { return m_size; }
+    bool is_valid() const { return !m_base.is_null(); }
 }
 
 }
