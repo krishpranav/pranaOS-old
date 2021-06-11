@@ -40,6 +40,9 @@ struct Mallocation {
     size_t size { 0 };
     bool used { false };
     bool freed { false };
+
+    Vector<FlatPtr> malloc_backtrace;
+    Vector<FlatPtr> free_backtrace;
 };
 
 }
