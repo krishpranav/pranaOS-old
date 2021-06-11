@@ -8,3 +8,14 @@
 
 // includes
 #include "SoftMMU.h"
+
+
+namespace UserspaceEmulator {
+
+class SimpleRegion final : public Region {
+public:
+    SimpleRegion(u32 base, u32 size);
+    virtual ~SimpleRegion() override;
+}
+
+}
