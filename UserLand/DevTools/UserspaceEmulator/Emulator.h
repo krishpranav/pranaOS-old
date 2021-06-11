@@ -36,6 +36,13 @@ public:
     void dump_backtrace(const Vector<FlatPtr>&);
     Vector<FlatPtr> raw_backtrace();
 
+    int exec();
+    u32 virt_syscall(u32 function, u32 arg1, u32 arg2, u32 arg3);
+
+    SoftMMU& mmu() { return m_mmu; }
+
+    MallocTracer* malloc_tracer() { return m_malloc_tracer; }
+
 }
 
 }
