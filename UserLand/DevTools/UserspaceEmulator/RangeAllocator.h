@@ -22,10 +22,16 @@ public:
     Optional<Range> allocate_specific(VirtualAddress, size_t);
     Optional<Range> allocate_randomized(size_t, size_t alignment);
     void deallocate(const Range&);
-    
+
     void dump() const;
 
-    bool contains(const Range& range) const { return m_total_range.contains(range);}
-    
-}
+    bool contains(const Range& range) const { return m_total_range.contains(range); }
+
+private:
+    void carve_at_index(int, const Range&);
+
+    Vector<Range> m_available_ranges;
+    Range m_total_range;
+};
+
 }
