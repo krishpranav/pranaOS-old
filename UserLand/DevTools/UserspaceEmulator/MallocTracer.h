@@ -35,6 +35,11 @@ struct Mallocation {
     {
         return a >= address && a < (address + size);
     }
-}
+
+    FlatPtr address { 0 };
+    size_t size { 0 };
+    bool used { false };
+    bool freed { false };
+};
 
 }
