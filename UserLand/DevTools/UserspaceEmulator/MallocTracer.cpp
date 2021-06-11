@@ -38,4 +38,25 @@ inline void MallocTracer::for_each_mallocation(Callback callback) const
 }
 
 
+void MallocTracer::update_metadata(MmapRegion& mmap_region, size_t chunk_size)
+{
+    mmap_region.set_malloc_metadata({},
+        adopt_own(*new MallocRegionMetadata {
+            .region = mmap_region,
+            .address = mmap_region.base(),
+            .chunk_size = chunk_size,
+            .mallocations = {},
+        }));
+    auto& malloc_data = *mmap_region.malloc_metadata();
+
+    bool is_chunked_block = malloc_data.chunk_size <= size_classes[num_size_classes - 1];
+    if (is_chunked_block)
+        malloc_data.mallocations.resize((ChunkedBlock::block_size - sizeof(ChunkedBlock)) / malloc_data.chunk_size);
+    else
+        malloc_data.mallocations.resize(1);
+
+    mmap_region.set_malloc(true);
+}
+
+
 }
