@@ -52,6 +52,10 @@ public:
 
     void dump_regions() const;
 
+private:
+    const String m_executable_path;
+    const Vector<String> m_arguments;
+
 }
 
 }
