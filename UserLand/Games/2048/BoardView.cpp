@@ -117,3 +117,85 @@ void BoardView::keydown_event(GUI::KeyEvent& event)
         return;
     }
 }
+
+Gfx::Color BoardView::background_color_for_cell(u32 value)
+{
+    switch (value) {
+    case 0:
+        return Color::from_rgb(0xcdc1b4);
+    case 2:
+        return Color::from_rgb(0xeee4da);
+    case 4:
+        return Color::from_rgb(0xede0c8);
+    case 8:
+        return Color::from_rgb(0xf2b179);
+    case 16:
+        return Color::from_rgb(0xf59563);
+    case 32:
+        return Color::from_rgb(0xf67c5f);
+    case 64:
+        return Color::from_rgb(0xf65e3b);
+    case 128:
+        return Color::from_rgb(0xedcf72);
+    case 256:
+        return Color::from_rgb(0xedcc61);
+    case 512:
+        return Color::from_rgb(0xedc850);
+    case 1024:
+        return Color::from_rgb(0xedc53f);
+    case 2048:
+        return Color::from_rgb(0xedc22e);
+    default:
+        VERIFY(value > 2048);
+        return Color::from_rgb(0x3c3a32);
+    }
+}
+
+Gfx::Color BoardView::text_color_for_cell(u32 value)
+{
+    if (value <= 4)
+        return Color::from_rgb(0x776e65);
+    return Color::from_rgb(0xf9f6f2);
+}
+
+void BoardView::paint_event(GUI::PaintEvent& event)
+{
+    Frame::paint_event(event);
+
+    Color background_color = Color::from_rgb(0xbbada0);
+
+    GUI::Painter painter(*this);
+    painter.add_clip_rect(event.rect());
+    painter.add_clip_rect(frame_inner_rect());
+    painter.translate(frame_thickness(), frame_thickness());
+
+    if (!m_board) {
+        painter.fill_rect(rect(), background_color);
+        return;
+    }
+    auto& board = *m_board;
+
+    Gfx::IntRect field_rect {
+        0,
+        0,
+        static_cast<int>(m_padding + (m_cell_size + m_padding) * columns()),
+        static_cast<int>(m_padding + (m_cell_size + m_padding) * rows())
+    };
+    field_rect.center_within(rect());
+    painter.fill_rect(field_rect, background_color);
+
+    for (size_t column = 0; column < columns(); ++column) {
+        for (size_t row = 0; row < rows(); ++row) {
+            auto rect = Gfx::IntRect {
+                field_rect.x() + m_padding + (m_cell_size + m_padding) * column,
+                field_rect.y() + m_padding + (m_cell_size + m_padding) * row,
+                m_cell_size,
+                m_cell_size,
+            };
+            auto entry = board[row][column];
+            painter.fill_rect(rect, background_color_for_cell(entry));
+            if (entry > 0)
+                painter.draw_text(rect, String::number(entry), font(), Gfx::TextAlignment::Center, text_color_for_cell(entry));
+        }
+    }
+}
