@@ -27,7 +27,12 @@ template<typename T>
 class ValueWithShadow {
 public:
     using ValueType = T;
-    
+
+    ValueWithShadow(T value, T shadow)
+        : m_value(value)
+        , m_shadow(shadow)
+    {
+    }
 
 
 }
