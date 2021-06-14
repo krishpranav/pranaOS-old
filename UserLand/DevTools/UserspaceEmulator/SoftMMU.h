@@ -77,7 +77,13 @@ public:
     template<typename Callback>
     void for_regions_in(X86::LogicalAddress address, size_t size, Callback callback)
     {
-        
+        VERIFY(size > 0);
+        X86::LogicalAddress address_end = address;
+        address_end.set_offset(address_end.offset() + size);
+        ensure_split_at(address);
+        ensure_split_at(address_end);
+
+        size_t first_page = address.offset() / PAGE_SIZE;
     }
 
 }
