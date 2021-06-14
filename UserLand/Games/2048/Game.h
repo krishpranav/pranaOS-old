@@ -33,6 +33,7 @@ public:
 
     size_t score() const { return m_score; }
     size_t turns() const { return m_turns; }
-    
+    u32 target_tile() const { return m_target_tile; }
+    u32 largest_tile() cosnt;
 
 }
