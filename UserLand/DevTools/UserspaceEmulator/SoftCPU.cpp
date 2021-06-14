@@ -64,4 +64,17 @@ constexpr T sign_extended_to(U value)
     return (X86::TypeTrivia<T>::mask & ~X86::TypeTrivia<U>::mask) | value;
 }
 
+SoftCPU::SoftCPU(Emulator& emulator)
+    : m_emulator(emulator)
+{
+    memset(m_gpr, 0, sizeof(m_gpr));
+    memset(m_gpr_shadow, 1, sizeof(m_gpr_shadow));
+
+    m_segment[(int)X86::SegmentRegister::CS] = 0x1b;
+    m_segment[(int)X86::SegmentRegister::DS] = 0x23;
+    m_segment[(int)X86::SegmentRegister::ES] = 0x23;
+    m_segment[(int)X86::SegmentRegister::SS] = 0x23;
+    m_segment[(int)X86::SegmentRegister::GS] = 0x2b;
+}
+
 }
