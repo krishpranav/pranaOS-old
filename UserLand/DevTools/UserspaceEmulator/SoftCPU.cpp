@@ -223,4 +223,11 @@ ValueWithShadow<u32> SoftCPU::pop32()
     return value;
 }
 
+void SoftCPU::push16(ValueWithShadow<u16> value)
+{
+    warn_if_uninitialized(esp(), "push16");
+    set_esp({ esp().value() - sizeof(u16), esp().shadow() });
+    write_memory16({ ss(), esp().value() }, value);
+}
+
 }
