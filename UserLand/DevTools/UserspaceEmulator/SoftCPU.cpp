@@ -215,4 +215,12 @@ void SoftCPU::push32(ValueWithShadow<u32> value)
     write_memory32({ ss(), esp().value() }, value);
 }
 
+ValueWithShadow<u32> SoftCPU::pop32()
+{
+    warn_if_uninitialized(esp(), "pop32");
+    auto value = read_memory32({ ss(), esp().value() });
+    set_esp({ esp().value() + sizeof(u32), esp().shadow() });
+    return value;
+}
+
 }
