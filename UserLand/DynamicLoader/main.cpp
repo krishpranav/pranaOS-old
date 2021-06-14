@@ -68,3 +68,11 @@ this helper program directly.
 )";
     fprintf(stderr, "%s", message);
 }
+
+extern "C" {
+
+void _start(int, char**, char**);
+
+
+
+}
