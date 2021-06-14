@@ -569,5 +569,35 @@ ALWAYS_INLINE static T op_and(SoftCPU& cpu, const T& dest, const T& src)
     return shadow_wrap_with_taint_from<typename T::ValueType>(result, dest, src);
 }
 
+template<typename T>
+ALWAYS_INLINE static void op_imul(SoftCPU& cpu, const T& dest, const T& src, T& result_high, T& result_low)
+{
+    bool did_overflow = false;
+    if constexpr (sizeof(T) == 4) {
+        i64 result = (i64)src * (i64)dest;
+        result_low = result & 0xffffffff;
+        result_high = result >> 32;
+        did_overflow = (result > NumericLimits<T>::max() || result < NumericLimits<T>::min());
+    } else if constexpr (sizeof(T) == 2) {
+        i32 result = (i32)src * (i32)dest;
+        result_low = result & 0xffff;
+        result_high = result >> 16;
+        did_overflow = (result > NumericLimits<T>::max() || result < NumericLimits<T>::min());
+    } else if constexpr (sizeof(T) == 1) {
+        i16 result = (i16)src * (i16)dest;
+        result_low = result & 0xff;
+        result_high = result >> 8;
+        did_overflow = (result > NumericLimits<T>::max() || result < NumericLimits<T>::min());
+    }
+
+    if (did_overflow) {
+        cpu.set_cf(true);
+        cpu.set_of(true);
+    } else {
+        cpu.set_cf(false);
+        cpu.set_of(false);
+    }
+}
+
 
 }
