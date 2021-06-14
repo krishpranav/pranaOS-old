@@ -25,6 +25,7 @@ public:
     explicit SoftMMU(Emulator&);
 
     ValueWithShadow<u8> read8(X86::LogicalAddress);
+    ValueWithShadow<u16> read16(X86::LogicalAddress);
 }
 
 }
