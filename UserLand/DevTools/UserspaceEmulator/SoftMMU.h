@@ -15,3 +15,9 @@
 #include <AK/OwnPtr.h>
 #include <AK/Types.h>
 #include <LibX86/Instruction.h>
+
+namespace UserspaceEmulator {
+
+class Emulator;
+
+}
