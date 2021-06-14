@@ -36,3 +36,13 @@
     void SoftCPU::mnemonic##_RM32_1(const X86::Instruction& insn) { generic_RM32_1(op<ValueWithShadow<u32>>, insn); }                      \
     void SoftCPU::mnemonic##_RM32_CL(const X86::Instruction& insn) { generic_RM32_CL(op<ValueWithShadow<u32>>, insn); }                    \
     void SoftCPU::mnemonic##_RM32_imm8(const X86::Instruction& insn) { generic_RM32_unsigned_imm8<true>(op<ValueWithShadow<u32>>, insn); }
+
+namespace UserspaceEmulator {
+
+template<typename T>
+ALWAYS_INLINE void warn_if_uninitialized(T value_with_shadow, const char* message)
+{
+    
+}
+
+}

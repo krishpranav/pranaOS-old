@@ -8,4 +8,5 @@ https://ftpmirror.gnu.org/gnu/binutils/binutils-${version}.tar.xz.sig binutils-$
 https://ftpmirror.gnu.org/gnu/gnu-keyring.gpg gnu-keyring.gpg"
 auth_type="sig"
 auth_opts="--keyring ./gnu-keyring.gpg binutils-${version}.tar.xz.sig"
+
 export ac_cv_func_getrusage=no
