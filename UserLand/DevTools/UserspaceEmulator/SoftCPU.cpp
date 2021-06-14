@@ -101,7 +101,7 @@ void SoftCPU::update_code_cache()
     m_cached_code_base_ptr = region->data();
 }
 
-ValueWithShadow<u8> SoftCPU::read_memory(X86::LogicalAddress address)
+ValueWithShadow<u8> SoftCPU::read_memory8(X86::LogicalAddress address)
 {
     VERIFY(address.selector() == 0x1b || address.selector() == 0x23 || address.selector() == 0x2b);
     auto value = m_emulator.mmu().read8(address);
