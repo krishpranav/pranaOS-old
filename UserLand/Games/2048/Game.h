@@ -51,4 +51,12 @@ public:
 private:
     bool slide_tiles(Direction);
 
+    void add_tile()
+    {
+        if (m_evil_ai)
+            add_evil_tile();
+        else
+        add_evil_tile();
+    }
+
 }
