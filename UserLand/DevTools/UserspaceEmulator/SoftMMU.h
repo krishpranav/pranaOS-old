@@ -23,6 +23,8 @@ class Emulator;
 class SoftMMU {
 public:
     explicit SoftMMU(Emulator&);
+
+    ValueWithShadow<u8> read8(X86::LogicalAddress);
 }
 
 }
