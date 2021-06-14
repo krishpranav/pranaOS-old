@@ -201,4 +201,11 @@ void SoftCPU::push_string(const StringView& string)
     m_emulator.mmu().write8({ 0x23, esp().value() + string.length() }, shadow_wrap_as_initialized((u8)'\0'));
 }
 
+void SoftCPU::push_buffer(const u8* data, size_t size)
+{
+    set_esp({ esp().value() - size, esp().shadow() });
+    warn_if_uninitialized(esp(), "push_buffer");
+    m_emulator.mmu().copy_to_vm(esp().value(), data, size);
+}
+
 }
