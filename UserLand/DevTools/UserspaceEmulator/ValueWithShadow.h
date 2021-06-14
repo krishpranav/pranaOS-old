@@ -36,6 +36,10 @@ public:
 
     ValueWithShadow(const ValueAndShadowReference<T>&);
 
+    T value() const { return m_value; }
+    T shadow() const { return m_shadow; }
+    
+
 
 }
 
