@@ -31,5 +31,8 @@ public:
 
     MoveOutcome attempt_move(Direction);
 
+    size_t score() const { return m_score; }
+    size_t turns() const { return m_turns; }
+    
 
 }
