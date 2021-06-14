@@ -49,6 +49,9 @@ public:
 
     void add_region(NonnullOwnPtr<Region>);
     void remove_region(Region&);
+    void ensure_split_at(X86::LogicalAddress);
+
+    void set_tls_region(NonnullOwnPtr<Region>);
 
 }
 
