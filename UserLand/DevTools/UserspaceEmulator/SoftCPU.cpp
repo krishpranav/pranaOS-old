@@ -90,6 +90,15 @@ void SoftCPU::update_code_cache()
 {
     auto* region = m_emulator.mmu().find_region({ cs(), eip() });
     VERIFY(region);
+
+    if (!region->is_executable()) {
+        reportln("SoftCPU::update_code_cache: Non-executable region @ {:p}", eip());
+        Emulator::the().dump_backtrace();
+        TODO();
+    }
+
+    m_cached_code_region = region;
+    m_cached_code_base_ptr = region->data();
 }
 
 }
