@@ -15,5 +15,5 @@ const char* __cxa_demangle(const char*, void*, void*, int*)
     return "";
 }
 
-
+void* __dso_handle __attribute__((__weak__));
 }
