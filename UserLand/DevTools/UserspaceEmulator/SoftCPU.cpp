@@ -56,5 +56,12 @@ ALWAYS_INLINE void SoftCPU::warn_if_flags_tainted(const char* message) const
     }
 }
 
+template<typename T, typename U>
+constexpr T sign_extended_to(U value)
+{
+    if (!(value & X86::TypeTrivia<U>::sign_bit))
+        return value;
+    return (X86::TypeTrivia<T>::mask & ~X86::TypeTrivia<U>::mask) | value;
+}
 
 }
