@@ -238,5 +238,24 @@ ValueWithShadow<u16> SoftCPU::pop16()
     return value;
 }
 
+template<bool check_zf, typename Callback>
+void SoftCPU::do_once_or_repeat(const X86::Instruction& insn, Callback callback)
+{
+    if (!insn.has_rep_prefix())
+        return callback();
+
+    while (loop_index(insn.a32()).value()) {
+        callback();
+        decrement_loop_index(insn.a32());
+        if constexpr (check_zf) {
+            warn_if_flags_tainted("repz/repnz");
+            if (insn.rep_prefix() == X86::Prefix::REPZ && !zf())
+                break;
+            if (insn.rep_prefix() == X86::Prefix::REPNZ && zf())
+                break;
+        }
+    }
+}
+
 
 }
