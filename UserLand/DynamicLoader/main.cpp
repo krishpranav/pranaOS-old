@@ -54,3 +54,17 @@ static void perform_self_relocations(auxv_t* auxvp)
         return IterationDecision::Continue;
     });
 }
+
+static void display_help()
+{
+    const char message[] =
+        R"(You have invoked `Loader.so'. This is the helper program for programs that
+use shared libraries. Special directives embedded in executables tell the
+kernel to load this program.
+
+This helper program loads the shared libraries needed by the program,
+prepares the program to run, and runs it. You do not need to invoke
+this helper program directly.
+)";
+    fprintf(stderr, "%s", message);
+}
