@@ -48,4 +48,11 @@ ALWAYS_INLINE void warn_if_uninitialized(T value_with_shadow, const char* messag
     }
 }
 
+ALWAYS_INLINE void SoftCPU::warn_if_flags_tainted(const char* message) const
+{
+    if (m_flags_tainted) [[unlikely]]
+    reportln("\n=={}==  \033[31;1mConditional depends on uninitialized data\033[0m ({})\n", getpid(), message);
+    Emulator::the().dump_backtrace();
+}
+
 }
