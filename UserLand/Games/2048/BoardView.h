@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
-#pragma once 
+#pragma once
 
 // includes
 #include "Game.h"
@@ -22,5 +22,21 @@ public:
 private:
     explicit BoardView(const Game::Board*);
 
-    
-}
+    virtual void resize_event(GUI::ResizeEvent&) override;
+    virtual void paint_event(GUI::PaintEvent&) override;
+    virtual void keydown_event(GUI::KeyEvent&) override;
+
+    size_t rows() const;
+    size_t columns() const;
+
+    void pick_font();
+    void resize();
+
+    Color background_color_for_cell(u32 value);
+    Color text_color_for_cell(u32 value);
+
+    float m_padding { 0 };
+    float m_cell_size { 0 };
+
+    const Game::Board* m_board { nullptr };
+};
