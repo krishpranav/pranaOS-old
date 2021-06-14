@@ -40,4 +40,12 @@ public:
 
     const Board& board() const { return m_board; }
 
+    static size_t max_power_for_board(size_t size)
+    {
+        if (size >= 6)
+            return 31;
+            
+        return size * size + 1;
+    }
+
 }
