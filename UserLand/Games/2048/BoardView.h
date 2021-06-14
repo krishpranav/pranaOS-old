@@ -9,3 +9,8 @@
 // includes
 #include "Game.h"
 #include <LibGUI/Frame.h>
+
+class BoardView final : public GUI::Frame {
+    C_OBJECT(BoardView);
+
+}
