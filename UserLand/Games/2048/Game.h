@@ -29,5 +29,7 @@ public:
         Right,
     };
 
+    MoveOutcome attempt_move(Direction);
+
 
 }
