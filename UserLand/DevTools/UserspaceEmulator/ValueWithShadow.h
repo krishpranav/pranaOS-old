@@ -19,4 +19,8 @@ constexpr u128 _initialized_128 = u128(_inititalized_64, _inititalized_64);
 constexpr u256 _initialized_256 = u256(_initialized_128, _initialized_128);
 
 
+template<typename T>
+class ValueAndShadowReference;
+
+
 }
