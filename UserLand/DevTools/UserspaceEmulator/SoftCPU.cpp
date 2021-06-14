@@ -143,4 +143,12 @@ ValueWithShadow<u128> SoftCPU::read_memory128(X86::LogicalAddress address)
     return value;
 }
 
+ValueWithShadow<u256> SoftCPU::read_memory256(X86::LogicalAddress address)
+{
+    VERIFY(address.selector() == 0x1b || address.selector() == 0x23 || address.selector() == 0x2b);
+    auto value = m_emulator.mmu().read256(address);
+    outln_if(MEMORY_DEBUG, "\033[36;1mread_memory256: @{:04x}:{:08x} -> {:064x} ({:064x})\033[0m", address.selector(), address.offset(), value, value.shadow());
+    return value;
+}
+
 }
