@@ -74,6 +74,12 @@ public:
         }
     }
 
+    template<typename Callback>
+    void for_regions_in(X86::LogicalAddress address, size_t size, Callback callback)
+    {
+        
+    }
+
 }
 
 }
