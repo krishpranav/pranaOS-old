@@ -42,7 +42,10 @@ namespace UserspaceEmulator {
 template<typename T>
 ALWAYS_INLINE void warn_if_uninitialized(T value_with_shadow, const char* message)
 {
-    
+    if (value_with_shadow.is_uninitialized()) [[unlikely]] {
+        reportln("\033[31;1mWarning! Use of uninitialized value: {}\033[0m\n", message);
+        Emulator::the().dump_backtrace();
+    }
 }
 
 }
