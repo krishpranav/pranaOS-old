@@ -12,3 +12,12 @@
 #include <AK/ByteBuffer.h>
 #include <AK/Memory.h>
 #include <AK/QuickSort.h>
+
+namespace UserspaceEmulator {
+
+SoftMMU::SoftMMU(Emulator& emulator)
+    : m_emulator(emulator)
+{
+}
+
+}
