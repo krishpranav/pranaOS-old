@@ -86,4 +86,10 @@ void SoftCPU::dump() const
     fflush(stdout);
 }
 
+void SoftCPU::update_code_cache()
+{
+    auto* region = m_emulator.mmu().find_region({ cs(), eip() });
+    VERIFY(region);
+}
+
 }
