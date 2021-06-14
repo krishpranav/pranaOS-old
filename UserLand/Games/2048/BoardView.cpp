@@ -15,3 +15,7 @@ BoardView::BoardView(const Game::Board* board)
     : m_board(board)
 {
 }
+
+BoardView::~BoardView()
+{
+}
