@@ -179,4 +179,11 @@ void SoftCPU::write_memory64(X86::LogicalAddress address, ValueWithShadow<u64> v
     m_emulator.mmu().write64(address, value);
 }
 
+void SoftCPU::write_memory128(X86::LogicalAddress address, ValueWithShadow<u128> value)
+{
+    VERIFY(address.selector() == 0x23 || address.selector() == 0x2b);
+    outln_if(MEMORY_DEBUG, "\033[36;1mwrite_memory128: @{:04x}:{:08x} <- {:032x} ({:032x})\033[0m", address.selector(), address.offset(), value, value.shadow());
+    m_emulator.mmu().write128(address, value);
+}
+
 }
