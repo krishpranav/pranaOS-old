@@ -27,7 +27,9 @@ public:
     ValueWithShadow<u8> read8(X86::LogicalAddress);
     ValueWithShadow<u16> read16(X86::LogicalAddress);
     ValueWithShadow<u32> read32(X86::LogicalAddress);
-    
+    ValueWithShadow<u64> read64(X86::LogicalAddress);
+    ValueWithShadow<u128> read128(X86::LogicalAddress);
+    ValueWithShadow<u256> read256(X86::LogicalAddress);
 }
 
 }
