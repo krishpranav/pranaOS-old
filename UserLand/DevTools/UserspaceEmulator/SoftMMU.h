@@ -42,7 +42,7 @@ public:
     {
         if (address.selector() == 0x2b)
             return m_tls_region.ptr();
-        
+
         size_t page_index = address.offset() / PAGE_SIZE;
         return m_page_to_region_map[page_index];
     }
@@ -55,7 +55,6 @@ public:
 
     bool fast_fill_memory8(X86::LogicalAddress, size_t size, ValueWithShadow<u8>);
     bool fast_fill_memory32(X86::LogicalAddress, size_t size, ValueWithShadow<u32>);
-
 
     void copy_to_vm(FlatPtr destination, const void* source, size_t);
     void copy_from_vm(void* destination, const FlatPtr source, size_t);
@@ -84,8 +83,25 @@ public:
         ensure_split_at(address_end);
 
         size_t first_page = address.offset() / PAGE_SIZE;
+        size_t last_page = (address_end.offset() - 1) / PAGE_SIZE;
+        Region* last_reported = nullptr;
+        for (size_t page = first_page; page <= last_page; ++page) {
+            Region* current_region = m_page_to_region_map[page];
+            if (page != first_page && current_region == last_reported)
+                continue;
+            if (callback(current_region) == IterationDecision::Break)
+                return;
+            last_reported = current_region;
+        }
     }
 
-}
+private:
+    Emulator& m_emulator;
+
+    Region* m_page_to_region_map[786432] = { nullptr };
+
+    OwnPtr<Region> m_tls_region;
+    NonnullOwnPtrVector<Region> m_regions;
+};
 
 }
