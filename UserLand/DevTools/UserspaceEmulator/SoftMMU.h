@@ -47,6 +47,9 @@ public:
         return m_page_to_region_map[page_index];
     }
 
+    void add_region(NonnullOwnPtr<Region>);
+    void remove_region(Region&);
+
 }
 
 }
