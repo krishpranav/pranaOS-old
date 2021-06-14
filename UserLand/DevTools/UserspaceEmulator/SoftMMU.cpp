@@ -76,5 +76,11 @@ void SoftMMU::ensure_split_at(X86::LogicalAddress address)
     quick_sort((Vector<OwnPtr<Region>>&)m_regions, [](auto& a, auto& b) { return a->base() < b->base(); });
 }
 
+void SoftMMU::set_tls_region(NonnullOwnPtr<Region> region)
+{
+    VERIFY(!m_tls_region)
+    m_tls_region = move(region);
+}
+
 
 }
