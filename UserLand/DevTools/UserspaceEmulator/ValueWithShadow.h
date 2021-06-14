@@ -34,6 +34,8 @@ public:
     {
     }
 
+    ValueWithShadow(const ValueAndShadowReference<T>&);
+
 
 }
 
