@@ -15,7 +15,12 @@ public:
     Game(const Game&) = default;
     Game& operator=(const Game&) = default;
 
-    
+    enum class MoveOutcome {
+        OK,
+        InvalidMove,
+        GameOver,
+        Won,
+    };
 
 
 }
