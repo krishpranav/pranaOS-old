@@ -230,4 +230,13 @@ void SoftCPU::push16(ValueWithShadow<u16> value)
     write_memory16({ ss(), esp().value() }, value);
 }
 
+ValueWithShadow<u16> SoftCPU::pop16()
+{
+    warn_if_uninitialized(esp(), "pop16");
+    auto value = read_memory16({ ss(), esp().value() });
+    set_esp({ esp().value() + sizeof(u16), esp().shadow() });
+    return value;
+}
+
+
 }
