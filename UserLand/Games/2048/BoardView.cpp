@@ -74,3 +74,8 @@ size_t BoardView::columns() const
         return 0;
     return (*m_board)[0].size();
 }
+
+void BoardView::resize_event(GUI::ResizeEvent&)
+{
+    resize();
+}
