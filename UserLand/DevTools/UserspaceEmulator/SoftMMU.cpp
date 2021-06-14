@@ -119,4 +119,22 @@ ValueWithShadow<u16> SoftMMU::read16(X86::LogicalAddress address)
     return region->read16(address.offset() - region->base());
 }
 
+ValueWithShadow<u32> SoftMMU::read32(X86::LogicalAddress address)
+{
+    auto* region = find_region(address);
+    if (!region) {
+        reportln("SoftMMU::read32: No region for @ {:04x}:{:p}", address.selector(), address.offset());
+        m_emulator.dump_backtrace();
+        TODO();
+    }
+
+    if (!region->is_readable()) {
+        reportln("SoftMMU::read32: Non-readable region @ {:p}", address.offset());
+        m_emulator.dump_backtrace();
+        TODO();
+    }
+
+    return region->read32(address.offset() - region->base());
+}
+
 }
