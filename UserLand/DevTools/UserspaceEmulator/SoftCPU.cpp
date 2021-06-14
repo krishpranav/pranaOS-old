@@ -101,4 +101,12 @@ void SoftCPU::update_code_cache()
     m_cached_code_base_ptr = region->data();
 }
 
+ValueWithShadow<u8> SoftCPU::read_memory(X86::LogicalAddress address)
+{
+    VERIFY(address.selector() == 0x1b || address.selector() == 0x23 || address.selector() == 0x2b);
+    auto value = m_emulator.mmu().read8(address);
+    outln_if(MEMORY_DEBUG, "\033[36;1mread_memory8: @{:04x}:{:08x} -> {:02x} ({:02x})\033[0m", address.selector(), address.offset(), value, value.shadow());
+    return value;
+}
+
 }
