@@ -208,4 +208,11 @@ void SoftCPU::push_buffer(const u8* data, size_t size)
     m_emulator.mmu().copy_to_vm(esp().value(), data, size);
 }
 
+void SoftCPU::push32(ValueWithShadow<u32> value)
+{
+    set_esp({ esp().value() - sizeof(u32), esp().shadow() });
+    warn_if_uninitialized(esp(), "push32");
+    write_memory32({ ss(), esp().value() }, value);
+}
+
 }
