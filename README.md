@@ -14,4 +14,3 @@ g++ version should be more than 10.0.0
 ninja gcc compiler needed
 ```
 
-pranaOS has been moved to https://github.com/pranaOS/pranaOS
