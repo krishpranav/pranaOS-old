@@ -10,3 +10,13 @@
 #include <LibC/unistd.h>
 #include <LibELF/AuxiliaryVector.h>
 #include <LibELF/DynamicLinker.h>
+
+char* __static_environ[] = { nullptr };
+
+static void init_libc()
+{
+    environ = __static_environ;
+    __environ_is_malloced = false;
+    __stdio_is_initialized = false;
+    __libc_init();
+}
