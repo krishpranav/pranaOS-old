@@ -723,4 +723,16 @@ ALWAYS_INLINE static T op_shld(SoftCPU& cpu, T data, T extra_bits, ValueWithShad
     return shadow_wrap_with_taint_from<typename T::ValueType>(result, data, steps);
 }
 
+template<bool update_dest, bool is_or, typename Op>
+ALWAYS_INLINE void SoftCPU::generic_AL_imm8(Op op, const X86::Instruction& insn)
+{
+    auto dest = al();
+    auto src = shadow_wrap_as_initialized(insn.imm8());
+    auto result = op(*this, dest, src);
+    if (is_or && insn.imm8() == 0xff)
+        result.set_initialized();
+    if (update_dest)
+        set_al(result);
+}
+
 }
