@@ -34,4 +34,15 @@ void SoftMMU::add_region(NonnullOwnPtr<Region> region)
     quick_sort((Vector<OwnPtr<Region>>&)m_regions, [](auto& a, auto& b) { return a->base() < b->base(); });
 }
 
+void SoftMMU::remove_region(Region& region)
+{
+    size_t first_page_in_region = region.base() / PAGE_SIZE;
+    for (size_t i = 0; i < ceil_div(region.size(), PAGE_SIZE); ++i) {
+        m_page_to_region_map[first_page_in_region + i] = nullptr;
+    }
+
+    m_regions.remove_first_matching([&](auto& entry) { return entry.ptr() == &region; });
+}
+
+
 }
