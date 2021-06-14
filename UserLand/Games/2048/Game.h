@@ -44,8 +44,11 @@ public:
     {
         if (size >= 6)
             return 31;
-            
+
         return size * size + 1;
     }
+
+private:
+    bool slide_tiles(Direction);
 
 }
