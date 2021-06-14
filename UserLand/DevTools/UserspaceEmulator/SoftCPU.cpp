@@ -257,5 +257,35 @@ void SoftCPU::do_once_or_repeat(const X86::Instruction& insn, Callback callback)
     }
 }
 
+template<typename T>
+ALWAYS_INLINE static T op_inc(SoftCPU& cpu, T data)
+{
+    typename T::ValueType result;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("incl %%eax\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("incw %%ax\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("incb %%al\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszap(new_flags);
+    cpu.taint_flags_from(data);
+    return shadow_wrap_with_taint_from(result, data);
+}
+
 
 }
