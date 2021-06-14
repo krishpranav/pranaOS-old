@@ -83,4 +83,23 @@ void SoftMMU::set_tls_region(NonnullOwnPtr<Region> region)
 }
 
 
+ValueWithShadow<u8> SoftMMU::read8(X86::LogicalAddress address)
+{
+    auto* region = find_region(address);
+    if (!region) {
+        reportln("SoftMMU::read8: No region for @ {:p}", address.offset());
+        m_emulator.dump_backtrace();
+        TODO();
+    }
+
+    if (!region->is_readable()) {
+        reportln("SoftMMU::read8: Non-readable region @ {:p}", address.offset());
+        m_emulator.dump_backtrace();
+        TODO();
+    }
+
+    return region->read8(address.offset() - region->base());
+}
+
+
 }
