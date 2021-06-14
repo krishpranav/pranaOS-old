@@ -735,4 +735,17 @@ ALWAYS_INLINE void SoftCPU::generic_AL_imm8(Op op, const X86::Instruction& insn)
         set_al(result);
 }
 
+template<bool update_dest, bool is_or, typename Op>
+ALWAYS_INLINE void SoftCPU::generic_AX_imm16(Op op, const X86::Instruction& insn)
+{
+    auto dest = ax();
+    auto src = shadow_wrap_as_initialized(insn.imm16());
+    auto result = op(*this, dest, src);
+    if (is_or && insn.imm16() == 0xffff)
+        result.set_initialized();
+    if (update_dest)
+        set_ax(result);
+}
+
+
 }
