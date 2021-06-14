@@ -39,3 +39,22 @@ void BoardView::set_board(const Game::Board* board)
 
     update();
 }
+
+void BoardView::pick_font()
+{
+    String best_font_name;
+    int best_font_size = -1;
+    auto& font_database = Gfx::FontDatabase::the();
+    font_database.for_each_font([&](const Gfx::Font& font) {
+        if (font.family() != "Liza" || font.weight() != 700)
+            return;
+        auto size = font.glyph_height();
+        if (size * 2 <= m_cell_size && size > best_font_size) {
+            best_font_name = font.qualified_name();
+            best_font_size = size;
+        }
+    });
+
+    auto font = font_database.get_by_name(best_font_name);
+    set_font(font);
+}
