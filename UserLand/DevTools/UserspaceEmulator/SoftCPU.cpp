@@ -287,5 +287,287 @@ ALWAYS_INLINE static T op_inc(SoftCPU& cpu, T data)
     return shadow_wrap_with_taint_from(result, data);
 }
 
+template<typename T>
+ALWAYS_INLINE static T op_dec(SoftCPU& cpu, T data)
+{
+    typename T::ValueType result;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("decl %%eax\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("decw %%ax\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("decb %%al\n"
+                     : "=a"(result)
+                     : "a"(data.value()));
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszap(new_flags);
+    cpu.taint_flags_from(data);
+    return shadow_wrap_with_taint_from(result, data);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_xor(SoftCPU& cpu, const T& dest, const T& src)
+{
+    typename T::ValueType result;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("xorl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("xor %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("xorb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszpc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from(result, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_or(SoftCPU& cpu, const T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("orl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("or %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("orb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszpc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from(result, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_sub(SoftCPU& cpu, const T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("subl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("subw %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("subb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszapc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from(result, dest, src);
+}
+
+template<typename T, bool cf>
+ALWAYS_INLINE static T op_sbb_impl(SoftCPU& cpu, const T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (cf)
+        asm volatile("stc");
+    else
+        asm volatile("clc");
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("sbbl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("sbbw %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("sbbb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszapc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from<typename T::ValueType>(result, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_sbb(SoftCPU& cpu, T& dest, const T& src)
+{
+    cpu.warn_if_flags_tainted("sbb");
+    if (cpu.cf())
+        return op_sbb_impl<T, true>(cpu, dest, src);
+    return op_sbb_impl<T, false>(cpu, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_add(SoftCPU& cpu, T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("addl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("addw %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("addb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszapc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from<typename T::ValueType>(result, dest, src);
+}
+
+template<typename T, bool cf>
+ALWAYS_INLINE static T op_adc_impl(SoftCPU& cpu, T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (cf)
+        asm volatile("stc");
+    else
+        asm volatile("clc");
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("adcl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("adcw %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("adcb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszapc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from<typename T::ValueType>(result, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_adc(SoftCPU& cpu, T& dest, const T& src)
+{
+    cpu.warn_if_flags_tainted("adc");
+    if (cpu.cf())
+        return op_adc_impl<T, true>(cpu, dest, src);
+    return op_adc_impl<T, false>(cpu, dest, src);
+}
+
+template<typename T>
+ALWAYS_INLINE static T op_and(SoftCPU& cpu, const T& dest, const T& src)
+{
+    typename T::ValueType result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("andl %%ecx, %%eax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("andw %%cx, %%ax\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("andb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(dest.value()), "c"(src.value()));
+    } else {
+        VERIFY_NOT_REACHED();
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszpc(new_flags);
+    cpu.taint_flags_from(dest, src);
+    return shadow_wrap_with_taint_from<typename T::ValueType>(result, dest, src);
+}
+
 
 }
