@@ -20,4 +20,18 @@ SoftMMU::SoftMMU(Emulator& emulator)
 {
 }
 
+void SoftMMU::add_region(NonnullOwnPtr<Region> region)
+{
+    VERIFY(!find_region({ 0x23, region->base() }));
+
+    size_t first_page_in_region = region->base() / PAGE_SIZE;
+    size_t last_page_in_region = (region->base() + region->size() - 1) / PAGE_SIZE;
+    for (size_t page = first_page_in_region; page <= last_page_in_region; ++page) {
+        m_page_to_region_map[page] = region.ptr();
+    }
+
+    m_regions.append(move(region));
+    quick_sort((Vector<OwnPtr<Region>>&)m_regions, [](auto& a, auto& b) { return a->base() < b->base(); });
+}
+
 }
