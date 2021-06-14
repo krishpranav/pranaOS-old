@@ -36,4 +36,8 @@ public:
     u32 target_tile() const { return m_target_tile; }
     u32 largest_tile() cosnt;
 
+    using Board = Vector<Vector<u32>>;
+
+    const Board& board() const { return m_board; }
+
 }
