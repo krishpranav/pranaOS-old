@@ -79,3 +79,14 @@ void BoardView::resize_event(GUI::ResizeEvent&)
 {
     resize();
 }
+
+void BoardView::resize()
+{
+    constexpr float padding_ratio = 7;
+    m_padding = min(
+        width() / (columns() * (padding_ratio + 1) + 1),
+        height() / (rows() * (padding_ratio + 1) + 1));
+    m_cell_size = m_padding * padding_ratio;
+
+    pick_font();
+}
