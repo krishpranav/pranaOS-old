@@ -23,4 +23,13 @@ template<typename T>
 class ValueAndShadowReference;
 
 
+template<typename T>
+class ValueWithShadow {
+public:
+    using ValueType = T;
+    
+
+
+}
+
 }
