@@ -65,3 +65,12 @@ size_t BoardView::rows() const
         return 0;
     return m_board->size();
 }
+
+size_t BoardView::columns() const
+{
+    if (!m_board)
+        return 0;
+    if (m_board->is_empty())
+        return 0;
+    return (*m_board)[0].size();
+}
