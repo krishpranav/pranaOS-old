@@ -58,3 +58,10 @@ void BoardView::pick_font()
     auto font = font_database.get_by_name(best_font_name);
     set_font(font);
 }
+
+size_t BoardView::rows() const
+{
+    if (!m_board)
+        return 0;
+    return m_board->size();
+}
