@@ -13,4 +13,9 @@
 class BoardView final : public GUI::Frame {
     C_OBJECT(BoardView);
 
+public:
+    virtual ~BoardView() override;
+    void set_board(const Game::Board* board);
+
+    Function<void(Game::Direction)> on_move;
 }
