@@ -90,3 +90,30 @@ void BoardView::resize()
 
     pick_font();
 }
+
+void BoardView::keydown_event(GUI::KeyEvent& event)
+{
+    if (!on_move)
+        return;
+
+    switch (event.key()) {
+    case KeyCode::Key_A:
+    case KeyCode::Key_Left:
+        on_move(Game::Direction::Left);
+        break;
+    case KeyCode::Key_D:
+    case KeyCode::Key_Right:
+        on_move(Game::Direction::Right);
+        break;
+    case KeyCode::Key_W:
+    case KeyCode::Key_Up:
+        on_move(Game::Direction::Up);
+        break;
+    case KeyCode::Key_S:
+    case KeyCode::Key_Down:
+        on_move(Game::Direction::Down);
+        break;
+    default:
+        return;
+    }
+}
