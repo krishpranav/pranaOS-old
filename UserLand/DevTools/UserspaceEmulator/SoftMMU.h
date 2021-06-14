@@ -20,4 +20,9 @@ namespace UserspaceEmulator {
 
 class Emulator;
 
+class SoftMMU {
+public:
+    explicit SoftMMU(Emulator&);
+}
+
 }
