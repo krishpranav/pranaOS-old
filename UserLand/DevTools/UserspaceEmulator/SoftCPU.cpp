@@ -158,4 +158,11 @@ void SoftCPU::write_memory8(X86::LogicalAddress address, ValueWithShadow<u8> val
     m_emulator.mmu().write8(address, value);
 }
 
+void SoftCPU::write_memory16(X86::LogicalAddress address, ValueWithShadow<u16> value)
+{
+    VERIFY(address.selector() == 0x23 || address.selector() == 0x2b);
+    outln_if(MEMORY_DEBUG, "\033[36;1mwrite_memory16: @{:04x}:{:08x} <- {:04x} ({:04x})\033[0m", address.selector(), address.offset(), value, value.shadow());
+    m_emulator.mmu().write16(address, value);
+}
+
 }
