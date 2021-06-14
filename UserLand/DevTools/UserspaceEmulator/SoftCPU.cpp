@@ -599,5 +599,38 @@ ALWAYS_INLINE static void op_imul(SoftCPU& cpu, const T& dest, const T& src, T& 
     }
 }
 
+template<typename T>
+ALWAYS_INLINE static T op_shr(SoftCPU& cpu, T data, ValueWithShadow<u8> steps)
+{
+    if (steps.value() == 0)
+        return shadow_wrap_with_taint_from(data.value(), data, steps);
+
+    u32 result = 0;
+    u32 new_flags = 0;
+
+    if constexpr (sizeof(typename T::ValueType) == 4) {
+        asm volatile("shrl %%cl, %%eax\n"
+                     : "=a"(result)
+                     : "a"(data.value()), "c"(steps.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 2) {
+        asm volatile("shrw %%cl, %%ax\n"
+                     : "=a"(result)
+                     : "a"(data.value()), "c"(steps.value()));
+    } else if constexpr (sizeof(typename T::ValueType) == 1) {
+        asm volatile("shrb %%cl, %%al\n"
+                     : "=a"(result)
+                     : "a"(data.value()), "c"(steps.value()));
+    }
+
+    asm volatile(
+        "pushf\n"
+        "pop %%ebx"
+        : "=b"(new_flags));
+
+    cpu.set_flags_oszapc(new_flags);
+    cpu.taint_flags_from(data, steps);
+    return shadow_wrap_with_taint_from<typename T::ValueType>(result, data, steps);
+}
+
 
 }
