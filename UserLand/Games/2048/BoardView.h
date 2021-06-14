@@ -18,4 +18,9 @@ public:
     void set_board(const Game::Board* board);
 
     Function<void(Game::Direction)> on_move;
+
+private:
+    explicit BoardView(const Game::Board*);
+
+    
 }
