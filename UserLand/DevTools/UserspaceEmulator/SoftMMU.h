@@ -61,6 +61,19 @@ public:
     void copy_from_vm(void* destination, const FlatPtr source, size_t);
     ByteBuffer copy_buffer_from_vm(const FlatPtr source, size_t);
 
+    template<typename Callback>
+    void for_each_region(Callback callback)
+    {
+        if (m_tls_region) {
+            if (callback(*m_tls_region) == IterationDecision::Break)
+                return;
+        }
+        for (auto& region : m_regions) {
+            if (callback(region) == IterationDecision::Break)
+                return;
+        }
+    }
+
 }
 
 }
