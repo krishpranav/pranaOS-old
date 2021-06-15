@@ -76,3 +76,41 @@ static Game::Board reverse(const Game::Board& board)
 
     return new_board;
 }
+
+static Vector<u32> slide_row(const Vector<u32>& row, size_t& successful_merge_score)
+{
+    if (row.size() < 2)
+        return row;
+
+    auto x = row[0];
+    auto y = row[1];
+
+    auto result = row;
+    result.take_first();
+
+    if (x == 0) {
+        result = slide_row(result, successful_merge_score);
+        result.append(0);z
+        return result;
+    }
+
+    if (y == 0) {
+        result[0] = x;
+        result = slide_row(result, successful_merge_score);
+        result.append(0);
+        return result;
+    }
+
+    if (x == y) {
+        result.take_first();
+        result = slide_row(result, successful_merge_score);
+        result.append(0);
+        result.prepend(x + x);
+        successful_merge_score += x * 2;
+        return result;
+    }
+
+    result = slide_row(result, successful_merge_score);
+    result.prepend(x);
+    return result;
+}
