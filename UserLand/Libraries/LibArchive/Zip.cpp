@@ -102,4 +102,10 @@ bool Zip::for_each_member(Function<IterationDecision(const ZipMember&)> callback
     return true;
 }
 
+ZipOutputStream::ZipOutputStream(OutputStream& stream)
+    : m_stream(stream)
+{
+}
+
+
 }
