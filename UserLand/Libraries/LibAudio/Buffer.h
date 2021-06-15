@@ -76,4 +76,8 @@ enum PcmSampleFormat : u8 {
     Float64,
 };
 
+u16 pcm_bits_per_sample(PcmSampleFormat format);
+String sample_format_name(PcmSampleFormat format);
+
+
 }
