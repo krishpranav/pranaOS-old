@@ -147,3 +147,20 @@ static bool has_no_neighbors(const Span<const u32>& row)
 
     return has_no_neighbors(row.slice(1, row.size() - 1));
 };
+
+static bool is_stalled(const Game::Board& board)
+{
+    static auto stalled = [](auto& row) {
+        return !row.contains_slow(0) && has_no_neighbors(row.span());
+    };
+
+    for (auto& row : board)
+        if (!stalled(row))
+            return false;
+
+    for (auto& row : transpose(board))
+        if (!stalled(row))
+            return false;
+
+    return true;
+}
