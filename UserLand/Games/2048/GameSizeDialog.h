@@ -17,4 +17,12 @@ public:
     u32 target_tile() const { return 1u << m_target_tile_power; }
     bool evil_ai() const { return m_evil_ai; }
     bool temporary() const { return m_temporary; }
-}
+
+private:
+    GameSizeDialog(GUI::Window* parent, size_t board_size, size_t target_tile, bool evil_ai);
+
+    size_t m_board_size;
+    size_t m_target_tile_power;
+    bool m_evil_ai;
+    bool m_temporary { false };
+};
