@@ -123,3 +123,13 @@ static Game::Board slide_left(const Game::Board& board, size_t& successful_merge
 
     return new_board;
 }
+
+static bool is_complete(const Game::Board& board, size_t target)
+{
+    for (auto& row : board) {
+        if (row.contains_slow(target))
+            return true;
+    }
+
+    return false;
+}
