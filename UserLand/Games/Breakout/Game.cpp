@@ -28,4 +28,10 @@ Game::Game()
     reset();
 }
 
+
+Game::~Game()
+{
+}
+
+
 }
