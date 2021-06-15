@@ -23,5 +23,12 @@ Game::Game(size_t grid_size, size_t target_tile, bool evil_ai)
         m_target_tile = target_tile;
     
     m_board.resize(grid_size);
-    
+    for (auto& row : m_board) {
+        row.ensure_capacity(grid_size);
+        for (size_t i = 0; i < grid_size; i++)
+            row.append(0);
+    }
+
+    add_tile();
+    add_tile();
 }
