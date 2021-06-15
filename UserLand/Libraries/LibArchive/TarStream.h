@@ -23,7 +23,12 @@ public:
     bool read_or_error(Bytes) override;
     bool discard_or_error(size_t count) override;
 
-    
-}
+private:
+    TarFileStream(TarInputStream& stream);
+    TarInputStream& m_tar_stream;
+    int m_generation;
+
+    friend class TarInputStream;
+};
 
 }
