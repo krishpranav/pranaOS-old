@@ -42,5 +42,44 @@ i32 Buffer::allocate_id()
     return next_id++;
 }
 
+template<typename SampleReader>
+static void read_samples_from_stream(InputMemoryStream& stream, SampleReader read_sample, Vector<Frame>& samples, ResampleHelper& resampler, int num_channels)
+{
+    double norm_l = 0;
+    double norm_r = 0;
+
+    switch (num_channels) {
+    case 1:
+        for (;;) {
+            while (resampler.read_sample(norm_l, norm_r)) {
+                samples.append(Frame(norm_l));
+            }
+            norm_l = read_sample(stream);
+
+            if (stream.handle_any_error()) {
+                break;
+            }
+            resampler.process_sample(norm_l, norm_r);
+        }
+        break;
+    case 2:
+        for (;;) {
+            while (resampler.read_sample(norm_l, norm_r)) {
+                samples.append(Frame(norm_l, norm_r));
+            }
+            norm_l = read_sample(stream);
+            norm_r = read_sample(stream);
+
+            if (stream.handle_any_error()) {
+                break;
+            }
+            resampler.process_sample(norm_l, norm_r);
+        }
+        break;
+    default:
+        VERIFY_NOT_REACHED();
+    }
+}
+
 
 }
