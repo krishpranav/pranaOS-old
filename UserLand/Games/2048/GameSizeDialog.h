@@ -9,3 +9,8 @@
 // includes
 #include <AK/Types.h>
 #include <LibGUI/Dialog.h>
+
+class GameSizeDialog : public GUI::Dialog {
+    C_OBJECT(GameSizeDialog)
+    
+}
