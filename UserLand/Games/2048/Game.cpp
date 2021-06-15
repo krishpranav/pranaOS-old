@@ -164,3 +164,13 @@ static bool is_stalled(const Game::Board& board)
 
     return true;
 }
+
+static size_t get_number_of_free_cells(const Game::Board& board)
+{
+    size_t accumulator = 0;
+    for (auto& row : board) {
+        for (auto& cell : row)
+            accumulator += cell == 0;
+    }
+    return accumulator;
+}
