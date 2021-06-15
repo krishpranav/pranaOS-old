@@ -50,6 +50,11 @@ public:
 
     RefPtr<Buffer> get_more_samples(size_t max_bytes_to_read_from_input = 128 * KiB) const { return m_plugin ? m_plugin->get_more_samples(max_bytes_to_read_from_input) : nullptr; }
 
+    void reset() const
+    {
+        if (m_plugin)
+            m_plugin->reset();
+    }
 
 };
 
