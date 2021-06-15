@@ -19,3 +19,8 @@
 #include <LibAudio/Loader.h>
 #include <LibCore/File.h>
 #include <LibCore/FileStream.h>
+
+namespace Audio {
+class Buffer;
+
+}
