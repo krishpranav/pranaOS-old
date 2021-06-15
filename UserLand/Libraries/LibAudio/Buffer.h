@@ -68,4 +68,12 @@ struct Frame {
     double right;
 };
 
+enum PcmSampleFormat : u8 {
+    Uint8,
+    Int16,
+    Int24,
+    Float32,
+    Float64,
+};
+
 }
