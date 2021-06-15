@@ -38,4 +38,16 @@ bool TarFileStream::unreliable_eof() const
     return m_tar_stream.m_stream.unreliable_eof()
         || m_tar_stream.m_file_offset >= m_tar_stream.header().size();
 }
+
+bool TarFileStream::read_or_error(Bytes bytes)
+{
+    VERIFY(m_tar_stream.m_generation == m_generation);
+
+    if (read(bytes) < bytes.size()) {
+        set_fatal_error();
+        return false;
+    }
+    return true;
+}
+
 }
