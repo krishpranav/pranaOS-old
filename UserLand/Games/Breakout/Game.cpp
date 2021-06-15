@@ -14,3 +14,18 @@
 #include <LibGfx/Font.h>
 #include <LibGfx/StandardCursor.h>
 #include <unistd.h>
+
+namespace Breakout {
+
+Game::Game()
+{
+    set_override_cursor(Gfx::StandardCursor::Hidden);
+    auto level_dialog = LevelSelectDialog::show(m_board, window());
+    if (level_dialog != GUI::Dialog::ExecOK)
+        m_board = -1;
+    set_paused(false);
+    start_timer(16);
+    reset();
+}
+
+}
