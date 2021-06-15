@@ -40,5 +40,14 @@ void Game::reset_paddle()
     m_paddle.rect = { game_width / 2 - 40, game_height - 20, 80, 16 };
 }
 
+void Game::reset()
+{
+    m_lives = 3;
+    m_pause_count = 0;
+    m_cheater = false;
+    reset_ball()
+    reset_paddle()
+    generate_bricks();
+}
 
 }
