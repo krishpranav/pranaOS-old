@@ -74,5 +74,32 @@ Optional<Zip> Zip::try_create(const ReadonlyBytes& buffer)
     return zip;
 }
 
+bool Zip::for_each_member(Function<IterationDecision(const ZipMember&)> callback)
+{
+    size_t member_offset = members_start_offset;
+    for (size_t i = 0; i < member_count; i++) {
+        CentralDirectoryRecord central_directory_record {};
+        VERIFY(central_directory_record.read(m_input_data.slice(member_offset)));
+        LocalFileHeader local_file_header {};
+        VERIFY(local_file_header.read(m_input_data.slice(central_directory_record.local_file_header_offset)));
+
+        ZipMember member;
+        char null_terminated_name[central_directory_record.name_length + 1];
+        memcpy(null_terminated_name, central_directory_record.name, central_directory_record.name_length);
+        null_terminated_name[central_directory_record.name_length] = 0;
+        member.name = String { null_terminated_name };
+        member.compressed_data = { local_file_header.compressed_data, central_directory_record.compressed_size };
+        member.compression_method = static_cast<ZipCompressionMethod>(central_directory_record.compression_method);
+        member.uncompressed_size = central_directory_record.uncompressed_size;
+        member.crc32 = central_directory_record.crc32;
+        member.is_directory = central_directory_record.external_attributes & zip_directory_external_attribute || member.name.ends_with('/'); // FIXME: better directory detection
+
+        if (callback(member) == IterationDecision::Break)
+            return false;
+
+        member_offset += central_directory_record.size();
+    }
+    return true;
+}
 
 }
