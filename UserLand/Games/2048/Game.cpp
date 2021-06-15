@@ -32,3 +32,16 @@ Game::Game(size_t grid_size, size_t target_tile, bool evil_ai)
     add_tile();
     add_tile();
 }
+
+void Game::add_random_tile()
+{
+    int row;
+    int column;
+    do {
+        row = rand() % m_grid_size;
+        column = rand() % m_grid_size;
+    } while (m_board[row][column] != 0);
+
+    size_t value = rand() < RAND_MAX * 0.9 ? 2 : 4;
+    m_board[row][column] = value;
+}
