@@ -17,13 +17,13 @@
 
 namespace Audio {
 
-
 struct Frame {
     Frame()
         : left(0)
         , right(0)
     {
     }
+
 
     Frame(double left)
         : left(left)
@@ -68,6 +68,7 @@ struct Frame {
     double right;
 };
 
+
 enum PcmSampleFormat : u8 {
     Uint8,
     Int16,
@@ -79,5 +80,61 @@ enum PcmSampleFormat : u8 {
 u16 pcm_bits_per_sample(PcmSampleFormat format);
 String sample_format_name(PcmSampleFormat format);
 
+class ResampleHelper {
+public:
+    ResampleHelper(double source, double target);
+
+    void process_sample(double sample_l, double sample_r);
+    bool read_sample(double& next_l, double& next_r);
+
+private:
+    const double m_ratio;
+    double m_current_ratio { 0 };
+    double m_last_sample_l { 0 };
+    double m_last_sample_r { 0 };
+};
+
+class Buffer : public RefCounted<Buffer> {
+public:
+    static RefPtr<Buffer> from_pcm_data(ReadonlyBytes data, ResampleHelper& resampler, int num_channels, PcmSampleFormat sample_format);
+    static RefPtr<Buffer> from_pcm_stream(InputMemoryStream& stream, ResampleHelper& resampler, int num_channels, PcmSampleFormat sample_format, int num_samples);
+    static NonnullRefPtr<Buffer> create_with_samples(Vector<Frame>&& samples)
+    {
+        return adopt_ref(*new Buffer(move(samples)));
+    }
+    static NonnullRefPtr<Buffer> create_with_anonymous_buffer(Core::AnonymousBuffer buffer, i32 buffer_id, int sample_count)
+    {
+        return adopt_ref(*new Buffer(move(buffer), buffer_id, sample_count));
+    }
+
+    const Frame* samples() const { return (const Frame*)data(); }
+    int sample_count() const { return m_sample_count; }
+    const void* data() const { return m_buffer.data<void>(); }
+    int size_in_bytes() const { return m_sample_count * (int)sizeof(Frame); }
+    int id() const { return m_id; }
+    const Core::AnonymousBuffer& anonymous_buffer() const { return m_buffer; }
+
+private:
+    explicit Buffer(const Vector<Frame> samples)
+        : m_buffer(Core::AnonymousBuffer::create_with_size(samples.size() * sizeof(Frame)))
+        , m_id(allocate_id())
+        , m_sample_count(samples.size())
+    {
+        memcpy(m_buffer.data<void>(), samples.data(), samples.size() * sizeof(Frame));
+    }
+
+    explicit Buffer(Core::AnonymousBuffer buffer, i32 buffer_id, int sample_count)
+        : m_buffer(move(buffer))
+        , m_id(buffer_id)
+        , m_sample_count(sample_count)
+    {
+    }
+
+    static i32 allocate_id();
+
+    Core::AnonymousBuffer m_buffer;
+    const i32 m_id;
+    const int m_sample_count;
+};
 
 }
