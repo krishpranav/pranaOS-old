@@ -7,3 +7,14 @@
 // includes
 #include <LibAudio/Buffer.h>
 #include <LibAudio/ClientConnection.h>
+
+namespace Audio {
+
+ClientConnection::ClientConnection()
+    : IPC::ServerConnection<AudioClientEndpoint, AudioServerEndpoint>(*this, "/tmp/portal/audio")
+{
+}
+
+
+
+}
