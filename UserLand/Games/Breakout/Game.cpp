@@ -108,4 +108,11 @@ void Game::set_paused(bool paused)
     update();
 }
 
+void Game::timer_event(Core::TimerEvent&)
+{
+    if (m_pause_count)
+        return;
+    tick();
+}
+
 }
