@@ -17,11 +17,11 @@ Game::Game(size_t grid_size, size_t target_tile, bool evil_ai)
 {
     if (target_tile == 0)
         m_target_tile = 2048;
-    else if ((target_tile & (target_tile -1)) != 0)
+    else if ((target_tile & (target_tile - 1)) != 0)
         m_target_tile = 1 << max_power_for_board(grid_size);
     else
         m_target_tile = target_tile;
-    
+
     m_board.resize(grid_size);
     for (auto& row : m_board) {
         row.ensure_capacity(grid_size);
@@ -90,7 +90,7 @@ static Vector<u32> slide_row(const Vector<u32>& row, size_t& successful_merge_sc
 
     if (x == 0) {
         result = slide_row(result, successful_merge_score);
-        result.append(0);z
+        result.append(0);
         return result;
     }
 
@@ -138,7 +138,7 @@ static bool has_no_neighbors(const Span<const u32>& row)
 {
     if (row.size() < 2)
         return true;
-    
+
     auto x = row[0];
     auto y = row[1];
 
@@ -173,4 +173,117 @@ static size_t get_number_of_free_cells(const Game::Board& board)
             accumulator += cell == 0;
     }
     return accumulator;
+}
+
+bool Game::slide_tiles(Direction direction)
+{
+    size_t successful_merge_score = 0;
+    Board new_board;
+
+    switch (direction) {
+    case Direction::Left:
+        new_board = slide_left(m_board, successful_merge_score);
+        break;
+    case Direction::Right:
+        new_board = reverse(slide_left(reverse(m_board), successful_merge_score));
+        break;
+    case Direction::Up:
+        new_board = transpose(slide_left(transpose(m_board), successful_merge_score));
+        break;
+    case Direction::Down:
+        new_board = transpose(reverse(slide_left(reverse(transpose(m_board)), successful_merge_score)));
+        break;
+    }
+
+    bool moved = new_board != m_board;
+    if (moved) {
+        m_board = new_board;
+        m_score += successful_merge_score;
+    }
+
+    return moved;
+}
+
+Game::MoveOutcome Game::attempt_move(Direction direction)
+{
+    bool moved = slide_tiles(direction);
+    if (moved) {
+        m_turns++;
+        add_tile();
+    }
+
+    if (is_complete(m_board, m_target_tile))
+        return MoveOutcome::Won;
+    if (is_stalled(m_board))
+        return MoveOutcome::GameOver;
+    if (moved)
+        return MoveOutcome::OK;
+    return MoveOutcome::InvalidMove;
+}
+
+void Game::add_evil_tile()
+{
+    size_t worst_row = 0;
+    size_t worst_column = 0;
+    u32 worst_value = 2;
+
+    size_t most_free_cells = NumericLimits<size_t>::max();
+    size_t worst_score = NumericLimits<size_t>::max();
+
+    for (size_t row = 0; row < m_grid_size; row++) {
+        for (size_t column = 0; column < m_grid_size; column++) {
+            if (m_board[row][column] != 0)
+                continue;
+
+            for (u32 value : Array { 2, 4 }) {
+                Game saved_state = *this;
+                saved_state.m_board[row][column] = value;
+
+                if (is_stalled(saved_state.m_board)) {
+                    worst_row = row;
+                    worst_column = column;
+                    worst_value = value;
+
+                    goto found_worst_tile;
+                }
+
+
+                size_t best_outcome = 0;
+                size_t best_score = 0;
+                for (auto direction : Array { Direction::Down, Direction::Left, Direction::Right, Direction::Up }) {
+                    Game moved_state = saved_state;
+                    bool moved = moved_state.slide_tiles(direction);
+                    if (!moved) // invalid move
+                        continue;
+                    best_outcome = max(best_outcome, get_number_of_free_cells(moved_state.board()));
+                    best_score = max(best_score, moved_state.score());
+                }
+
+                if (best_outcome > most_free_cells)
+                    continue;
+
+                if (best_outcome == most_free_cells && best_score >= worst_score)
+                    continue;
+
+                worst_row = row;
+                worst_column = column;
+                worst_value = value;
+
+                most_free_cells = best_outcome;
+                worst_score = best_score;
+            }
+        }
+    }
+found_worst_tile:
+    m_board[worst_row][worst_column] = worst_value;
+}
+
+u32 Game::largest_tile() const
+{
+    u32 tile = 0;
+    for (auto& row : board()) {
+        for (auto& cell : row)
+            tile = max(tile, cell);
+    }
+    return tile;
 }
