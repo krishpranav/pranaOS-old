@@ -23,4 +23,11 @@
 namespace Audio {
 class Buffer;
 
+#define WAVE_FORMAT_PCM 0x0001        // PCM
+#define WAVE_FORMAT_IEEE_FLOAT 0x0003 // IEEE float
+#define WAVE_FORMAT_ALAW 0x0006       // 8-bit ITU-T G.711 A-law
+#define WAVE_FORMAT_MULAW 0x0007      // 8-bit ITU-T G.711 µ-law
+#define WAVE_FORMAT_EXTENSIBLE 0xFFFE // Determined by SubFormat
+
+
 }
