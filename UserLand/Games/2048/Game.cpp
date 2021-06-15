@@ -114,3 +114,12 @@ static Vector<u32> slide_row(const Vector<u32>& row, size_t& successful_merge_sc
     result.prepend(x);
     return result;
 }
+
+static Game::Board slide_left(const Game::Board& board, size_t& successful_merge_score)
+{
+    Vector<Vector<u32>> new_board;
+    for (auto& row : board)
+        new_board.append(slide_row(row, successful_merge_score));
+
+    return new_board;
+}
