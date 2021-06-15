@@ -39,4 +39,18 @@ public:
     virtual RefPtr<Core::File> file() = 0;
 };
 
+
+class Loader : public RefCounted<Loader> {
+public:
+    static NonnullRefPtr<Loader> create(const StringView& path) { return adopt_ref(*new Loader(path)); }
+    static NonnullRefPtr<Loader> create(const ByteBuffer& buffer) { return adopt_ref(*new Loader(buffer)); }
+
+    bool has_error() const { return m_plugin ? m_plugin->has_error() : true; }
+    const char* error_string() const { return m_plugin ? m_plugin->error_string() : "No loader plugin available"; }
+
+    RefPtr<Buffer> get_more_samples(size_t max_bytes_to_read_from_input = 128 * KiB) const { return m_plugin ? m_plugin->get_more_samples(max_bytes_to_read_from_input) : nullptr; }
+
+
+};
+
 }
