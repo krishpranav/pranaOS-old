@@ -12,12 +12,15 @@
 namespace Breakout {
 class LevelSelectDialog : public GUI::Dialog {
     C_OBJECT(LevelSelectDialog)
-
 public:
     virtual ~LevelSelectDialog() override;
     static int show(int& board_number, Window* parent_window);
     int level() const { return m_level; }
-    
-}
 
+private:
+    explicit LevelSelectDialog(Window* parent_window);
+    void build();
+
+    int m_level;
+};
 }
