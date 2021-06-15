@@ -11,6 +11,11 @@ namespace Audio {
 
 Loader::Loader(const StringView& path)
 {
-    
+    m_plugin = make<WavLoaderPlugin>(path);
+    if (m_plugin->sniff())
+        return;
+    m_plugin = nullptr;
 }
+
+
 }
