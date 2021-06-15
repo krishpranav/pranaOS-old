@@ -14,3 +14,5 @@ g++ version should be more than 10.0.0
 ninja gcc compiler needed
 ```
 
+# Issues in building pranaOS:
+![pranaOS Build Instructions]("https://github.com/krishpranav/pranaOS/blob/master/Documentation/INSTALL.md")
