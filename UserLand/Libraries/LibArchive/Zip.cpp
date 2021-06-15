@@ -107,5 +107,28 @@ ZipOutputStream::ZipOutputStream(OutputStream& stream)
 {
 }
 
+void ZipOutputStream::add_member(const ZipMember& member)
+{
+    VERIFY(!m_finished);
+    VERIFY(member.name.length() <= UINT16_MAX);
+    VERIFY(member.compressed_data.size() <= UINT32_MAX);
+    m_members.append(member);
+
+    LocalFileHeader local_file_header {};
+    local_file_header.minimum_version = member.compression_method == ZipCompressionMethod::Deflate ? 20 : 10; // Deflate was added in PKZip 2.0
+    local_file_header.general_purpose_flags = 0;
+    local_file_header.compression_method = static_cast<u16>(member.compression_method);
+    local_file_header.modification_time = 0; 
+    local_file_header.modification_date = 0;
+    local_file_header.crc32 = member.crc32;
+    local_file_header.compressed_size = member.compressed_data.size();
+    local_file_header.uncompressed_size = member.uncompressed_size;
+    local_file_header.name_length = member.name.length();
+    local_file_header.extra_data_length = 0;
+    local_file_header.name = (const u8*)(member.name.characters());
+    local_file_header.extra_data = nullptr;
+    local_file_header.compressed_data = member.compressed_data.data();
+    local_file_header.write(m_stream);
+}
 
 }
