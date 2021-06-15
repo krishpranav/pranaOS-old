@@ -13,3 +13,7 @@
 #include <LibGUI/Window.h>
 #include <LibGfx/Bitmap.h>
 #include <unistd.h>
+
+int main(int argc, char** argv)
+{
+}
