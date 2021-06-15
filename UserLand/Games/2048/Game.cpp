@@ -45,3 +45,23 @@ void Game::add_random_tile()
     size_t value = rand() < RAND_MAX * 0.9 ? 2 : 4;
     m_board[row][column] = value;
 }
+
+static Game::Board transpose(const Game::Board& board)
+{
+    Vector<Vector<u32>> new_board;
+    auto result_row_count = board[0].size();
+    auto result_column_count = board.size();
+
+    new_board.resize(result_row_count);
+
+    for (size_t i = 0; i < board.size(); ++i) {
+        auto& row = new_board[i];
+        row.clear_with_capacity();
+        row.ensure_capacity(result_column_count);
+        for (auto& entry : board) {
+            row.append(entry[i]);
+        }
+    }
+
+    return new_board;
+}
