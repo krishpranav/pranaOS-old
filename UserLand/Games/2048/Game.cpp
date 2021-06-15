@@ -65,3 +65,14 @@ static Game::Board transpose(const Game::Board& board)
 
     return new_board;
 }
+
+static Game::Board reverse(const Game::Board& board)
+{
+    auto new_board = board;
+    for (auto& row : new_board) {
+        for (size_t i = 0; i < row.size() / 2; ++i)
+            swap(row[i], row[row.size() - i - 1]);
+    }
+
+    return new_board;
+}
