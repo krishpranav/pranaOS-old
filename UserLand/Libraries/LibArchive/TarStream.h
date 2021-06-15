@@ -10,3 +10,10 @@
 #include <AK/Span.h>
 #include <AK/Stream.h>
 #include <LibArchive/Tar.h>
+
+namespace Archive {
+
+class TarInputStream;
+
+
+}
