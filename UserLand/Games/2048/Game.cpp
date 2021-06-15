@@ -15,5 +15,13 @@ Game::Game(size_t grid_size, size_t target_tile, bool evil_ai)
     : m_grid_size(grid_size)
     , m_evil_ai(evil_ai)
 {
+    if (target_tile == 0)
+        m_target_tile = 2048;
+    else if ((target_tile & (target_tile -1)) != 0)
+        m_target_tile = 1 << max_power_for_board(grid_size);
+    else
+        m_target_tile = target_tile;
+    
+    m_board.resize(grid_size);
     
 }
