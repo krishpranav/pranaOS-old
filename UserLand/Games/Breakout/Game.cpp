@@ -63,6 +63,35 @@ void Game::generate_bricks()
         Gfx::Color::Cyan,
         Gfx::Color::LightGray,
     };
+
+    Vector<Brick> boards[] = {
+        Vector({
+            Brick(0, 0, colors[3], 40, 12, 100),
+            Brick(0, 4, colors[3], 40, 12, 100),
+            Brick(1, 2, colors[3], 40, 12, 100),
+            Brick(1, 5, colors[3], 40, 12, 100),
+            Brick(2, 1, colors[3], 40, 12, 100),
+            Brick(2, 3, colors[3], 40, 12, 100),
+            Brick(2, 6, colors[3], 40, 12, 100),
+            Brick(3, 6, colors[3], 40, 12, 100),
+            Brick(4, 0, colors[3], 40, 12, 100),
+            Brick(4, 6, colors[3], 40, 12, 100),
+            Brick(5, 6, colors[3], 40, 12, 100),
+            Brick(6, 5, colors[3], 40, 12, 100),
+            Brick(7, 4, colors[3], 40, 12, 100),
+        })
+    };
+
+    if (m_board != -1) {
+        m_bricks = boards[m_board];
+    } else {
+        for (int row = 0; row < 7; ++row) {
+            for (int column = 0; column < 10; ++column) {
+                Brick brick(row, column, colors[row]);
+                m_bricks.append(brick);
+            }
+        }
+    }
 }
 
 }
