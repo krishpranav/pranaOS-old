@@ -15,4 +15,4 @@ ninja gcc compiler needed
 ```
 
 # Issues in building pranaOS:
-![pranaOS Build Instructions]("https://github.com/krishpranav/pranaOS/blob/master/Documentation/INSTALL.md")
+![Build Instructions]("https://github.com/krishpranav/pranaOS/blob/master/Documentation/INSTALL.md")
