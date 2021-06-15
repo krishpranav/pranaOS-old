@@ -94,4 +94,18 @@ void Game::generate_bricks()
     }
 }
 
+void Game::set_paused(bool paused)
+{
+    m_paused = paused;
+
+    if (m_paused) {
+        set_override_cursor(Gfx::StandardCursor::None);
+        m_pause_count++;
+    } else {
+        set_override_cursor(Gfx::StandardCursor::Hidden);
+    }
+
+    update();
+}
+
 }
