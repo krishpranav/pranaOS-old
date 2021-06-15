@@ -6,3 +6,11 @@
 
 // includes
 #include <LibAudio/WavLoader.h>
+
+namespace Audio {
+
+Loader::Loader(const StringView& path)
+{
+    
+}
+}
