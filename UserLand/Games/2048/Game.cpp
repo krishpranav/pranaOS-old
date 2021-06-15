@@ -133,3 +133,17 @@ static bool is_complete(const Game::Board& board, size_t target)
 
     return false;
 }
+
+static bool has_no_neighbors(const Span<const u32>& row)
+{
+    if (row.size() < 2)
+        return true;
+    
+    auto x = row[0];
+    auto y = row[1];
+
+    if (x == y)
+        return false;
+
+    return has_no_neighbors(row.slice(1, row.size() - 1));
+};
