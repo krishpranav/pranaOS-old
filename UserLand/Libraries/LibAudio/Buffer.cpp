@@ -36,4 +36,11 @@ String sample_format_name(PcmSampleFormat format)
     return String::formatted("PCM {}bit {}", pcm_bits_per_sample(format), is_float ? "Float" : "LE");
 }
 
+i32 Buffer::allocate_id()
+{
+    static Atomic<i32> next_id;
+    return next_id++;
+}
+
+
 }
