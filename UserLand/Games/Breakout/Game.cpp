@@ -50,4 +50,19 @@ void Game::reset()
     generate_bricks();
 }
 
+void Game::generate_bricks()
+{
+    m_bricks = {};
+
+    Gfx::Color colors[] = {
+        Gfx::Color::Red,
+        Gfx::Color::Green,
+        Gfx::Color::Blue,
+        Gfx::Color::Yellow,
+        Gfx::Color::Magenta,
+        Gfx::Color::Cyan,
+        Gfx::Color::LightGray,
+    };
+}
+
 }
