@@ -30,4 +30,15 @@ WavWriter::~WavWriter()
         finalize();
 }
 
+void WavWriter::set_file(const StringView& path)
+{
+    m_file = Core::File::construct(path);
+    if (!m_file->open(Core::OpenMode::ReadWrite)) {
+        m_error_string = String::formatted("Can't open file: {}", m_file->error_string());
+        return;
+    }
+    m_file->seek(44);
+    m_finalized = false;
+}
+
 }
