@@ -10,7 +10,6 @@
 #include <AK/StringView.h>
 #include <LibCore/File.h>
 
-
 namespace Audio {
 
 class WavWriter {
@@ -23,7 +22,7 @@ public:
     const char* error_string() const { return m_error_string.characters(); }
 
     void write_samples(const u8* samples, size_t size);
-    void finalize(); // You can finalize manually or let the destructor do it.
+    void finalize(); 
 
     u32 sample_rate() const { return m_sample_rate; }
     u16 num_channels() const { return m_num_channels; }
@@ -36,5 +35,17 @@ public:
     void set_bits_per_sample(int bits_per_sample) { m_bits_per_sample = bits_per_sample; }
 
     void clear_error() { m_error_string = String(); }
+
+private:
+    void write_header();
+    RefPtr<Core::File> m_file;
+    String m_error_string;
+    bool m_finalized { false };
+
+    u32 m_sample_rate;
+    u16 m_num_channels;
+    u16 m_bits_per_sample;
+    u32 m_data_sz { 0 };
 };
+
 }
