@@ -24,4 +24,10 @@ WavWriter::WavWriter(int sample_rate, int num_channels, int bits_per_sample)
 {
 }
 
+WavWriter::~WavWriter()
+{
+    if (!m_finalized)
+        finalize();
+}
+
 }
