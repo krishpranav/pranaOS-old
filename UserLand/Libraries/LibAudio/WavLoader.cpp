@@ -18,5 +18,10 @@ namespace Audio {
 
 static constexpr size_t maximum_wav_size = 1 * GiB;
 
+WavLoaderPlugin::WavLoaderPlugin(const StringView& path)
+    : m_file(Core::File::construct(path))
+{
+    
+}
 
 }
