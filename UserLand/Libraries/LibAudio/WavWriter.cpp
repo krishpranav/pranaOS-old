@@ -59,5 +59,42 @@ void WavWriter::finalize()
     m_data_sz = 0;
 }
 
+void WavWriter::write_header()
+{
+    static u32 riff = 0x46464952;
+    m_file->write(reinterpret_cast<u8*>(&riff), sizeof(riff));
+
+    u32 sz = m_data_sz + (44 - 4 - 4);
+    m_file->write(reinterpret_cast<u8*>(&sz), sizeof(sz));
+
+    static u32 wave = 0x45564157;
+    m_file->write(reinterpret_cast<u8*>(&wave), sizeof(wave));
+
+    static u32 fmt_id = 0x20746D66;
+    m_file->write(reinterpret_cast<u8*>(&fmt_id), sizeof(fmt_id));
+
+    static u32 fmt_size = 16;
+    m_file->write(reinterpret_cast<u8*>(&fmt_size), sizeof(fmt_size));
+
+    static u16 audio_format = 1;
+    m_file->write(reinterpret_cast<u8*>(&audio_format), sizeof(audio_format));
+
+    m_file->write(reinterpret_cast<u8*>(&m_num_channels), sizeof(m_num_channels));
+
+    m_file->write(reinterpret_cast<u8*>(&m_sample_rate), sizeof(m_sample_rate));
+
+    u32 byte_rate = m_sample_rate * m_num_channels * (m_bits_per_sample / 8);
+    m_file->write(reinterpret_cast<u8*>(&byte_rate), sizeof(byte_rate));
+
+    u16 block_align = m_num_channels * (m_bits_per_sample / 8);
+    m_file->write(reinterpret_cast<u8*>(&block_align), sizeof(block_align));
+
+    m_file->write(reinterpret_cast<u8*>(&m_bits_per_sample), sizeof(m_bits_per_sample));
+
+    static u32 chunk_id = 0x61746164;
+    m_file->write(reinterpret_cast<u8*>(&chunk_id), sizeof(chunk_id));
+
+    m_file->write(reinterpret_cast<u8*>(&m_data_sz), sizeof(m_data_sz));
+}
 
 }
