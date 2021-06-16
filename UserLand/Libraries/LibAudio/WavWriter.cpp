@@ -41,4 +41,11 @@ void WavWriter::set_file(const StringView& path)
     m_finalized = false;
 }
 
+void WavWriter::write_samples(const u8* samples, size_t size)
+{
+    m_data_sz += size;
+    m_file->write(samples, size);
+}
+
+
 }
