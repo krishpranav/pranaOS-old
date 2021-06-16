@@ -47,5 +47,17 @@ void WavWriter::write_samples(const u8* samples, size_t size)
     m_file->write(samples, size);
 }
 
+void WavWriter::finalize()
+{
+    VERIFY(!m_finalized);
+    m_finalized = true;
+    if (m_file) {
+        m_file->seek(0);
+        write_header();
+        m_file->close();
+    }
+    m_data_sz = 0;
+}
+
 
 }
