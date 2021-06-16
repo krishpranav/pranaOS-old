@@ -84,5 +84,21 @@ RefPtr<Buffer> WavLoaderPlugin::get_more_samples(size_t max_bytes_to_read_from_i
     return buffer;
 }
 
+void WavLoaderPlugin::seek(const int sample_index)
+{
+    dbgln_if(AWAVLOADER_DEBUG, "seek sample_index {}", sample_index);
+    if (sample_index < 0 || sample_index >= m_total_samples)
+        return;
+
+    m_loaded_samples = sample_index;
+    size_t byte_position = m_byte_offset_of_data_samples + sample_index * m_num_channels * (pcm_bits_per_sample(m_sample_format) / 8);
+
+    // AK::InputStream does not define seek.
+    if (m_file) {
+        m_file->seek(byte_position);
+    } else {
+        m_memory_stream->seek(byte_position);
+    }
+}
 
 }
