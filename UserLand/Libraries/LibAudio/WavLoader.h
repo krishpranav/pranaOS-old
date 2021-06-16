@@ -6,7 +6,6 @@
 
 #pragma once
 
-// includes
 #include <AK/ByteBuffer.h>
 #include <AK/MemoryStream.h>
 #include <AK/OwnPtr.h>
@@ -23,6 +22,7 @@
 namespace Audio {
 class Buffer;
 
+// defines for handling the WAV header data
 #define WAVE_FORMAT_PCM 0x0001        // PCM
 #define WAVE_FORMAT_IEEE_FLOAT 0x0003 // IEEE float
 #define WAVE_FORMAT_ALAW 0x0006       // 8-bit ITU-T G.711 A-law
@@ -44,8 +44,6 @@ public:
 
     virtual void reset() override { return seek(0); }
 
-    // sample_index 0 is the start of the raw audio sample data
-    // within the file/stream.
     virtual void seek(const int sample_index) override;
 
     virtual int loaded_samples() override { return m_loaded_samples; }
@@ -55,6 +53,23 @@ public:
     virtual PcmSampleFormat pcm_format() override { return m_sample_format; }
     virtual RefPtr<Core::File> file() override { return m_file; }
 
-}
+private:
+    bool parse_header();
+
+    bool valid { false };
+    RefPtr<Core::File> m_file;
+    OwnPtr<AK::InputStream> m_stream;
+    AK::InputMemoryStream* m_memory_stream;
+    String m_error_string;
+    OwnPtr<ResampleHelper> m_resampler;
+
+    u32 m_sample_rate { 0 };
+    u16 m_num_channels { 0 };
+    PcmSampleFormat m_sample_format;
+    size_t m_byte_offset_of_data_samples { 0 };
+
+    int m_loaded_samples { 0 };
+    int m_total_samples { 0 };
+};
 
 }
