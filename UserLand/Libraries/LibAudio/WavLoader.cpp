@@ -13,3 +13,10 @@
 #include <LibAudio/WavLoader.h>
 #include <LibCore/File.h>
 #include <LibCore/FileStream.h>
+
+namespace Audio {
+
+static constexpr size_t maximum_wav_size = 1 * GiB;
+
+
+}
