@@ -34,4 +34,20 @@ WavLoaderPlugin::WavLoaderPlugin(const StringView& path)
     m_resampler = make<ResampleHelper>(m_sample_rate, 44100);
 }
 
+WavLoaderPlugin::WavLoaderPlugin(const ByteBuffer& buffer)
+{
+    m_stream = make<InputMemoryStream>(buffer);
+    if (!m_stream) {
+        m_error_string = String::formatted("Can't open memory stream");
+        return;
+    }
+    m_memory_stream = static_cast<InputMemoryStream*>(m_stream.ptr());
+
+    valid = parse_header();
+    if (!valid)
+        return;
+
+    m_resampler = make<ResampleHelper>(m_sample_rate, 44100);
+}
+
 }
