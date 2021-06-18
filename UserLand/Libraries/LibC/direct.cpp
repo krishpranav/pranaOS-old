@@ -192,4 +192,10 @@ int readdir_r(DIR* dirp, struct dirent* entry, struct dirent** result)
     return 0;
 }
 
+int dirfd(DIR* dirp)
+{
+    VERIFY(dirp);
+    return dirp->fd;
+}
+
 }
