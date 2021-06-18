@@ -80,5 +80,48 @@ static void create_struct_dirent(sys_dirent* sys_ent, struct dirent* str_ent)
     str_ent->d_name[sys_ent->namelen] = '\0';
 }
 
+static int allocate_dirp_buffer(DIR* dirp)
+{
+    if (dirp->buffer) {
+        return 0;
+    }
+
+    struct stat st;
+
+    int old_errno = errno;
+    int rc = fstat(dirp->fd, &st);
+    if (rc < 0) {
+        int new_errno = errno;
+        errno = old_errno;
+        return new_errno;
+    }
+    size_t size_to_allocate = max(st.st_size, static_cast<off_t>(4096));
+    dirp->buffer = (char*)malloc(size_to_allocate);
+    if (!dirp->buffer)
+        return ENOMEM;
+    for (;;) {
+        ssize_t nread = syscall(SC_get_dir_entries, dirp->fd, dirp->buffer, size_to_allocate);
+        if (nread < 0) {
+            if (nread == -EINVAL) {
+                size_to_allocate *= 2;
+                char* new_buffer = (char*)realloc(dirp->buffer, size_to_allocate);
+                if (new_buffer) {
+                    dirp->buffer = new_buffer;
+                    continue;
+                } else {
+                    nread = -ENOMEM;
+                }
+            }
+
+            free(dirp->buffer);
+            dirp->buffer = nullptr;
+            return -nread;
+        }
+        dirp->buffer_size = nread;
+        dirp->nextptr = dirp->buffer;
+        break;
+    }
+    return 0;
+}
 
 }
