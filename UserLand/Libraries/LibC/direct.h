@@ -47,3 +47,6 @@ struct __DIR {
     size_t buffer_size;
     char* nextptr;
 };
+typedef struct __DIR DIR;
+
+
