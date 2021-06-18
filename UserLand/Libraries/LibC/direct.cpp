@@ -146,4 +146,13 @@ dirent* readdir(DIR* dirp)
     return &dirp->cur_ent;
 }
 
+static bool compare_sys_struct_dirent(sys_dirent* sys_ent, struct dirent* str_ent)
+{
+    size_t namelen = min((size_t)256, sys_ent->namelen);
+    return sys_ent->ino == str_ent->d_ino
+        && sys_ent->file_type == str_ent->d_type
+        && sys_ent->total_size() == str_ent->d_reclen
+        && strncmp(sys_ent->name, str_ent->d_name, namelen) == 0;
+}
+
 }
