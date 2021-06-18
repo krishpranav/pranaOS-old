@@ -11,3 +11,11 @@
 #include <stdlib.h>
 #include <sys/internals.h>
 #include <unistd.h>
+
+#ifndef _DYNAMIC_LOADER
+extern "C" {
+
+extern u32 __stack_chk_guard;
+
+int main(int, char**, char**);
+}
