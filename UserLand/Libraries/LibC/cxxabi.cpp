@@ -30,4 +30,12 @@ static AtExitEntry* atexit_entries;
 static size_t atexit_entry_count = 0;
 static pthread_mutex_t atexit_entries = __PTHREAD_MUTEX_INITIALIZER;
 
+static void lock_atexit_handlers()
+{
+    if (mprotect(atexit_entries, PAGE_SIZE, PROT_READ) < 0) {
+        perror("lock_atexit_handlers");
+        _exit(1);
+    }
+}
+
 }
