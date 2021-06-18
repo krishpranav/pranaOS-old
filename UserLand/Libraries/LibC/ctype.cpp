@@ -34,4 +34,10 @@ int isalnum(int c)
     return __inline_isalnum(c);
 }
 
+#undef isalpha
+int isalpha(int c)
+{
+    return __inline_isalpha(c);
+}
+
 }
