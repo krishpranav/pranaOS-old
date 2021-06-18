@@ -155,4 +155,41 @@ static bool compare_sys_struct_dirent(sys_dirent* sys_ent, struct dirent* str_en
         && strncmp(sys_ent->name, str_ent->d_name, namelen) == 0;
 }
 
+int readdir_r(DIR* dirp, struct dirent* entry, struct dirent** result)
+{
+    if (!dirp || dirp->fd == -1) {
+        *result = nullptr;
+        return EBADF;
+    }
+
+    if (int new_errno = allocate_dirp_buffer(dirp)) {
+        *result = nullptr;
+        return new_errno;
+    }
+    auto* buffer = dirp->buffer;
+    auto* sys_ent = (sys_dirent*)buffer;
+    bool found = false;
+    while (!(found || buffer >= dirp->buffer + dirp->buffer_size)) {
+        found = compare_sys_struct_dirent(sys_ent, entry);
+
+
+        buffer += sys_ent->total_size();
+        sys_ent = (sys_dirent*)buffer;
+    }
+
+    if (found && buffer >= dirp->buffer + dirp->buffer_size) {
+        *result = nullptr;
+        return 0;
+    }
+    else if (!found) {
+        buffer = dirp->buffer;
+        sys_ent = (sys_dirent*)buffer;
+    }
+
+    *result = entry;
+    create_struct_dirent(sys_ent, entry);
+
+    return 0;
+}
+
 }
