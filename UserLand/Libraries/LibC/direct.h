@@ -39,3 +39,11 @@ struct dirent {
     unsigned char d_type;
     char d_name[256];
 };
+
+struct __DIR {
+    int fd;
+    struct dirent cur_ent;
+    char* buffer;
+    size_t buffer_size;
+    char* nextptr;
+};
