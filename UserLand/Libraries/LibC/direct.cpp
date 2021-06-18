@@ -124,4 +124,26 @@ static int allocate_dirp_buffer(DIR* dirp)
     return 0;
 }
 
+dirent* readdir(DIR* dirp)
+{
+    if (!dirp)
+        return nullptr;
+    if (dirp->fd == -1)
+        return nullptr;
+
+    if (int new_errno = allocate_dirp_buffer(dirp)) {
+        errno = new_errno;
+        return nullptr;
+    }
+
+    if (dirp->nextptr >= (dirp->buffer + dirp->buffer_size))
+        return nullptr;
+
+    auto* sys_ent = (sys_dirent*)dirp->nextptr;
+    create_struct_dirent(sys_ent, &dirp->cur_ent);
+
+    dirp->nextptr += sys_ent->total_size();
+    return &dirp->cur_ent;
+}
+
 }
