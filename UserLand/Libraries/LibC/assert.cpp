@@ -13,3 +13,15 @@
 #include <sys/internals.h>
 #include <syscall.h>
 #include <unistd.h>
+
+extern "C" {
+
+
+extern bool __stdio_is_initialized;
+#ifndef DEBUG 
+void __assertion_failed(const char* msg)
+{
+    
+}
+
+}
