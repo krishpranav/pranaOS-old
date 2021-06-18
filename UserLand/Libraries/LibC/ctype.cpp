@@ -28,4 +28,10 @@ const char _ctype_[256] = {
     _L, _L, _L, _P, _P, _P, _P, _C
 };
 
+#undef isalnum
+int isalnum(int c)
+{
+    return __inline_isalnum(c);
+}
+
 }
