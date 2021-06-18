@@ -14,3 +14,14 @@
 #include <sys/internals.h>
 #include <sys/mman.h>
 #include <unistd.h>
+
+extern "C" {
+
+struct AtExitEntry {
+    AtExitFunction method { nullptr };
+    void* parameter { nullptr };
+    void* dso_handle { nullptr };
+    bool has_been_called { false };
+};
+
+}
