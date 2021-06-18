@@ -35,4 +35,16 @@ DIR* opendir(const char* name)
     return dirp;
 }
 
+int closedir(DIR* dirp)
+{
+    if (!dirp || dirp->fd == -1)
+        return -EBADF;
+    free(dirp->buffer);
+    int rc = close(dirp->fd);
+    if (rc == 0)
+        dirp->fd = -1;
+    free(dirp);
+    return rc;
+}
+
 }
