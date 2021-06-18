@@ -19,3 +19,5 @@ __BEGIN_DECLS
 #define _C 040
 #define _X 0100
 #define _B 0200
+
+extern const char _ctype_[256];
