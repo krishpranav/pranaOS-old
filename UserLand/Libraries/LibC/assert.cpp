@@ -16,7 +16,6 @@
 
 extern "C" {
 
-
 extern bool __stdio_is_initialized;
 #ifdef DEBUG
 void __assertion_failed(const char* msg)
@@ -33,4 +32,10 @@ void __assertion_failed(const char* msg)
     abort();
 }
 #endif
+}
+
+void _abort()
+{
+    asm volatile("ud2");
+    __builtin_unreachable();
 }
