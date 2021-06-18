@@ -18,3 +18,21 @@
 #include <sys/stat.h>
 #include <syscall.h>
 #include <unistd.h>
+
+extern "C" {
+
+
+DIR* opendir(const char* name)
+{
+    int fd = open(name, O_RDONLY | O_DIRECTORY);
+    if (fd == -1)
+        return nullptr;
+    DIR* dirp = (DIR*)malloc(sizeof(DIR));
+    dirp->fd = fd;
+    dirp->buffer = nullptr;
+    dirp->buffer_size = 0;
+    dirp->nextptr = nullptr;
+    return dirp;
+}
+
+}
