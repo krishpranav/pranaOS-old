@@ -1,8 +1,9 @@
 /*
- * Copyright (c) 2018-2020, Andreas Kling <kling@serenityos.org>
+ * Copyright (c) 2021, Krisna Pranav
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
+
 
 // includes
 #include <AK/Assertions.h>
@@ -20,7 +21,6 @@
 #include <unistd.h>
 
 extern "C" {
-
 
 DIR* opendir(const char* name)
 {
@@ -87,7 +87,7 @@ static int allocate_dirp_buffer(DIR* dirp)
     }
 
     struct stat st;
-
+    // preserve errno since this could be a reentrant call
     int old_errno = errno;
     int rc = fstat(dirp->fd, &st);
     if (rc < 0) {
@@ -112,7 +112,7 @@ static int allocate_dirp_buffer(DIR* dirp)
                     nread = -ENOMEM;
                 }
             }
-
+        
             free(dirp->buffer);
             dirp->buffer = nullptr;
             return -nread;
@@ -132,6 +132,7 @@ dirent* readdir(DIR* dirp)
         return nullptr;
 
     if (int new_errno = allocate_dirp_buffer(dirp)) {
+    
         errno = new_errno;
         return nullptr;
     }
@@ -166,6 +167,7 @@ int readdir_r(DIR* dirp, struct dirent* entry, struct dirent** result)
         *result = nullptr;
         return new_errno;
     }
+
     auto* buffer = dirp->buffer;
     auto* sys_ent = (sys_dirent*)buffer;
     bool found = false;
@@ -177,10 +179,12 @@ int readdir_r(DIR* dirp, struct dirent* entry, struct dirent** result)
         sys_ent = (sys_dirent*)buffer;
     }
 
+
     if (found && buffer >= dirp->buffer + dirp->buffer_size) {
         *result = nullptr;
         return 0;
     }
+
     else if (!found) {
         buffer = dirp->buffer;
         sys_ent = (sys_dirent*)buffer;
@@ -198,4 +202,59 @@ int dirfd(DIR* dirp)
     return dirp->fd;
 }
 
+int scandir(const char* dir_name,
+    struct dirent*** namelist,
+    int (*select)(const struct dirent*),
+    int (*compare)(const struct dirent**, const struct dirent**))
+{
+    auto dir = opendir(dir_name);
+    if (dir == nullptr)
+        return -1;
+    ScopeGuard guard = [&] {
+        closedir(dir);
+    };
+
+    Vector<struct dirent*> tmp_names;
+    ScopeGuard names_guard = [&] {
+        tmp_names.remove_all_matching([&](auto& entry) {
+            free(entry);
+            return true;
+        });
+    };
+
+    while (true) {
+        errno = 0;
+        auto entry = readdir(dir);
+        if (!entry)
+            break;
+
+        if (select && !select(entry))
+            continue;
+
+        auto entry_copy = (struct dirent*)malloc(entry->d_reclen);
+        if (!entry_copy)
+            break;
+        memcpy(entry_copy, entry, entry->d_reclen);
+        tmp_names.append(entry_copy);
+    }
+
+    if (errno) {
+        return -1;
+    }
+
+    if (compare) {
+        qsort(tmp_names.data(), tmp_names.size(), sizeof(struct dirent*), (int (*)(const void*, const void*))compare);
+    }
+
+    const int size = tmp_names.size();
+    auto names = (struct dirent**)malloc(size * sizeof(struct dirent*));
+    for (auto i = 0; i < size; i++) {
+        names[i] = tmp_names[i];
+    }
+
+    tmp_names.clear();
+
+    *namelist = names;
+    return size;
+}
 }
