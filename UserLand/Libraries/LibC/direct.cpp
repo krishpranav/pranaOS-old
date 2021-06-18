@@ -47,4 +47,13 @@ int closedir(DIR* dirp)
     return rc;
 }
 
+void rewinddir(DIR* dirp)
+{
+    free(dirp->buffer);
+    dirp->buffer = nullptr;
+    dirp->buffer_size = 0;
+    dirp->nextptr = nullptr;
+    lseek(dirp->fd, 0, SEEK_SET);
+}
+
 }
