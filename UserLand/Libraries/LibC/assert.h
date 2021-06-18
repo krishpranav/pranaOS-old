@@ -25,3 +25,10 @@ __BEGIN_DECLS
 #    define VERIFY_NOT_REACHED() _abort()
 #endif
 
+[[noreturn]] void _abort();
+
+#ifndef __cplusplus
+#    define static_assert _Static_assert
+#endif
+
+__END_DECLS
