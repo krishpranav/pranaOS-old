@@ -67,4 +67,18 @@ struct [[gnu::packed]] sys_dirent {
     }
 };
 
+static void create_struct_dirent(sys_dirent* sys_ent, struct dirent* str_ent)
+{
+    str_ent->d_ino = sys_ent->ino;
+    str_ent->d_type = sys_ent->file_type;
+    str_ent->d_off = 0;
+    str_ent->d_reclen = sizeof(struct dirent);
+
+    VERIFY(sizeof(str_ent->d_name) > sys_ent->namelen);
+
+    memcpy(str_ent->d_name, sys_ent->name, sys_ent->namelen);
+    str_ent->d_name[sys_ent->namelen] = '\0';
+}
+
+
 }
