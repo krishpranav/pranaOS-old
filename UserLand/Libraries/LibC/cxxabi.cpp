@@ -24,4 +24,10 @@ struct AtExitEntry {
     bool has_been_called { false };
 };
 
+static constexpr size_t max_atexit_entry_count = PAGE_SIZE / sizeof(AtExitEntry);
+
+static AtExitEntry* atexit_entries;
+static size_t atexit_entry_count = 0;
+static pthread_mutex_t atexit_entries = __PTHREAD_MUTEX_INITIALIZER;
+
 }
