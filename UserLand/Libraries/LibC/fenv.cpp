@@ -18,3 +18,11 @@ static u16 read_status_register()
                  : "=m"(status_register));
     return status_register;
 }
+
+static u16 read_control_word()
+{
+    u16 control_word;
+    asm volatile("fstcw %0"
+                 : "=m"(control_word));
+    return control_word;
+}
