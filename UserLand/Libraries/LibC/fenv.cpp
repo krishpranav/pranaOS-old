@@ -26,3 +26,8 @@ static u16 read_control_word()
                  : "=m"(control_word));
     return control_word;
 }
+
+static void set_control_word(u16 new_control_word)
+{
+    asm volatile("fldcw %0" ::"m"(new_control_word));
+}
