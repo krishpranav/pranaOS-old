@@ -29,3 +29,8 @@ static __inline uint16_t __bswap16(uint16_t x)
 {
     return __builtin_bswap16(x);
 }
+
+static __inline uint32_t __bswap32(uint32_t x)
+{
+    return __builtin_bswap32(x);
+}
