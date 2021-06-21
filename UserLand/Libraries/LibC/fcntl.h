@@ -37,3 +37,9 @@ __BEGIN_DECLS
 #define O_NOFOLLOW (1 << 10)
 #define O_CLOEXEC (1 << 11)
 #define O_DIRECT (1 << 12)
+
+int creat(const char* path, mode_t);
+int open(const char* path, int options, ...);
+#define AT_FDCWD -100
+#define AT_SYMLINK_NOFOLLOW 0x100
+int openat(int dirfd, const char* path, int options, ..);
