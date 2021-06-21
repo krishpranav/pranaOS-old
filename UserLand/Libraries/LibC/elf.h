@@ -52,3 +52,10 @@ typedef uint16_t Elf64_Quarter;
 #define EI_ABIVERSION 8 /* ABI version */
 #define EI_PAD 9        /* start of pad bytes */
 #define EI_NIDENT 16    /* Gfx::Size of e_ident[] */
+
+#define ELFMAG0 0x7f     /* e_ident[EI_MAG0] */
+#define ELFMAG1 'E'      /* e_ident[EI_MAG1] */
+#define ELFMAG2 'L'      /* e_ident[EI_MAG2] */
+#define ELFMAG3 'F'      /* e_ident[EI_MAG3] */
+#define ELFMAG "\177ELF" /* magic */
+#define SELFMAG 4        /* size of magic */
