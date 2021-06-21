@@ -35,3 +35,14 @@ static inline void report_error(const char* format, ...)
 
     fputs("\033[0m\n", stderr);
 }
+
+namespace {
+
+class OptionParser {
+public:
+    OptionParser(int argc, char* const* argv, const StringView& short_options, const option* long_options, int* out_long_option_index = nullptr);
+    int getopt();
+
+};
+
+}
