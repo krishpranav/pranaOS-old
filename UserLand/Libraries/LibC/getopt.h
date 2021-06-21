@@ -23,7 +23,10 @@ struct option {
 };
 
 extern int opterr;
-extern int optopt
+extern int optopt;
 extern int optind;
 extern int optreset;
 extern char* optarg;
+int getopt_long(int argc, char* const* argv, const char* short_options, const struct option* long_options, int* out_long_option_index);
+
+__END_DECLS
