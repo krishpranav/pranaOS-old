@@ -6,10 +6,11 @@
 
 #pragma once
 
-// incldes
+// includes
 #include <stdint.h>
 #include <sys/cdefs.h>
 
+__BEGIN_DECLS
 
 struct __x87_floating_point_environment {
     uint16_t __control_word;
@@ -58,3 +59,8 @@ int feraiseexcept(int exceptions);
 #define FE_DOWNWARD 1
 #define FE_UPWARD 2
 #define FE_TOWARDZERO 3
+
+int fesetround(int round);
+int fegetround(void);
+
+__END_DECLS
