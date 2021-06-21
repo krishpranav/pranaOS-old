@@ -23,4 +23,10 @@ int fcntl(int fd, int cmd, ...)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int create_inode_watcher(unsigned flags)
+{
+    int rc = syscall(SC_create_inode_watcher, flags);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
