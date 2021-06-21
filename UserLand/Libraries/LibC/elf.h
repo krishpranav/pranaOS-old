@@ -64,3 +64,8 @@ typedef uint16_t Elf64_Quarter;
 #define ELFCLASS32 1   /* 32-bit objs */
 #define ELFCLASS64 2   /* 64-bit objs */
 #define ELFCLASSNUM 3  /* number of classes */
+
+#define ELFDATANONE 0 /* invalid */
+#define ELFDATA2LSB 1 /* Little-Endian */
+#define ELFDATA2MSB 2 /* Big-Endian */
+#define ELFDATANUM 3  /* number of data encode defines */
