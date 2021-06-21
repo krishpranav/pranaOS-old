@@ -23,3 +23,9 @@ __BEGIN_DECLS
 #if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
 
 #   include <stdint.h>
+
+
+static __inline uint16_t __bswap16(uint16_t x)
+{
+    return __builtin_bswap16(x);
+}
