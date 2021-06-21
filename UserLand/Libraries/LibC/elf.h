@@ -87,3 +87,21 @@ typedef uint16_t Elf64_Quarter;
 #define ELFOSABI_STANDALONE 255 /* Standalone (embedded) application */
 
 #define IS_ELF(ehdr) ((ehdr).e_ident[EI_MAG0] == ELFMAG0 && (ehdr).e_ident[EI_MAG1] == ELFMAG1 && (ehdr).e_ident[EI_MAG2] == ELFMAG2 && (ehdr).e_ident[EI_MAG3] == ELFMAG3)
+
+typedef struct elfhdr {
+    unsigned char e_ident[EI_NIDENT]; /* ELF Identification */
+    Elf32_Half e_type;                /* object file type */
+    Elf32_Half e_machine;             /* machine */
+    Elf32_Word e_version;             /* object file version */
+    Elf32_Addr e_entry;               /* virtual entry point */
+    Elf32_Off e_phoff;                /* program header table offset */
+    Elf32_Off e_shoff;                /* section header table offset */
+    Elf32_Word e_flags;               /* processor-specific flags */
+    Elf32_Half e_ehsize;              /* ELF header size */
+    Elf32_Half e_phentsize;           /* program header entry size */
+    Elf32_Half e_phnum;               /* number of program header entries */
+    Elf32_Half e_shentsize;           /* section header entry size */
+    Elf32_Half e_shnum;               /* number of section header entries */
+    Elf32_Half e_shstrndx;            /* section header table's "section
+					   header string table" entry offset */
+} Elf32_Ehdr;
