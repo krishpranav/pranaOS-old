@@ -19,7 +19,6 @@ __BEGIN_DECLS
 #define F_SETFL 4
 #define F_ISTTY 5
 
-
 #define FD_CLOEXEC 1
 
 #define O_RDONLY (1 << 0)
@@ -42,7 +41,7 @@ int creat(const char* path, mode_t);
 int open(const char* path, int options, ...);
 #define AT_FDCWD -100
 #define AT_SYMLINK_NOFOLLOW 0x100
-int openat(int dirfd, const char* path, int options, ..);
+int openat(int dirfd, const char* path, int options, ...);
 
 int fcntl(int fd, int cmd, ...);
 int create_inode_watcher(unsigned flags);
@@ -55,3 +54,13 @@ int inode_watcher_remove_watch(int fd, int wd);
 #define F_GETLK 5
 #define F_SETLK 6
 #define F_SETLKW 7
+
+struct flock {
+    short l_type;
+    short l_whence;
+    off_t l_start;
+    off_t l_len;
+    pid_t l_pid;
+};
+
+__END_DECLS
