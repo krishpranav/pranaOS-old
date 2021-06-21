@@ -26,3 +26,8 @@ struct __x87_floating_point_environment {
     uint16_t __fpu_data_selector;
     uint16_t __reserved5;
 };
+
+typedef struct fenv_t {
+    struct __x87_floating_point_environment __x87_fpu_env;
+    uint32_t __mxcsr;
+} fenv_t;
