@@ -19,4 +19,8 @@
         return (good_ret);                         \
     } while (0)
 
-__BEGIN_DECLS
+__BEGIN_DECLS 
+
+extern const char* const sys_errlist[];
+extern int sys_nerr;
+
