@@ -64,4 +64,24 @@ private:
     size_t m_consumed_args { 0 };
 };
 
+OptionParser::OptionParser(int argc, char* const* argv, const StringView& short_options, const option* long_options, int* out_long_option_index)
+    : m_argc(argc)
+    , m_argv(argv)
+    , m_short_options(short_options)
+    , m_long_options(long_options)
+    , m_out_long_option_index(out_long_option_index)
+{
+    m_stop_on_first_non_option = short_options.starts_with('+');
+
+    // See if we should reset the internal state.
+    if (optreset || optind == 0) {
+        optreset = 0;
+        optind = 1;
+        s_index_into_multioption_argument = 0;
+    }
+
+    optopt = 0;
+    optarg = nullptr;
+}
+
 }
