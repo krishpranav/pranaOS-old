@@ -120,4 +120,29 @@ int OptionParser::getopt()
     return res;
 }
 
+bool OptionParser::lookup_short_option(char option, int& needs_value) const
+{
+    Vector<StringView> parts = m_short_options.split_view(option, true);
+
+    VERIFY(parts.size() <= 2);
+    if (parts.size() < 2) {
+        // Haven't found the option in the spec.
+        return false;
+    }
+
+    if (parts[1].starts_with("::")) {
+        // If an option is followed by two colons, it optionally accepts an
+        // argument.
+        needs_value = optional_argument;
+    } else if (parts[1].starts_with(':')) {
+        // If it's followed by one colon, it requires an argument.
+        needs_value = required_argument;
+    } else {
+        // Otherwise, it doesn't accept arguments.
+        needs_value = no_argument;
+    }
+    return true;
+}
+
+
 }
