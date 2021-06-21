@@ -31,3 +31,11 @@ static void set_control_word(u16 new_control_word)
 {
     asm volatile("fldcw %0" ::"m"(new_control_word));
 }
+
+static u32 read_mxcsr()
+{
+    u32 mxcsr;
+    asm volatile("stmxcsr %0"
+                 : "=m"(mxcsr));
+    return mxcsr;
+}
