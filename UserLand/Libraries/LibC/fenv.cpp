@@ -39,3 +39,8 @@ static u32 read_mxcsr()
                  : "=m"(mxcsr));
     return mxcsr;
 }
+
+static void set_mxcsr(u32 new_mxcsr)
+{
+    asm volatile("ldmxcsr %0" ::"m"(new_mxcsr));
+}
