@@ -21,3 +21,9 @@ struct option {
     int* flag;
     int val;
 };
+
+extern int opterr;
+extern int optopt
+extern int optind;
+extern int optreset;
+extern char* optarg;
