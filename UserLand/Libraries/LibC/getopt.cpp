@@ -12,13 +12,15 @@
 #include <string.h>
 #include <unistd.h>
 
-// opt values 
 int opterr = 1;
 int optopt = 0;
 int optind = 1;
 int optreset = 0;
 char* optarg = nullptr;
 
+// POSIX says, "When an element of argv[] contains multiple option characters,
+// it is unspecified how getopt() determines which options have already been
+// processed". Well, this is how we do it.
 static size_t s_index_into_multioption_argument = 0;
 
 static inline void report_error(const char* format, ...)
@@ -144,5 +146,179 @@ bool OptionParser::lookup_short_option(char option, int& needs_value) const
     return true;
 }
 
+int OptionParser::handle_short_option()
+{
+    StringView arg = m_argv[m_arg_index];
+    VERIFY(arg.starts_with('-'));
 
+    if (s_index_into_multioption_argument == 0) {
+        // Just starting to parse this argument, skip the "-".
+        s_index_into_multioption_argument = 1;
+    }
+    char option = arg[s_index_into_multioption_argument];
+    s_index_into_multioption_argument++;
+
+    int needs_value = no_argument;
+    bool ok = lookup_short_option(option, needs_value);
+    if (!ok) {
+        optopt = option;
+        report_error("Unrecognized option \033[1m-%c\033[22m", option);
+        return '?';
+    }
+
+    // Let's see if we're at the end of this argument already.
+    if (s_index_into_multioption_argument < arg.length()) {
+        // This not yet the end.
+        if (needs_value == no_argument) {
+            optarg = nullptr;
+            m_consumed_args = 0;
+        } else {
+            // Treat the rest of the argument as the value, the "-ovalue"
+            // syntax.
+            optarg = m_argv[m_arg_index] + s_index_into_multioption_argument;
+            // Next time, process the next argument.
+            s_index_into_multioption_argument = 0;
+            m_consumed_args = 1;
+        }
+    } else {
+        s_index_into_multioption_argument = 0;
+        if (needs_value != required_argument) {
+            optarg = nullptr;
+            m_consumed_args = 1;
+        } else if (m_arg_index + 1 < m_argc) {
+            // Treat the next argument as a value, the "-o value" syntax.
+            optarg = m_argv[m_arg_index + 1];
+            m_consumed_args = 2;
+        } else {
+            report_error("Missing value for option \033[1m-%c\033[22m", option);
+            return '?';
+        }
+    }
+
+    return option;
+}
+
+const option* OptionParser::lookup_long_option(char* raw) const
+{
+    StringView arg = raw;
+
+    for (size_t index = 0; m_long_options[index].name; index++) {
+        auto& option = m_long_options[index];
+        StringView name = option.name;
+
+        if (!arg.starts_with(name))
+            continue;
+
+       
+        if (m_out_long_option_index)
+            *m_out_long_option_index = index;
+
+        
+        if (arg.length() == name.length()) {
+            optarg = nullptr;
+            return &option;
+        }
+        VERIFY(arg.length() > name.length());
+        if (arg[name.length()] == '=') {
+            optarg = raw + name.length() + 1;
+            return &option;
+        }
+    }
+
+    return nullptr;
+}
+
+int OptionParser::handle_long_option()
+{
+    VERIFY(StringView(m_argv[m_arg_index]).starts_with("--"));
+
+    optopt = 0;
+
+    auto* option = lookup_long_option(m_argv[m_arg_index] + 2);
+    if (!option) {
+        report_error("Unrecognized option \033[1m%s\033[22m", m_argv[m_arg_index]);
+        return '?';
+    }
+    switch (option->has_arg) {
+    case no_argument:
+        if (optarg) {
+            report_error("Option \033[1m--%s\033[22m doesn't accept an argument", option->name);
+            return '?';
+        }
+        m_consumed_args = 1;
+        break;
+    case optional_argument:
+        m_consumed_args = 1;
+        break;
+    case required_argument:
+        if (optarg) {
+            // Value specified using "--option=value" syntax.
+            m_consumed_args = 1;
+        } else if (m_arg_index + 1 < m_argc) {
+            // Treat the next argument as a value in "--option value" syntax.
+            optarg = m_argv[m_arg_index + 1];
+            m_consumed_args = 2;
+        } else {
+            report_error("Missing value for option \033[1m--%s\033[22m", option->name);
+            return '?';
+        }
+        break;
+    default:
+        VERIFY_NOT_REACHED();
+    }
+
+    if (option->flag) {
+        *option->flag = option->val;
+        return 0;
+    }
+    return option->val;
+}
+
+void OptionParser::shift_argv()
+{
+    VERIFY(optind <= static_cast<int>(m_arg_index));
+
+    if (optind == static_cast<int>(m_arg_index) || m_consumed_args == 0) {
+        return;
+    }
+
+    auto new_argv = const_cast<char**>(m_argv);
+    char* buffer[m_consumed_args];
+    memcpy(buffer, &new_argv[m_arg_index], sizeof(char*) * m_consumed_args);
+    memmove(&new_argv[optind + m_consumed_args], &new_argv[optind], sizeof(char*) * (m_arg_index - optind));
+    memcpy(&new_argv[optind], buffer, sizeof(char*) * m_consumed_args);
+}
+
+bool OptionParser::find_next_option()
+{
+    for (m_arg_index = optind; m_arg_index < m_argc && m_argv[m_arg_index]; m_arg_index++) {
+        StringView arg = m_argv[m_arg_index];
+        if (!arg.starts_with('-')) {
+            if (m_stop_on_first_non_option)
+                return false;
+            continue;
+        }
+        if (arg == "-")
+            continue;
+        if (arg == "--")
+            return false;
+        return true;
+    }
+
+    return false;
+}
+
+}
+
+int getopt(int argc, char* const* argv, const char* short_options)
+{
+    option dummy { nullptr, 0, nullptr, 0 };
+    OptionParser parser { argc, argv, short_options, &dummy };
+    return parser.getopt();
+}
+
+int getopt_long(int argc, char* const* argv, const char* short_options, const struct option* long_options, int* out_long_option_index)
+{
+    OptionParser parser { argc, argv, short_options, long_options, out_long_option_index };
+    return parser.getopt();
 }
