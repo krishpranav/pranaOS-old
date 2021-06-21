@@ -29,4 +29,11 @@ int create_inode_watcher(unsigned flags)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int inode_watcher_add_watch(int fd, const char* path, size_t path_length, unsigned event_mask)
+{
+    Syscall::SC_inode_watcher_add_watch_params params { fd, { path, path_length }, event_mask };
+    int rc = syscall(SC_inode_watcher_add_watch, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
