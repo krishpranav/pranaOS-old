@@ -33,3 +33,8 @@ typedef struct fenv_t {
 } fenv_t;
 
 #define FE_DFL_ENV ((const fenv_t*)-1)
+
+int fegetenv(fenv_t*);
+int fesetenv(const fenv_t*);
+int feholdexcept(fenv_t*);
+int feupdateenv(const fenv_t*);
