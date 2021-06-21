@@ -44,3 +44,5 @@ static void set_mxcsr(u32 new_mxcsr)
 {
     asm volatile("ldmxcsr %0" ::"m"(new_mxcsr));
 }
+
+static constexpr u32 default_mxcsr_value = 0x1f80;
