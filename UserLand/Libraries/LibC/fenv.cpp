@@ -46,3 +46,20 @@ static void set_mxcsr(u32 new_mxcsr)
 }
 
 static constexpr u32 default_mxcsr_value = 0x1f80;
+
+extern "C" {
+
+int fegetenv(fenv_t* env)
+{
+    if (!env)
+        return 1;
+
+    asm volatile("fstenv %0"
+                 : "=m"(env->__x87_fpu_env)::"memory");
+
+    env->__mxcsr = read_mxcsr();
+
+    return 0;
+}
+
+}
