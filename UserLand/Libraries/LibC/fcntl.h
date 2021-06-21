@@ -48,3 +48,10 @@ int fcntl(int fd, int cmd, ...);
 int create_inode_watcher(unsigned flags);
 int inode_watcher_add_watch(int fd, const char* path, size_t path_length, unsigned event_mask);
 int inode_watcher_remove_watch(int fd, int wd);
+
+#define F_RDLCK 0
+#define F_WRLCK 1
+#define F_UNLCK 2
+#define F_GETLK 5
+#define F_SETLK 6
+#define F_SETLKW 7
