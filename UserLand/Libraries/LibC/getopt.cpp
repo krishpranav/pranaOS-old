@@ -84,4 +84,40 @@ OptionParser::OptionParser(int argc, char* const* argv, const StringView& short_
     optarg = nullptr;
 }
 
+int OptionParser::getopt()
+{
+    bool should_reorder_argv = !m_stop_on_first_non_option;
+    int res = -1;
+
+    bool found_an_option = find_next_option();
+    StringView arg = m_argv[m_arg_index];
+
+    if (!found_an_option) {
+        res = -1;
+        if (arg == "--")
+            m_consumed_args = 1;
+        else
+            m_consumed_args = 0;
+    } else {
+        // Alright, so we have an option on our hands!
+        bool is_long_option = arg.starts_with("--");
+        if (is_long_option)
+            res = handle_long_option();
+        else
+            res = handle_short_option();
+
+        // If we encountered an error, return immediately.
+        if (res == '?')
+            return '?';
+    }
+
+    if (should_reorder_argv)
+        shift_argv();
+    else
+        VERIFY(optind == static_cast<int>(m_arg_index));
+    optind += m_consumed_args;
+
+    return res;
+}
+
 }
