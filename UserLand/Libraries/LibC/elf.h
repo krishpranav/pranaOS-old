@@ -85,3 +85,5 @@ typedef uint16_t Elf64_Quarter;
 #define ELFOSABI_OPENBSD 12     /* OpenBSD */
 #define ELFOSABI_ARM 97         /* ARM */
 #define ELFOSABI_STANDALONE 255 /* Standalone (embedded) application */
+
+#define IS_ELF(ehdr) ((ehdr).e_ident[EI_MAG0] == ELFMAG0 && (ehdr).e_ident[EI_MAG1] == ELFMAG1 && (ehdr).e_ident[EI_MAG2] == ELFMAG2 && (ehdr).e_ident[EI_MAG3] == ELFMAG3)
