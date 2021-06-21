@@ -31,3 +31,5 @@ typedef struct fenv_t {
     struct __x87_floating_point_environment __x87_fpu_env;
     uint32_t __mxcsr;
 } fenv_t;
+
+#define FE_DFL_ENV ((const fenv_t*)-1)
