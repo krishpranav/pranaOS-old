@@ -19,3 +19,7 @@ __BEGIN_DECLS
 #else
 #    include <bits/endian.h>
 #endif
+
+#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+
+#   include <stdint.h>
