@@ -34,3 +34,8 @@ static __inline uint32_t __bswap32(uint32_t x)
 {
     return __builtin_bswap32(x);
 }
+
+static __inline uint64_t __bswap64(uint64_t x)
+{
+    return __builtin_bswap64(x);
+}
