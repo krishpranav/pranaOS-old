@@ -59,3 +59,8 @@ typedef uint16_t Elf64_Quarter;
 #define ELFMAG3 'F'      /* e_ident[EI_MAG3] */
 #define ELFMAG "\177ELF" /* magic */
 #define SELFMAG 4        /* size of magic */
+
+#define ELFCLASSNONE 0 /* invalid */
+#define ELFCLASS32 1   /* 32-bit objs */
+#define ELFCLASS64 2   /* 64-bit objs */
+#define ELFCLASSNUM 3  /* number of classes */
