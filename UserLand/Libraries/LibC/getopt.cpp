@@ -43,6 +43,25 @@ public:
     OptionParser(int argc, char* const* argv, const StringView& short_options, const option* long_options, int* out_long_option_index = nullptr);
     int getopt();
 
+private:
+    bool lookup_short_option(char option, int& needs_value) const;
+    int handle_short_option();
+
+    const option* lookup_long_option(char* raw) const;
+    int handle_long_option();
+
+    void shift_argv();
+    bool find_next_option();
+
+    size_t m_argc { 0 };
+    char* const* m_argv { nullptr };
+    StringView m_short_options;
+    const option* m_long_options { nullptr };
+    int* m_out_long_option_index { nullptr };
+    bool m_stop_on_first_non_option { false };
+
+    size_t m_arg_index { 0 };
+    size_t m_consumed_args { 0 };
 };
 
 }
