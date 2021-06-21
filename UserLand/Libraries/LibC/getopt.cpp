@@ -11,3 +11,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+
+// opt values 
+int opterr = 1;
+int optopt = 0;
+int optind = 1;
+int optreset = 0;
+char* optarg = nullptr;
