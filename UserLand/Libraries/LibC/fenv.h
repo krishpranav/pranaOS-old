@@ -53,3 +53,8 @@ int fesetexceptflag(const fexcept_t*, int exceptions);
 int feclearexcept(int exceptions);
 int fetestexcept(int exceptions);
 int feraiseexcept(int exceptions);
+
+#define FE_TONEAREST 0
+#define FE_DOWNWARD 1
+#define FE_UPWARD 2
+#define FE_TOWARDZERO 3
