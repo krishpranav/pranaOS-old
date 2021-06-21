@@ -38,3 +38,10 @@ int fegetenv(fenv_t*);
 int fesetenv(const fenv_t*);
 int feholdexcept(fenv_t*);
 int feupdateenv(const fenv_t*);
+
+#define FE_INVALID 1u << 0
+#define FE_DIVBYZERO 1u << 2
+#define FE_OVERFLOW 1u << 3
+#define FE_UNDERFLOW 1u << 4
+#define FE_INEXACT 1u << 5
+#define FE_ALL_EXCEPT (FE_DIVBYZERO | FE_INEXACT | FE_INVALID | FE_OVERFLOW | FE_UNDERFLOW)
