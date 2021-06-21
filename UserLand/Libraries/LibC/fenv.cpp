@@ -10,3 +10,11 @@
 #include <fenv.h>
 
 static_assert(sizeof(__x87_floating_point_environment) == 28);
+
+static u16 read_status_register()
+{
+    u16 status_register;
+    asm volatile("fstsw %0"
+                 : "=m"(status_register));
+    return status_register;
+}
