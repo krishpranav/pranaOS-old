@@ -18,3 +18,5 @@ int optopt = 0;
 int optind = 1;
 int optreset = 0;
 char* optarg = nullptr;
+
+static size_t s_index_into_multioption_argument = 0;
