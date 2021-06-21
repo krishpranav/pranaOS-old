@@ -41,4 +41,24 @@ int creat(const char* path, mode_t mode)
     return open(path, O_CREAT | O_WRONLY | O_TRUNC, mode);
 }
 
+int open(const char* path, int options, ...)
+{
+    if (!path) {
+        errno = EFAULT;
+        return -1;
+    }
+    auto path_length = strlen(path);
+    if (path_length > INT32_MAX) {
+        errno = EINVAL;
+        return -1;
+    }
+    va_list ap;
+    va_start(ap, options);
+    auto mode = (mode_t)va_arg(ap, unsigned);
+    va_end(ap);
+    Syscall::SC_open_params params { AT_FDCWD, { path, path_length }, options, mode };
+    int rc = syscall(SC_open, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
