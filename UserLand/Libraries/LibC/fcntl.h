@@ -43,3 +43,8 @@ int open(const char* path, int options, ...);
 #define AT_FDCWD -100
 #define AT_SYMLINK_NOFOLLOW 0x100
 int openat(int dirfd, const char* path, int options, ..);
+
+int fcntl(int fd, int cmd, ...);
+int create_inode_watcher(unsigned flags);
+int inode_watcher_add_watch(int fd, const char* path, size_t path_length, unsigned event_mask);
+int inode_watcher_remove_watch(int fd, int wd);
