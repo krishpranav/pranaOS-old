@@ -8,3 +8,5 @@
 // includes
 #include <AK/Types.h>
 #include <fenv.h>
+
+static_assert(sizeof(__x87_floating_point_environment) == 28);
