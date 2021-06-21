@@ -20,3 +20,18 @@ int optreset = 0;
 char* optarg = nullptr;
 
 static size_t s_index_into_multioption_argument = 0;
+
+static inline void report_error(const char* format, ...)
+{
+    if (!opterr)
+        return;
+
+    fputs("\033[31m", stderr);
+
+    va_list ap;
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
+    va_end(ap);
+
+    fputs("\033[0m\n", stderr);
+}
