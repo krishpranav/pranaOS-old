@@ -36,4 +36,9 @@ int inode_watcher_add_watch(int fd, const char* path, size_t path_length, unsign
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int creat(const char* path, mode_t mode)
+{
+    return open(path, O_CREAT | O_WRONLY | O_TRUNC, mode);
+}
+
 }
