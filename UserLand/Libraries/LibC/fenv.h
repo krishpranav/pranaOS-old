@@ -45,3 +45,11 @@ int feupdateenv(const fenv_t*);
 #define FE_UNDERFLOW 1u << 4
 #define FE_INEXACT 1u << 5
 #define FE_ALL_EXCEPT (FE_DIVBYZERO | FE_INEXACT | FE_INVALID | FE_OVERFLOW | FE_UNDERFLOW)
+
+typedef uint16_t fexcept_t;
+int fegetexceptflag(fexcept_t*, int exceptions);
+int fesetexceptflag(const fexcept_t*, int exceptions);
+
+int feclearexcept(int exceptions);
+int fetestexcept(int exceptions);
+int feraiseexcept(int exceptions);
