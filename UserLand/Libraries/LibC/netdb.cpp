@@ -182,3 +182,66 @@ hostent* gethostbyname(const char* name)
 
     return &__gethostbyname_buffer;
 }
+
+struct servent* getservent()
+{
+    if (!services_file) {
+        services_file = fopen(services_path, "r");
+
+        if (!services_file) {
+            perror("error opening services file");
+            return nullptr;
+        }
+    }
+
+    if (fseek(services_file, service_file_offset, SEEK_SET) != 0) {
+        perror("error seeking file");
+        fclose(services_file);
+        return nullptr;
+    }
+    char* line = nullptr;
+    size_t len = 0;
+    ssize_t read;
+
+    auto free_line_on_exit = ScopeGuard([line] {
+        if (line) {
+            free(line);
+        }
+    });
+
+    do {
+        read = getline(&line, &len, services_file);
+        service_file_offset += read;
+        if (read > 0 && (line[0] >= 65 && line[0] <= 122)) {
+            break;
+        }
+    } while (read != -1);
+    if (read == -1) {
+        fclose(services_file);
+        services_file = nullptr;
+        service_file_offset = 0;
+        return nullptr;
+    }
+
+    servent* service_entry = nullptr;
+    if (!fill_getserv_buffers(line, read))
+        return nullptr;
+
+    __getserv_buffer.s_name = const_cast<char*>(__getserv_name_buffer.characters());
+    __getserv_buffer.s_port = htons(__getserv_port_buffer);
+    __getserv_buffer.s_proto = const_cast<char*>(__getserv_protocol_buffer.characters());
+
+    __getserv_alias_list.clear_with_capacity();
+    __getserv_alias_list.ensure_capacity(__getserv_alias_list_buffer.size() + 1);
+    for (auto& alias : __getserv_alias_list_buffer)
+        __getserv_alias_list.unchecked_append(reinterpret_cast<char*>(alias.data()));
+    __getserv_alias_list.unchecked_append(nullptr);
+
+    __getserv_buffer.s_aliases = __getserv_alias_list.data();
+    service_entry = &__getserv_buffer;
+
+    if (!keep_service_file_open) {
+        endservent();
+    }
+    return service_entry;
+}
