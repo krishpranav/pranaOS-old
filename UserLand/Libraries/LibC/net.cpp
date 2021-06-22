@@ -8,3 +8,5 @@
 #include <LibC/errno.h>
 #include <LibC/net/if.h>
 #include <LibC/netinet/in.h>
+
+in6_addr in6addr_any = IN6ADDR_ANY_INIT;
