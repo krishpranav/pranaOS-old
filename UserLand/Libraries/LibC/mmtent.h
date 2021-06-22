@@ -9,3 +9,9 @@
 // includes
 #include <stdio.h>
 #include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
+#define MOUNTED "/etc/mtab"
+#define MNTTAB "/etc/fstab"
+
