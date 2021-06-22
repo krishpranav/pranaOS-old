@@ -39,3 +39,9 @@ static bool s_scrub_malloc = true;
 static bool s_scrub_free = true;
 static bool s_profiling = false;
 static bool s_in_userspace_emulator = false;
+
+ALWAYS_INLINE static void ue_notify_malloc(const void* ptr, size_t size)
+{
+    if (s_in_userspace_emulator)
+        syscall(SC_emuctl, 1, size, (FlatPtr)ptr);
+}
