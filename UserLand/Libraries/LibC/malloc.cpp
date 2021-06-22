@@ -29,3 +29,8 @@ static Threading::Lock& malloc_lock()
     static u32 lock_storage[sizeof(Threading::Lock) / sizeof(u32)];
     return *reinterpret_cast<Threading::Lock*>(&lock_storage);
 }
+
+constexpr size_t number_of_hot_chunked_blocks_to_keep_around = 16;
+constexpr size_t number_of_cold_chunked_blocks_to_keep_around = 16;
+constexpr size_t number_of_big_blocks_to_keep_around_per_size_class = 8;
+
