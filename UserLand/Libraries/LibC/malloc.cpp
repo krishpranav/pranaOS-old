@@ -403,5 +403,20 @@ void* calloc(size_t count, size_t size)
     return ptr;
 }
 
+size_t malloc_size(void* ptr)
+{
+    if (!ptr)
+        return 0;
+    Threading::Locker locker(malloc_lock());
+    void* page_base = (void*)((FlatPtr)ptr & ChunkedBlock::block_mask);
+    auto* header = (const CommonHeader*)page_base;
+    auto size = header->m_size;
+    if (header->m_magic == MAGIC_BIGALLOC_HEADER)
+        size -= sizeof(CommonHeader);
+    else
+        VERIFY(header->m_magic == MAGIC_PAGE_HEADER);
+    return size;
+}
+
 
 }
