@@ -148,4 +148,10 @@ static void* os_alloc(size_t size, const char* name)
     return ptr;
 }
 
+static void os_free(void* ptr, size_t size)
+{
+    int rc = munmap(ptr, size);
+    assert(rc == 0);
+}
+
 }
