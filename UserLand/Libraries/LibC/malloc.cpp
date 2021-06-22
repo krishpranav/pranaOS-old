@@ -87,3 +87,9 @@ struct MallocStats {
     size_t number_of_cold_keeps;
     size_t number_of_frees;
 };
+static MallocStats g_malloc_stats = {};
+
+static size_t s_hot_empty_block_count { 0 };
+static ChunkedBlock* s_hot_empty_blocks[number_of_hot_chunked_blocks_to_keep_around] { nullptr };
+static size_t s_cold_empty_block_count { 0 };
+static ChunkedBlock* s_cold_empty_blocks[number_of_cold_chunked_blocks_to_keep_around] { nullptr };
