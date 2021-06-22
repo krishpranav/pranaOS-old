@@ -23,3 +23,10 @@ struct hostent {
 
 struct hostent* gethostbyname(const char*);
 struct hostent* gethostbyaddr(const void* addr, socklen_t len, int type);
+
+struct servent {
+    char* s_name;
+    char** s_aliases;
+    int s_port;
+    char* s_proto;
+};
