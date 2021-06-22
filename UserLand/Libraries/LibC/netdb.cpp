@@ -310,3 +310,12 @@ void setservent(int stay_open)
     keep_service_file_open = stay_open;
     service_file_offset = 0;
 }
+
+void endservent()
+{
+    if (!services_file) {
+        return;
+    }
+    fclose(services_file);
+    services_file = nullptr;
+}
