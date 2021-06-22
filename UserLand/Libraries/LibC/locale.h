@@ -48,3 +48,8 @@ struct lconv {
     char int_p_sign_posn;
     char int_n_sign_posn;
 };
+
+struct lconv* localeconv();
+char* setlocale(int category, const char* locale);
+
+__END_DECLS
