@@ -386,5 +386,13 @@ static void free_impl(void* ptr)
     return ptr;
 }
 
+[[gnu::flatten]] void free(void* ptr)
+{
+    if (s_profiling)
+        perf_event(PERF_EVENT_FREE, reinterpret_cast<FlatPtr>(ptr), 0);
+    ue_notify_free(ptr);
+    free_impl(ptr);
+}
+
 
 }
