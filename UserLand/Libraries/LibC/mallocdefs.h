@@ -29,7 +29,6 @@ consteval bool check_size_classes_alignment()
     }
     return true;
 }
-
 static_assert(check_size_classes_alignment());
 
 struct CommonHeader {
@@ -44,4 +43,39 @@ struct BigAllocationBlock : public CommonHeader {
         m_size = size;
     }
     unsigned char* m_slot[0];
+};
+
+struct FreelistEntry {
+    FreelistEntry* next;
+};
+
+struct ChunkedBlock : public CommonHeader {
+
+    static constexpr size_t block_size = 64 * KiB;
+    static constexpr size_t block_mask = ~(block_size - 1);
+
+    ChunkedBlock(size_t bytes_per_chunk)
+    {
+        m_magic = MAGIC_PAGE_HEADER;
+        m_size = bytes_per_chunk;
+        m_free_chunks = chunk_capacity();
+    }
+
+    IntrusiveListNode<ChunkedBlock> m_list_node;
+    size_t m_next_lazy_freelist_index { 0 };
+    FreelistEntry* m_freelist { nullptr };
+    size_t m_free_chunks { 0 };
+    [[gnu::aligned(8)]] unsigned char m_slot[0];
+
+    void* chunk(size_t index)
+    {
+        return &m_slot[index * m_size];
+    }
+    bool is_full() const { return m_free_chunks == 0; }
+    size_t bytes_per_chunk() const { return m_size; }
+    size_t free_chunks() const { return m_free_chunks; }
+    size_t used_chunks() const { return chunk_capacity() - m_free_chunks; }
+    size_t chunk_capacity() const { return (block_size - sizeof(ChunkedBlock)) / m_size; }
+
+    using List = IntrusiveList<ChunkedBlock, RawPtr<ChunkedBlock>, &ChunkedBlock::m_list_node>;
 };
