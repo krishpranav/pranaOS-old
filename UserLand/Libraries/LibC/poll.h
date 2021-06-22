@@ -27,3 +27,7 @@ struct pollfd {
 };
 
 typedef unsigned nfds_t;
+
+int poll(struct pollfd* fds, nfds_t nfds, int timeout);
+
+__END_DECLS
