@@ -378,5 +378,13 @@ static void free_impl(void* ptr)
     }
 }
 
+[[gnu::flatten]] void* malloc(size_t size)
+{
+    void* ptr = malloc_impl(size, CallerWillInitializeMemory::No);
+    if (s_profiling)
+        perf_event(PERF_EVENT_MALLOC, size, reinterpret_cast<FlatPtr>(ptr));
+    return ptr;
+}
+
 
 }
