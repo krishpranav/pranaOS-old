@@ -5,3 +5,5 @@
 */
 
 #pragma once
+
+#define _PATH_MAILDIR "/var/mail"
