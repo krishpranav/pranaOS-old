@@ -295,3 +295,18 @@ struct servent* getservbyport(int port, const char* protocol)
 
     return current_service;
 }
+
+void setservent(int stay_open)
+{
+    if (!services_file) {
+        services_file = fopen(services_path, "r");
+
+        if (!services_file) {
+            perror("error opening services file");
+            return;
+        }
+    }
+    rewind(services_file);
+    keep_service_file_open = stay_open;
+    service_file_offset = 0;
+}
