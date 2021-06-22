@@ -93,3 +93,8 @@ __BEGIN_DECLS
 #define SCNx8 "hhx"
 #define SCNx16 "hx"
 #define SCNx32 "lx"
+
+typedef struct imaxdiv {
+    intmax_t quot;
+    intmax_t rem;
+} imaxdiv_t;
