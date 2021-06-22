@@ -112,3 +112,8 @@ static inline Allocator (&allocators())[num_size_classes]
 {
     return reinterpret_cast<Allocator(&)[num_size_classes]>(g_allocators_storage);
 }
+
+static inline BigAllocator (&big_allocators())[1]
+{
+    return reinterpret_cast<BigAllocator(&)[1]>(g_big_allocators_storage);
+}
