@@ -25,3 +25,5 @@ struct mntent {
 };
 
 struct mntent* getmntent(FILE* stream);
+
+__END_DECLS
