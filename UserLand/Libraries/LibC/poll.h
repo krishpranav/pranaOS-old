@@ -22,12 +22,13 @@ __BEGIN_DECLS
 
 struct pollfd {
     int fd;
-    short event;
     short events;
+    short revents;
 };
 
 typedef unsigned nfds_t;
 
 int poll(struct pollfd* fds, nfds_t nfds, int timeout);
+int ppoll(struct pollfd* fds, nfds_t nfds, const struct timespec* timeout, const sigset_t* sigmask);
 
 __END_DECLS
