@@ -8,3 +8,6 @@
 #include <AK/Assertions.h>
 #include <libgen.h>
 #include <string.h>
+
+static char dot[] = ".";
+static char slash[] = "/";
