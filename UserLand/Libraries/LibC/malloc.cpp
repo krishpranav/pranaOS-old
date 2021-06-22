@@ -104,3 +104,6 @@ struct Allocator {
 struct BigAllocator {
     Vector<BigAllocationBlock*, number_of_big_blocks_to_keep_around_per_size_class> blocks;
 };
+
+static u8 g_allocators_storage[sizeof(Allocator) * num_size_classes];
+static u8 g_big_allocators_storage[sizeof(BigAllocator)];
