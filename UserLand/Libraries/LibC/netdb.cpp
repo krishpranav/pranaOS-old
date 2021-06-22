@@ -272,3 +272,26 @@ struct servent* getservbyname(const char* name, const char* protocol)
 
     return current_service;
 }
+
+struct servent* getservbyport(int port, const char* protocol)
+{
+    bool previous_file_open_setting = keep_service_file_open;
+    setservent(1);
+    struct servent* current_service = nullptr;
+    auto service_file_handler = ScopeGuard([previous_file_open_setting] {
+        if (!previous_file_open_setting) {
+            endservent();
+        }
+    });
+    while (true) {
+        current_service = getservent();
+        if (current_service == nullptr)
+            break;
+        else if (!protocol && current_service->s_port == port)
+            break;
+        else if (current_service->s_port == port && (strcmp(current_service->s_proto, protocol) == 0))
+            break;
+    }
+
+    return current_service;
+}
