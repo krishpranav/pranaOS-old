@@ -20,3 +20,6 @@ struct hostent {
     char** h_addr_list;
 #define h_addr h_addr_list[0]
 };
+
+struct hostent* gethostbyname(const char*);
+struct hostent* gethostbyaddr(const void* addr, socklen_t len, int type);
