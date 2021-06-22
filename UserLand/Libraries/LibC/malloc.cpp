@@ -63,3 +63,27 @@ ALWAYS_INLINE static void ue_notify_chunk_size_changed(const void* block, size_t
     if (s_in_userspace_emulator)
         syscall(SC_emuctl, 4, chunk_size, (FlatPtr)block);
 }
+
+struct MallocStats {
+    size_t number_of_malloc_calls;
+
+    size_t number_of_big_allocator_hits;
+    size_t number_of_big_allocator_purge_hits;
+    size_t number_of_big_allocs;
+
+    size_t number_of_hot_empty_block_hits;
+    size_t number_of_cold_empty_block_hits;
+    size_t number_of_cold_empty_block_purge_hits;
+    size_t number_of_block_allocs;
+    size_t number_of_blocks_full;
+
+    size_t number_of_free_calls;
+
+    size_t number_of_big_allocator_keeps;
+    size_t number_of_big_allocator_frees;
+
+    size_t number_of_freed_full_blocks;
+    size_t number_of_hot_keeps;
+    size_t number_of_cold_keeps;
+    size_t number_of_frees;
+};
