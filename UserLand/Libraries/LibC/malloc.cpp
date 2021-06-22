@@ -117,3 +117,15 @@ static inline BigAllocator (&big_allocators())[1]
 {
     return reinterpret_cast<BigAllocator(&)[1]>(g_big_allocators_storage);
 }
+
+static Allocator* allocator_for_size(size_t size, size_t& good_size)
+{
+    for (size_t i = 0; size_classes[i]; ++i) {
+        if (size <= size_classes[i]) {
+            good_size = size_classes[i];
+            return &allocators()[i];
+        }
+    }
+    good_size = PAGE_ROUND_UP(size);
+    return nullptr;
+}
