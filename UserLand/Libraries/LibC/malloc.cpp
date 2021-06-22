@@ -34,3 +34,8 @@ constexpr size_t number_of_hot_chunked_blocks_to_keep_around = 16;
 constexpr size_t number_of_cold_chunked_blocks_to_keep_around = 16;
 constexpr size_t number_of_big_blocks_to_keep_around_per_size_class = 8;
 
+static bool s_log_malloc = false;
+static bool s_scrub_malloc = true;
+static bool s_scrub_free = true;
+static bool s_profiling = false;
+static bool s_in_userspace_emulator = false;
