@@ -57,3 +57,9 @@ ALWAYS_INLINE static void ue_notify_realloc(const void* ptr, size_t size)
     if (s_in_userspace_emulator)
         syscall(SC_emuctl, 3, size, (FlatPtr)ptr);
 }
+
+ALWAYS_INLINE static void ue_notify_chunk_size_changed(const void* block, size_t chunk_size)
+{
+    if (s_in_userspace_emulator)
+        syscall(SC_emuctl, 4, chunk_size, (FlatPtr)block);
+}
