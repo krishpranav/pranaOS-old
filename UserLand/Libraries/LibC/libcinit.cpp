@@ -20,4 +20,10 @@ __thread int errno;
 char** environ;
 bool __environ_is_malloced;
 bool __stdio_is_initialized;
+
+void __libc_init()
+{
+    __malloc_init();
+    __stdio_init();
+}
 }
