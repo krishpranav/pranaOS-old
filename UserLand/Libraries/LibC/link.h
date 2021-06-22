@@ -13,3 +13,11 @@
 #endif
 #include <limits.h>
 #include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
+#ifdef __LP64__
+#    define ElfW(type) Elf64_##type
+#else
+#    define ElfW(type) Elf32_##type
+#endif
