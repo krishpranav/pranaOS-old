@@ -394,5 +394,14 @@ static void free_impl(void* ptr)
     free_impl(ptr);
 }
 
+void* calloc(size_t count, size_t size)
+{
+    size_t new_size = count * size;
+    auto* ptr = malloc_impl(new_size, CallerWillInitializeMemory::Yes);
+    if (ptr)
+        memset(ptr, 0, new_size);
+    return ptr;
+}
+
 
 }
