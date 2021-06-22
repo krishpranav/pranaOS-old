@@ -36,3 +36,12 @@ struct CommonHeader {
     size_t m_magic;
     size_t m_size;
 };
+
+struct BigAllocationBlock : public CommonHeader {
+    BigAllocationBlock(size_t size)
+    {
+        m_magic = MAGIC_BIGALLOC_HEADER;
+        m_size = size;
+    }
+    unsigned char* m_slot[0];
+};
