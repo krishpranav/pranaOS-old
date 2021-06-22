@@ -24,9 +24,8 @@ imaxdiv_t imaxdiv(intmax_t numerator, intmax_t denominator)
     }
 
     return result;
-
 }
-    
+
 intmax_t strtoimax(const char* str, char** endptr, int base)
 {
     long long_value = strtoll(str, endptr, base);
@@ -56,5 +55,4 @@ uintmax_t strtoumax(const char* str, char** endptr, int base)
 
     return ulong_value;
 }
-
 }
