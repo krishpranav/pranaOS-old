@@ -138,3 +138,14 @@ static BigAllocator* big_allocator_for_size(size_t size)
     return nullptr;
 }
 #endif
+
+extern "C" {
+
+static void* os_alloc(size_t size, const char* name)
+{
+    auto* ptr = serenity_mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0, ChunkedBlock::block_size, name);
+    VERIFY(ptr != MAP_FAILED);
+    return ptr;
+}
+
+}
