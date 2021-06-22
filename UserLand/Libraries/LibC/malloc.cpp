@@ -45,3 +45,9 @@ ALWAYS_INLINE static void ue_notify_malloc(const void* ptr, size_t size)
     if (s_in_userspace_emulator)
         syscall(SC_emuctl, 1, size, (FlatPtr)ptr);
 }
+
+ALWAYS_INLINE static void ue_notify_free(const void* ptr)
+{
+    if (s_in_userspace_emulator)
+        syscall(SC_emuctl, 2, (FlatPtr)ptr, 0);
+}
