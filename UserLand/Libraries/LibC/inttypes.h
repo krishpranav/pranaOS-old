@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
 */
 
-#pragma once 
+#pragma once
 
 // includes
 #include <bits/stdint.h>
@@ -94,8 +94,13 @@ __BEGIN_DECLS
 #define SCNx16 "hx"
 #define SCNx32 "lx"
 
-typedef struct imaxdiv {
+typedef struct imaxdiv_t {
     intmax_t quot;
     intmax_t rem;
 } imaxdiv_t;
 imaxdiv_t imaxdiv(intmax_t, intmax_t);
+
+intmax_t strtoimax(const char*, char** endptr, int base);
+uintmax_t strtoumax(const char*, char** endptr, int base);
+
+__END_DECLS
