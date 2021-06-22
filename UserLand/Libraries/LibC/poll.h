@@ -25,3 +25,5 @@ struct pollfd {
     short event;
     short events;
 };
+
+typedef unsigned nfds_t;
