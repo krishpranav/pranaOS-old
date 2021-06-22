@@ -129,3 +129,12 @@ static Allocator* allocator_for_size(size_t size, size_t& good_size)
     good_size = PAGE_ROUND_UP(size);
     return nullptr;
 }
+
+#ifdef RECYCLE_BIG_ALLOCATIONS
+static BigAllocator* big_allocator_for_size(size_t size)
+{
+    if (size == 65536)
+        return &big_allocators()[0];
+    return nullptr;
+}
+#endif
