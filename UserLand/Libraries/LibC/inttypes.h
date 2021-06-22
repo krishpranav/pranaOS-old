@@ -98,3 +98,4 @@ typedef struct imaxdiv {
     intmax_t quot;
     intmax_t rem;
 } imaxdiv_t;
+imaxdiv_t imaxdiv(intmax_t, intmax_t);
