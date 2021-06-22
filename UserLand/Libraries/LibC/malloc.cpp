@@ -289,4 +289,94 @@ static void* malloc_impl(size_t size, CallerWillInitializeMemory caller_will_ini
     return ptr;
 }
 
+static void free_impl(void* ptr)
+{
+    ScopedValueRollback rollback(errno);
+
+    if (!ptr)
+        return;
+
+    g_malloc_stats.number_of_free_calls++;
+
+    Threading::Locker locker(malloc_lock());
+
+    void* block_base = (void*)((FlatPtr)ptr & ChunkedBlock::ChunkedBlock::block_mask);
+    size_t magic = *(size_t*)block_base;
+
+    if (magic == MAGIC_BIGALLOC_HEADER) {
+        auto* block = (BigAllocationBlock*)block_base;
+#ifdef RECYCLE_BIG_ALLOCATIONS
+        if (auto* allocator = big_allocator_for_size(block->m_size)) {
+            if (allocator->blocks.size() < number_of_big_blocks_to_keep_around_per_size_class) {
+                g_malloc_stats.number_of_big_allocator_keeps++;
+                allocator->blocks.append(block);
+                size_t this_block_size = block->m_size;
+                if (mprotect(block, this_block_size, PROT_NONE) < 0) {
+                    perror("mprotect");
+                    VERIFY_NOT_REACHED();
+                }
+                if (madvise(block, this_block_size, MADV_SET_VOLATILE) != 0) {
+                    perror("madvise");
+                    VERIFY_NOT_REACHED();
+                }
+                return;
+            }
+        }
+#endif
+        g_malloc_stats.number_of_big_allocator_frees++;
+        os_free(block, block->m_size);
+        return;
+    }
+
+    assert(magic == MAGIC_PAGE_HEADER);
+    auto* block = (ChunkedBlock*)block_base;
+
+    dbgln_if(MALLOC_DEBUG, "LibC: freeing {:p} in allocator {:p} (size={}, used={})", ptr, block, block->bytes_per_chunk(), block->used_chunks());
+
+    if (s_scrub_free)
+        memset(ptr, FREE_SCRUB_BYTE, block->bytes_per_chunk());
+
+    auto* entry = (FreelistEntry*)ptr;
+    entry->next = block->m_freelist;
+    block->m_freelist = entry;
+
+    if (block->is_full()) {
+        size_t good_size;
+        auto* allocator = allocator_for_size(block->m_size, good_size);
+        dbgln_if(MALLOC_DEBUG, "Block {:p} no longer full in size class {}", block, good_size);
+        g_malloc_stats.number_of_freed_full_blocks++;
+        allocator->full_blocks.remove(*block);
+        allocator->usable_blocks.prepend(*block);
+    }
+
+    ++block->m_free_chunks;
+
+    if (!block->used_chunks()) {
+        size_t good_size;
+        auto* allocator = allocator_for_size(block->m_size, good_size);
+        if (s_hot_empty_block_count < number_of_hot_chunked_blocks_to_keep_around) {
+            dbgln_if(MALLOC_DEBUG, "Keeping hot block {:p} around", block);
+            g_malloc_stats.number_of_hot_keeps++;
+            allocator->usable_blocks.remove(*block);
+            s_hot_empty_blocks[s_hot_empty_block_count++] = block;
+            return;
+        }
+        if (s_cold_empty_block_count < number_of_cold_chunked_blocks_to_keep_around) {
+            dbgln_if(MALLOC_DEBUG, "Keeping cold block {:p} around", block);
+            g_malloc_stats.number_of_cold_keeps++;
+            allocator->usable_blocks.remove(*block);
+            s_cold_empty_blocks[s_cold_empty_block_count++] = block;
+            mprotect(block, ChunkedBlock::block_size, PROT_NONE);
+            madvise(block, ChunkedBlock::block_size, MADV_SET_VOLATILE);
+            return;
+        }
+        dbgln_if(MALLOC_DEBUG, "Releasing block {:p} for size class {}", block, good_size);
+        g_malloc_stats.number_of_frees++;
+        allocator->usable_blocks.remove(*block);
+        --allocator->block_count;
+        os_free(block, ChunkedBlock::block_size);
+    }
+}
+
+
 }
