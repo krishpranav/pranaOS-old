@@ -426,5 +426,28 @@ size_t malloc_good_size(size_t size)
     return good_size;
 }
 
+void* realloc(void* ptr, size_t size)
+{
+    if (!ptr)
+        return malloc(size);
+    if (!size) {
+        free(ptr);
+        return nullptr;
+    }
+
+    Threading::Locker locker(malloc_lock());
+    auto existing_allocation_size = malloc_size(ptr);
+
+    if (size <= existing_allocation_size) {
+        ue_notify_realloc(ptr, size);
+        return ptr;
+    }
+    auto* new_ptr = malloc(size);
+    if (new_ptr) {
+        memcpy(new_ptr, ptr, min(existing_allocation_size, size));
+        free(ptr);
+    }
+    return new_ptr;
+}
 
 }
