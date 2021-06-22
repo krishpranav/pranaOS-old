@@ -100,3 +100,7 @@ struct Allocator {
     ChunkedBlock::List usable_blocks;
     ChunkedBlock::List full_blocks;
 };
+
+struct BigAllocator {
+    Vector<BigAllocationBlock*, number_of_big_blocks_to_keep_around_per_size_class> blocks;
+};
