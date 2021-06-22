@@ -29,3 +29,10 @@ consteval bool check_size_classes_alignment()
     }
     return true;
 }
+
+static_assert(check_size_classes_alignment());
+
+struct CommonHeader {
+    size_t m_magic;
+    size_t m_size;
+};
