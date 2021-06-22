@@ -9,3 +9,15 @@
 #include <assert.h>
 #include <sys/internals.h>
 #include <unistd.h>
+
+extern "C" {
+
+#ifdef NO_TLS
+int errno;
+#else
+__thread int errno;
+#endif
+char** environ;
+bool __environ_is_malloced;
+bool __stdio_is_initialized;
+}
