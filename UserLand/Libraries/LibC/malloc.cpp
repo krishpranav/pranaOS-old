@@ -154,4 +154,9 @@ static void os_free(void* ptr, size_t size)
     assert(rc == 0);
 }
 
+enum class CallerWillInitializeMemory {
+    No,
+    Yes,
+};
+
 }
