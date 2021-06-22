@@ -21,3 +21,5 @@
 #include <sys/internals.h>
 #include <sys/mman.h>
 #include <syscall.h>
+
+#define RECYCLE_BIG_ALLOCATIONS
