@@ -22,6 +22,7 @@
 #include <sys/mman.h>
 #include <syscall.h>
 
+
 #define RECYCLE_BIG_ALLOCATIONS
 
 static Threading::Lock& malloc_lock()
@@ -105,6 +106,7 @@ struct BigAllocator {
     Vector<BigAllocationBlock*, number_of_big_blocks_to_keep_around_per_size_class> blocks;
 };
 
+
 static u8 g_allocators_storage[sizeof(Allocator) * num_size_classes];
 static u8 g_big_allocators_storage[sizeof(BigAllocator)];
 
@@ -167,8 +169,7 @@ static void* malloc_impl(size_t size, CallerWillInitializeMemory caller_will_ini
         dbgln("LibC: malloc({})", size);
 
     if (!size) {
-        // Legally we could just return a null pointer here, but this is more
-        // compatible with existing software.
+
         size = 1;
     }
 
@@ -418,7 +419,6 @@ size_t malloc_size(void* ptr)
     return size;
 }
 
-
 size_t malloc_good_size(size_t size)
 {
     size_t good_size;
@@ -450,4 +450,55 @@ void* realloc(void* ptr, size_t size)
     return new_ptr;
 }
 
+void __malloc_init()
+{
+    new (&malloc_lock()) Threading::Lock();
+
+    s_in_userspace_emulator = (int)syscall(SC_emuctl, 0) != -ENOSYS;
+    if (s_in_userspace_emulator) {
+        s_scrub_malloc = false;
+        s_scrub_free = false;
+    }
+
+    if (secure_getenv("LIBC_NOSCRUB_MALLOC"))
+        s_scrub_malloc = false;
+    if (secure_getenv("LIBC_NOSCRUB_FREE"))
+        s_scrub_free = false;
+    if (secure_getenv("LIBC_LOG_MALLOC"))
+        s_log_malloc = true;
+    if (secure_getenv("LIBC_PROFILE_MALLOC"))
+        s_profiling = true;
+
+    for (size_t i = 0; i < num_size_classes; ++i) {
+        new (&allocators()[i]) Allocator();
+        allocators()[i].size = size_classes[i];
+    }
+
+    new (&big_allocators()[0])(BigAllocator);
+}
+
+void serenity_dump_malloc_stats()
+{
+    dbgln("# malloc() calls: {}", g_malloc_stats.number_of_malloc_calls);
+    dbgln();
+    dbgln("big alloc hits: {}", g_malloc_stats.number_of_big_allocator_hits);
+    dbgln("big alloc hits that were purged: {}", g_malloc_stats.number_of_big_allocator_purge_hits);
+    dbgln("big allocs: {}", g_malloc_stats.number_of_big_allocs);
+    dbgln();
+    dbgln("empty hot block hits: {}", g_malloc_stats.number_of_hot_empty_block_hits);
+    dbgln("empty cold block hits: {}", g_malloc_stats.number_of_cold_empty_block_hits);
+    dbgln("empty cold block hits that were purged: {}", g_malloc_stats.number_of_cold_empty_block_purge_hits);
+    dbgln("block allocs: {}", g_malloc_stats.number_of_block_allocs);
+    dbgln("filled blocks: {}", g_malloc_stats.number_of_blocks_full);
+    dbgln();
+    dbgln("# free() calls: {}", g_malloc_stats.number_of_free_calls);
+    dbgln();
+    dbgln("big alloc keeps: {}", g_malloc_stats.number_of_big_allocator_keeps);
+    dbgln("big alloc frees: {}", g_malloc_stats.number_of_big_allocator_frees);
+    dbgln();
+    dbgln("full block frees: {}", g_malloc_stats.number_of_freed_full_blocks);
+    dbgln("number of hot keeps: {}", g_malloc_stats.number_of_hot_keeps);
+    dbgln("number of cold keeps: {}", g_malloc_stats.number_of_cold_keeps);
+    dbgln("number of frees: {}", g_malloc_stats.number_of_frees);
+}
 }
