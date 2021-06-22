@@ -21,3 +21,10 @@ __BEGIN_DECLS
 #else
 #    define ElfW(type) Elf32_##type
 #endif
+
+struct dl_phdr_info {
+    ElfW(Addr) dlpi_addr;
+    const char* dlpi_name;
+    const ElfW(Phdr) * dlpi_phdr;
+    ElfW(Half) dlpi_phnum;
+};
