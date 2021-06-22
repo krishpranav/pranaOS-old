@@ -23,3 +23,9 @@
 #include <syscall.h>
 
 #define RECYCLE_BIG_ALLOCATIONS
+
+static Threading::Lock& malloc_lock()
+{
+    static u32 lock_storage[sizeof(Threading::Lock) / sizeof(u32)];
+    return *reinterpret_cast<Threading::Lock*>(&lock_storage);
+}
