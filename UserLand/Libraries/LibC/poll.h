@@ -18,4 +18,10 @@ __BEGIN_DECLS
 #define POLLERR (1u << 3)
 #define POLLHUP (1u << 4)
 #define POLLNVAL (1u << 5)
-#define POLLRDHUP (1u << 13) 
+#define POLLRDHUP (1u << 13)
+
+struct pollfd {
+    int fd;
+    short event;
+    short events;
+};
