@@ -159,4 +159,134 @@ enum class CallerWillInitializeMemory {
     Yes,
 };
 
+static void* malloc_impl(size_t size, CallerWillInitializeMemory caller_will_initialize_memory)
+{
+    Threading::Locker locker(malloc_lock());
+
+    if (s_log_malloc)
+        dbgln("LibC: malloc({})", size);
+
+    if (!size) {
+        // Legally we could just return a null pointer here, but this is more
+        // compatible with existing software.
+        size = 1;
+    }
+
+    g_malloc_stats.number_of_malloc_calls++;
+
+    size_t good_size;
+    auto* allocator = allocator_for_size(size, good_size);
+
+    if (!allocator) {
+        size_t real_size = round_up_to_power_of_two(sizeof(BigAllocationBlock) + size, ChunkedBlock::block_size);
+#ifdef RECYCLE_BIG_ALLOCATIONS
+        if (auto* allocator = big_allocator_for_size(real_size)) {
+            if (!allocator->blocks.is_empty()) {
+                g_malloc_stats.number_of_big_allocator_hits++;
+                auto* block = allocator->blocks.take_last();
+                int rc = madvise(block, real_size, MADV_SET_NONVOLATILE);
+                bool this_block_was_purged = rc == 1;
+                if (rc < 0) {
+                    perror("madvise");
+                    VERIFY_NOT_REACHED();
+                }
+                if (mprotect(block, real_size, PROT_READ | PROT_WRITE) < 0) {
+                    perror("mprotect");
+                    VERIFY_NOT_REACHED();
+                }
+                if (this_block_was_purged) {
+                    g_malloc_stats.number_of_big_allocator_purge_hits++;
+                    new (block) BigAllocationBlock(real_size);
+                }
+
+                ue_notify_malloc(&block->m_slot[0], size);
+                return &block->m_slot[0];
+            }
+        }
+#endif
+        g_malloc_stats.number_of_big_allocs++;
+        auto* block = (BigAllocationBlock*)os_alloc(real_size, "malloc: BigAllocationBlock");
+        new (block) BigAllocationBlock(real_size);
+        ue_notify_malloc(&block->m_slot[0], size);
+        return &block->m_slot[0];
+    }
+
+    ChunkedBlock* block = nullptr;
+    for (auto& current : allocator->usable_blocks) {
+        if (current.free_chunks()) {
+            block = &current;
+            break;
+        }
+    }
+
+    if (!block && s_hot_empty_block_count) {
+        g_malloc_stats.number_of_hot_empty_block_hits++;
+        block = s_hot_empty_blocks[--s_hot_empty_block_count];
+        if (block->m_size != good_size) {
+            new (block) ChunkedBlock(good_size);
+            ue_notify_chunk_size_changed(block, good_size);
+            char buffer[64];
+            snprintf(buffer, sizeof(buffer), "malloc: ChunkedBlock(%zu)", good_size);
+            set_mmap_name(block, ChunkedBlock::block_size, buffer);
+        }
+        allocator->usable_blocks.append(*block);
+    }
+
+    if (!block && s_cold_empty_block_count) {
+        g_malloc_stats.number_of_cold_empty_block_hits++;
+        block = s_cold_empty_blocks[--s_cold_empty_block_count];
+        int rc = madvise(block, ChunkedBlock::block_size, MADV_SET_NONVOLATILE);
+        bool this_block_was_purged = rc == 1;
+        if (rc < 0) {
+            perror("madvise");
+            VERIFY_NOT_REACHED();
+        }
+        rc = mprotect(block, ChunkedBlock::block_size, PROT_READ | PROT_WRITE);
+        if (rc < 0) {
+            perror("mprotect");
+            VERIFY_NOT_REACHED();
+        }
+        if (this_block_was_purged || block->m_size != good_size) {
+            if (this_block_was_purged)
+                g_malloc_stats.number_of_cold_empty_block_purge_hits++;
+            new (block) ChunkedBlock(good_size);
+            ue_notify_chunk_size_changed(block, good_size);
+        }
+        allocator->usable_blocks.append(*block);
+    }
+
+    if (!block) {
+        g_malloc_stats.number_of_block_allocs++;
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "malloc: ChunkedBlock(%zu)", good_size);
+        block = (ChunkedBlock*)os_alloc(ChunkedBlock::block_size, buffer);
+        new (block) ChunkedBlock(good_size);
+        allocator->usable_blocks.append(*block);
+        ++allocator->block_count;
+    }
+
+    --block->m_free_chunks;
+    void* ptr = block->m_freelist;
+    if (ptr) {
+        block->m_freelist = block->m_freelist->next;
+    } else {
+        ptr = block->m_slot + block->m_next_lazy_freelist_index * block->m_size;
+        block->m_next_lazy_freelist_index++;
+    }
+    VERIFY(ptr);
+    if (block->is_full()) {
+        g_malloc_stats.number_of_blocks_full++;
+        dbgln_if(MALLOC_DEBUG, "Block {:p} is now full in size class {}", block, good_size);
+        allocator->usable_blocks.remove(*block);
+        allocator->full_blocks.append(*block);
+    }
+    dbgln_if(MALLOC_DEBUG, "LibC: allocated {:p} (chunk in block {:p}, size {})", ptr, block, block->bytes_per_chunk());
+
+    if (s_scrub_malloc && caller_will_initialize_memory == CallerWillInitializeMemory::No)
+        memset(ptr, MALLOC_SCRUB_BYTE, block->m_size);
+
+    ue_notify_malloc(ptr, size);
+    return ptr;
+}
+
 }
