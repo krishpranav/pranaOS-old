@@ -28,3 +28,7 @@ struct dl_phdr_info {
     const ElfW(Phdr) * dlpi_phdr;
     ElfW(Half) dlpi_phnum;
 };
+
+int dl_iterate_phdr(int (*callback)(struct dl_phdr_info* info, size_t size, void* data), void* data);
+
+__END_DECLS
