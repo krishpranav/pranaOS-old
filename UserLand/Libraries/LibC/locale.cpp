@@ -53,4 +53,8 @@ char* setlocale(int, const char*)
     return locale;
 }
 
+struct lconv* localeconv()
+{
+    return &default_locale;
+}
 }
