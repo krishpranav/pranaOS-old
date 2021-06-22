@@ -107,3 +107,8 @@ struct BigAllocator {
 
 static u8 g_allocators_storage[sizeof(Allocator) * num_size_classes];
 static u8 g_big_allocators_storage[sizeof(BigAllocator)];
+
+static inline Allocator (&allocators())[num_size_classes]
+{
+    return reinterpret_cast<Allocator(&)[num_size_classes]>(g_allocators_storage);
+}
