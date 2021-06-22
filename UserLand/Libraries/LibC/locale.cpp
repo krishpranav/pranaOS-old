@@ -46,4 +46,11 @@ static struct lconv default_locale = {
     default_empty_value
 };
 
+char* setlocale(int, const char*)
+{
+    static char locale[2];
+    memcpy(locale, "C", 2);
+    return locale;
+}
+
 }
