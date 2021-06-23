@@ -27,6 +27,7 @@ struct SpecificTable {
 
 static KeyTable s_keys;
 
+__thread SpecificTable t_specifics;
 
 }
 #endif
