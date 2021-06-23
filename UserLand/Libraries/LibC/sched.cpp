@@ -8,3 +8,8 @@
 #include <errno.h>
 #include <sched.h>
 #include <syscall.h>
+
+extern "C" {
+
+
+}
