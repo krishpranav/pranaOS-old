@@ -83,4 +83,11 @@ enum __RegexAllFlags {
     __Regex_Last = __Regex_SkipTrimEmptyMatches
 };
 
+#define REG_EXTENDED __Regex_Extended                
+#define REG_ICASE __Regex_Insensitive                
+#define REG_NOSUB __Regex_SkipSubExprResults         
+#define REG_GLOBAL __Regex_Global                    
+#define REG_NEWLINE (__Regex_Multiline | REG_GLOBAL) 
+
+
 __END_DECLS
