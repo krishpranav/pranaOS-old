@@ -87,6 +87,15 @@ pid_t forkpty(int* amaster, char* name, const struct termios* termp, const struc
     if (pid < 0) {
         close(master);
         close(slave);
-        return -1
+        return -1;
     }
+    *amaster = master;
+    if (pid == 0) {
+        close(master);
+        if (login_tty(slave) < 0)
+            _exit(1);
+        return 0;
+    }
+    close(slave);
+    return pid;
 }
