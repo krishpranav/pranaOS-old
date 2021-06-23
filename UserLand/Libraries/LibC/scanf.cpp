@@ -14,3 +14,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+enum LengthModifier {
+    None,
+    Default,
+    Char,
+    Short,
+    Long,
+    LongLong,
+    IntMax,
+    Size,
+    PtrDiff,
+    LongDouble
+};
