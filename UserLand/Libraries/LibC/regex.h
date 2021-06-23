@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Krisna Pranav
+ * Copyright (c) 2021, Krisna Pranav, nuke123-sudo
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
@@ -11,7 +11,7 @@
 #include <sys/types.h>
 
 __BEGIN_DECLS
-  
+
 typedef ssize_t regoff_t;
 
 typedef struct {
@@ -24,7 +24,7 @@ enum __Regex_Error {
     __Regex_InvalidCollationElement,    
     __Regex_InvalidCharacterClass,      
     __Regex_InvalidTrailingEscape,      
-    __Regex_InvalidNumber,              
+    __Regex_InvalidNumber,             
     __Regex_MismatchingBracket,         
     __Regex_MismatchingParen,           
     __Regex_MismatchingBrace,           
@@ -78,7 +78,7 @@ enum __RegexAllFlags {
     __Regex_Sticky = __Regex_Global << 11,                   
     __Regex_Multiline = __Regex_Global << 12,                
     __Regex_SkipTrimEmptyMatches = __Regex_Global << 13,     
-    __Regex_Internal_Stateful = __Regex_Global << 14,       
+    __Regex_Internal_Stateful = __Regex_Global << 14,        
     __Regex_Internal_BrowserExtended = __Regex_Global << 15, 
     __Regex_Last = __Regex_SkipTrimEmptyMatches
 };
@@ -90,13 +90,13 @@ enum __RegexAllFlags {
 #define REG_NEWLINE (__Regex_Multiline | REG_GLOBAL) 
 
 #define REG_NOTBOL __Regex_MatchNotBeginOfLine 
-#define REG_NOTEOL __Regex_MatchNotEndOfLine
+#define REG_NOTEOL __Regex_MatchNotEndOfLine  
 
 #define REG_SEARCH __Regex_Last << 1
 
 int regcomp(regex_t*, const char*, int);
 int regexec(const regex_t*, const char*, size_t, regmatch_t[], int);
 size_t regerror(int, const regex_t*, char*, size_t);
-
+void regfree(regex_t*);
 
 __END_DECLS
