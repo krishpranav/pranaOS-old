@@ -81,4 +81,8 @@ pid_t forkpty(int* amaster, char* name, const struct termios* termp, const struc
 {
     int master;
     int slave;
+    if (openpty(&master, &slave, name, termp, winp) < 0)
+        return -1;
+    pid_t pid = fork();
+    
 }
