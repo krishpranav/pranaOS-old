@@ -17,4 +17,7 @@
 int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, const struct winsize* winp)
 {
     *amaster = posix_openpt(O_RDWR);
+    if (*amaster < 0) {
+        return -1;
+    }
 }
