@@ -67,5 +67,8 @@ void* __pthread_getspecific(pthread_key_t key)
     return t_specifics.values[key];
 }
 
+void* pthread_getspecific(pthread_key_t) __attribute__((weak, alias("__pthread_getspecific")));
+
+
 }
 #endif
