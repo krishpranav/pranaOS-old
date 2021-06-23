@@ -21,4 +21,9 @@ struct KeyTable {
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 };
 
+struct SpecificTable {
+    void* values[max_keys] { nullptr };
+};
+
 }
+#endif
