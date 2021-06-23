@@ -182,3 +182,38 @@ struct ReadElementConcrete<long long, ApT, kind> {
         return true;
     }
 };
+
+template<typename ApT, ReadKind kind>
+struct ReadElementConcrete<unsigned long long, ApT, kind> {
+    bool operator()(GenericLexer& lexer, va_list* ap)
+    {
+        lexer.ignore_while(isspace);
+
+        auto* ptr = ap ? va_arg(*ap, ApT*) : nullptr;
+        unsigned long long value = 0;
+        char* endptr = nullptr;
+        auto nptr = lexer.remaining().characters_without_null_termination();
+        if constexpr (kind == ReadKind::Normal)
+            value = strtoull(nptr, &endptr, 10);
+        if constexpr (kind == ReadKind::Octal)
+            value = strtoull(nptr, &endptr, 8);
+        if constexpr (kind == ReadKind::Hex)
+            value = strtoull(nptr, &endptr, 16);
+        if constexpr (kind == ReadKind::Infer)
+            value = strtoull(nptr, &endptr, 0);
+
+        if (!endptr)
+            return false;
+
+        if (endptr == nptr)
+            return false;
+
+        auto diff = endptr - nptr;
+        VERIFY(diff > 0);
+        lexer.ignore((size_t)diff);
+
+        if (ptr)
+            *ptr = value;
+        return true;
+    }
+};
