@@ -9,3 +9,7 @@
 // includes
 #include <stddef.h>
 #include <sys/types.h>
+
+__BEGIN_DECLS
+
+__END_DECLS
