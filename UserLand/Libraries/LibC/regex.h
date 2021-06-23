@@ -89,5 +89,7 @@ enum __RegexAllFlags {
 #define REG_GLOBAL __Regex_Global                    
 #define REG_NEWLINE (__Regex_Multiline | REG_GLOBAL) 
 
+#define REG_NOTBOL __Regex_MatchNotBeginOfLine 
+#define REG_NOTEOL __Regex_MatchNotEndOfLine
 
 __END_DECLS
