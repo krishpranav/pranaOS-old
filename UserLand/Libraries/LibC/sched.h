@@ -18,5 +18,9 @@ struct sched_param {
     int sched_priority;
 };
 
+#define SCHED_FIFO 0
+#define SCHED_RR 1
+#define SCHED_OTHER 2
+#define SCHED_BATCH 3
 
 __END_DECLS
