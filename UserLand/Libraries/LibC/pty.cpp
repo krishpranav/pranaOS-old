@@ -76,3 +76,9 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
 
     return 0;
 }
+
+pid_t forkpty(int* amaster, char* name, const struct termios* termp, const struct winsize* winp)
+{
+    int master;
+    int slave;
+}
