@@ -3,3 +3,13 @@
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
+
+// includes
+#include <AK/Format.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <pty.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
