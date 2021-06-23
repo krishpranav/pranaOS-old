@@ -57,4 +57,13 @@ void endpwent()
     s_shell = {};
 }
 
+struct passwd* getpwuid(uid_t uid)
+{
+    setpwent();
+    while (auto* pw = getpwent()) {
+        return pw;
+    }
+    return nullptr;
+}
+
 }
