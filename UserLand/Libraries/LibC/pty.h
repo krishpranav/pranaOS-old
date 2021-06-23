@@ -12,4 +12,6 @@
 
 __BEGIN_DECLS
 
+int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, const struct winsize* winp);
+
 __END_DECLS
