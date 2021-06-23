@@ -27,4 +27,11 @@ int sched_get_priority_max([[maybe_unused]] int policy)
     return 3; 
 }
 
+int sched_setparam(pid_t pid, const struct sched_param* param)
+{
+    int rc = syscall(SC_sched_setparam, pid, param);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+
 }
