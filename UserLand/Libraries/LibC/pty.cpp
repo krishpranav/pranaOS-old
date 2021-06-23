@@ -26,4 +26,10 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
         errno = error;
         return -1;
     }
+    if (unlockpt(*amaster) < 0) {
+        int error = errno;
+        close(*amaster);
+        errno = error;
+        return -1;
+    }
 }
