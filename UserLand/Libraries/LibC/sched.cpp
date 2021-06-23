@@ -22,4 +22,9 @@ int sched_get_priority_min([[maybe_unused]] int policy)
     return 0; 
 }
 
+int sched_get_priority_max([[maybe_unused]] int policy)
+{
+    return 3; 
+}
+
 }
