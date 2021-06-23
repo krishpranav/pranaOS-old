@@ -40,3 +40,13 @@ inline void swap(const SizedObject& a, const SizedObject& b)
 }
 
 }
+
+class SizedObjectSlice {
+public:
+    SizedObjectSlice() = delete;
+    SizedObjectSlice(void* data, size_t element_size)
+        : m_data(data)
+        , m_element_size(element_size)
+    {
+    }
+}
