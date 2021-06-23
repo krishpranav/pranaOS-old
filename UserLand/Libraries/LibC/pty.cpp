@@ -13,3 +13,8 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+
+int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, const struct winsize* winp)
+{
+    *amaster = posix_openpt(O_RDWR);
+}
