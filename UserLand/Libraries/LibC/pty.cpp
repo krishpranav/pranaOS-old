@@ -20,4 +20,10 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
     if (*amaster < 0) {
         return -1;
     }
+    if (grantpt(*amaster) < 0) {
+        int error = errno;
+        close(*amaster);
+        errno = error;
+        return -1;
+    }
 }
