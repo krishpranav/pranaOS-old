@@ -43,3 +43,10 @@ enum ConversionSpecifier {
     OutputNumberOfBytes,
     Invalid,
 };
+
+enum class ReadKind {
+    Normal,
+    Octal,
+    Hex,
+    Infer, 
+};
