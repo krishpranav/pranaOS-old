@@ -156,4 +156,34 @@ static void construct_pwd(struct passwd* pwd, char* buf, struct passwd** result)
     pwd->pw_shell = buf_shell;
 }
 
+int getpwnam_r(const char* name, struct passwd* pwd, char* buf, size_t buflen, struct passwd** result)
+{
+    TemporaryChange name_change { s_name, {} };
+    TemporaryChange passwd_change { s_passwd, {} };
+    TemporaryChange gecos_change { s_gecos, {} };
+    TemporaryChange dir_change { s_dir, {} };
+    TemporaryChange shell_change { s_shell, {} };
+
+    setpwent();
+    bool found = false;
+    while (auto* pw = getpwent()) {
+        if (!strcmp(pw->pw_name, name)) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        *result = nullptr;
+        return 0;
+    }
+
+    const auto total_buffer_length = s_name.length() + s_passwd.length() + s_gecos.length() + s_dir.length() + s_shell.length() + 5;
+    if (buflen < total_buffer_length)
+        return ERANGE;
+
+    construct_pwd(pwd, buf, result);
+    return 0;
+}
+
 }
