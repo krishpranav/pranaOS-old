@@ -9,3 +9,9 @@
 #include <LibPthread/pthread.h>
 #include <errno.h>
 #include <unistd.h>
+
+#ifndef _DYNAMIC_LOADER
+extern "C" {
+
+static constexpr int max_keys = PTHREAD_KEYS_MAX;
+}
