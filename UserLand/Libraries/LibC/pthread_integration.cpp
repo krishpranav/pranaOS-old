@@ -20,6 +20,19 @@ static pthread_mutex_t g_atfork_list_mutex __PTHREAD_MUTEX_INITIALIZER;
 static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_prepare_list;
 static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_child_list;
 static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_parent_list;
+}
 
+extern "C" {
+
+void __pthread_fork_prepare(void)
+{
+    if (!g_did_touch_atfork.load())
+        return;
+
+    __pthread_mutex_lock(&g_atfork_list_mutex);
+    for (auto entry : g_atfork_prepare_list.get())
+        entry();
+    __pthread_mutex_unlock(&g_atfork_list_mutex);
+}
 
 }
