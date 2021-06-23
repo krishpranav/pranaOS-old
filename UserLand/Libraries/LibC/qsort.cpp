@@ -58,3 +58,14 @@ private:
     void* m_data;
     size_t m_element_size;
 };
+
+void qsort(void* bot, size_t nmemb, size_t size, int (*compar)(const void*, const void*))
+{
+    if (nmemb <= 1) {
+        return;
+    }
+
+    SizedObjectSlice slice { bot, size };
+
+    AK::dual_pivot_quick_sort(slice, 0, nmemb - 1, [=](const SizedObject& a, const SizedObject& b) { return compar(a.data(), b.data()) < 0; });
+}
