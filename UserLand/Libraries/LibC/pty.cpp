@@ -43,6 +43,7 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
     }
 
     if (name) {
+        /* The spec doesn't say how large name has to be. Good luck. */
         [[maybe_unused]] auto rc = strlcpy(name, tty_name, 128);
     }
 
@@ -98,4 +99,30 @@ pid_t forkpty(int* amaster, char* name, const struct termios* termp, const struc
     }
     close(slave);
     return pid;
+}
+
+int login_tty(int fd)
+{
+    setsid();
+
+    close(0);
+    close(1);
+    close(2);
+
+    int rc = dup2(fd, 0);
+    if (rc < 0)
+        return rc;
+    rc = dup2(fd, 1);
+    if (rc < 0)
+        return -1;
+    rc = dup2(fd, 2);
+    if (rc < 0)
+        return rc;
+    rc = close(fd);
+    if (rc < 0)
+        return rc;
+    rc = ioctl(0, TIOCSCTTY);
+    if (rc < 0)
+        return rc;
+    return 0;
 }
