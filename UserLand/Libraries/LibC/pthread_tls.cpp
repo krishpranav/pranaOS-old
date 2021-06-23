@@ -46,5 +46,15 @@ int __pthread_key_create(pthread_key_t* key, KeyDestructor destructor)
 
 int pthread_key_create(pthread_key_t*, KeyDestructor) __attribute__((weak, alias("__pthread_key_create")));
 
+int __pthread_key_delete(pthread_key_t key)
+{
+    if (key < 0 || key >= max_keys)
+        return EINVAL;
+    __pthread_mutex_lock(&s_keys.mutex);
+    s_keys.destructors[key] = nullptr;
+    __pthread_mutex_unlock(&s_keys.mutex);
+    return 0;
+}
+
 }
 #endif
