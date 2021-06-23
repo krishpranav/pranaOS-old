@@ -34,11 +34,45 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
     }
 
     char tty_name[32];
-    int rc = ptsname_r(*amaster, tty_name, sizeof(ttyname));
+    int rc = ptsname_r(*amaster, tty_name, sizeof(tty_name));
     if (rc < 0) {
         int error = errno;
         close(*amaster);
         errno = error;
         return -1;
     }
+
+    if (name) {
+        [[maybe_unused]] auto rc = strlcpy(name, tty_name, 128);
+    }
+
+    *aslave = open(tty_name, O_RDWR | O_NOCTTY);
+    if (*aslave < 0) {
+        int error = errno;
+        close(*amaster);
+        errno = error;
+        return -1;
+    }
+    if (termp) {
+        if (tcsetattr(*aslave, TCSAFLUSH, termp) == -1) {
+            int error = errno;
+            close(*aslave);
+            close(*amaster);
+            errno = error;
+            return -1;
+        }
+    }
+    if (winp) {
+        if (ioctl(*aslave, TIOCGWINSZ, winp) == -1) {
+            int error = errno;
+            close(*aslave);
+            close(*amaster);
+            errno = error;
+            return -1;
+        }
+    }
+
+    dbgln("openpty, master={}, slave={}, tty_name={}", *amaster, *aslave, tty_name);
+
+    return 0;
 }
