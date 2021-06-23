@@ -145,7 +145,7 @@ extern "C" {
 
 static void* os_alloc(size_t size, const char* name)
 {
-    auto* ptr = serenity_mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0, ChunkedBlock::block_size, name);
+    auto* ptr = pranaos_mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0, 0, ChunkedBlock::block_size, name);
     VERIFY(ptr != MAP_FAILED);
     return ptr;
 }
@@ -477,7 +477,7 @@ void __malloc_init()
     new (&big_allocators()[0])(BigAllocator);
 }
 
-void serenity_dump_malloc_stats()
+void pranaos_dump_malloc_stats()
 {
     dbgln("# malloc() calls: {}", g_malloc_stats.number_of_malloc_calls);
     dbgln();
