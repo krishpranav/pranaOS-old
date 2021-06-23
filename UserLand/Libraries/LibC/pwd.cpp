@@ -61,7 +61,18 @@ struct passwd* getpwuid(uid_t uid)
 {
     setpwent();
     while (auto* pw = getpwent()) {
-        return pw;
+        if (pw->pw_uid == uid)
+            return pw;
+    }
+    return nullptr;
+}
+
+struct passwd* getpwnam(const char* name)
+{
+    setpwent();
+    while (auto* pw = getpwent()) {
+        if (!strcmp(pw->pw_name, name))
+            return pw;
     }
     return nullptr;
 }
@@ -121,6 +132,7 @@ struct passwd* getpwent()
         char buffer[1024];
         ++s_line_number;
         char* s = fgets(buffer, sizeof(buffer), s_stream);
+
 
         if ((!s || !s[0]) && feof(s_stream))
             return nullptr;
@@ -186,4 +198,58 @@ int getpwnam_r(const char* name, struct passwd* pwd, char* buf, size_t buflen, s
     return 0;
 }
 
+int getpwuid_r(uid_t uid, struct passwd* pwd, char* buf, size_t buflen, struct passwd** result)
+{
+    TemporaryChange name_change { s_name, {} };
+    TemporaryChange passwd_change { s_passwd, {} };
+    TemporaryChange gecos_change { s_gecos, {} };
+    TemporaryChange dir_change { s_dir, {} };
+    TemporaryChange shell_change { s_shell, {} };
+
+    setpwent();
+    bool found = false;
+    while (auto* pw = getpwent()) {
+        if (pw->pw_uid == uid) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        *result = nullptr;
+        return 0;
+    }
+
+    const auto total_buffer_length = s_name.length() + s_passwd.length() + s_gecos.length() + s_dir.length() + s_shell.length() + 5;
+    if (buflen < total_buffer_length)
+        return ERANGE;
+
+    construct_pwd(pwd, buf, result);
+    return 0;
+}
+
+int putpwent(const struct passwd* p, FILE* stream)
+{
+    if (!p || !stream || !p->pw_passwd || !p->pw_name || !p->pw_dir || !p->pw_gecos || !p->pw_shell) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    auto is_valid_field = [](const char* str) {
+        return str && !strpbrk(str, ":\n");
+    };
+
+    if (!is_valid_field(p->pw_name) || !is_valid_field(p->pw_dir) || !is_valid_field(p->pw_gecos) || !is_valid_field(p->pw_shell)) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    int nwritten = fprintf(stream, "%s:%s:%u:%u:%s,,,:%s:%s\n", p->pw_name, p->pw_passwd, p->pw_uid, p->pw_gid, p->pw_gecos, p->pw_dir, p->pw_shell);
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    return 0;
+}
 }
