@@ -49,4 +49,12 @@ public:
         , m_element_size(element_size)
     {
     }
-}
+    const SizedObject operator[](size_t index)
+    {
+        return { static_cast<char*>(m_data) + index * m_element_size, m_element_size };
+    }
+
+private:
+    void* m_data;
+    size_t m_element_size;
+};
