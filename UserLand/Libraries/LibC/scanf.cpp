@@ -250,3 +250,45 @@ struct ReadElementConcrete<float, ApT, kind> {
         return true;
     }
 };
+
+template<typename T, ReadKind kind>
+struct ReadElement {
+    bool operator()(LengthModifier length_modifier, GenericLexer& input_lexer, va_list* ap)
+    {
+        switch (length_modifier) {
+        default:
+        case None:
+            VERIFY_NOT_REACHED();
+        case Default:
+            return ReadElementConcrete<T, T, kind> {}(input_lexer, ap);
+        case Char:
+            return ReadElementConcrete<T, char, kind> {}(input_lexer, ap);
+        case Short:
+            return ReadElementConcrete<T, short, kind> {}(input_lexer, ap);
+        case Long:
+            if constexpr (IsSame<T, int>)
+                return ReadElementConcrete<T, long, kind> {}(input_lexer, ap);
+            if constexpr (IsSame<T, unsigned>)
+                return ReadElementConcrete<T, unsigned, kind> {}(input_lexer, ap);
+            if constexpr (IsSame<T, float>)
+                return ReadElementConcrete<int, double, kind> {}(input_lexer, ap);
+            return false;
+        case LongLong:
+            if constexpr (IsSame<T, int>)
+                return ReadElementConcrete<long long, long long, kind> {}(input_lexer, ap);
+            if constexpr (IsSame<T, unsigned>)
+                return ReadElementConcrete<unsigned long long, unsigned long long, kind> {}(input_lexer, ap);
+            if constexpr (IsSame<T, float>)
+                return ReadElementConcrete<long long, double, kind> {}(input_lexer, ap);
+            return false;
+        case IntMax:
+            return ReadElementConcrete<T, intmax_t, kind> {}(input_lexer, ap);
+        case Size:
+            return ReadElementConcrete<T, size_t, kind> {}(input_lexer, ap);
+        case PtrDiff:
+            return ReadElementConcrete<T, ptrdiff_t, kind> {}(input_lexer, ap);
+        case LongDouble:
+            return ReadElementConcrete<T, long double, kind> {}(input_lexer, ap);
+        }
+    }
+};
