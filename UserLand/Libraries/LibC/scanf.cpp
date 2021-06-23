@@ -58,3 +58,38 @@ struct ReadElementConcrete {
         return false;
     }
 };
+
+template<typename ApT, ReadKind kind>
+struct ReadElementConcrete<int, ApT, kind> {
+    bool operator()(GenericLexer& lexer, va_list* ap)
+    {
+        lexer.ignore_while(isspace);
+
+        auto* ptr = ap ? va_arg(*ap, ApT*) : nullptr;
+        long value = 0;
+        char* endptr = nullptr;
+        auto nptr = lexer.remaining().characters_without_null_termination();
+        if constexpr (kind == ReadKind::Normal)
+            value = strtol(nptr, &endptr, 10);
+        if constexpr (kind == ReadKind::Octal)
+            value = strtol(nptr, &endptr, 8);
+        if constexpr (kind == ReadKind::Hex)
+            value = strtol(nptr, &endptr, 16);
+        if constexpr (kind == ReadKind::Infer)
+            value = strtol(nptr, &endptr, 0);
+
+        if (!endptr)
+            return false;
+
+        if (endptr == nptr)
+            return false;
+
+        auto diff = endptr - nptr;
+        VERIFY(diff > 0);
+        lexer.ignore((size_t)diff);
+
+        if (ptr)
+            *ptr = value;
+        return true;
+    }
+};
