@@ -93,3 +93,21 @@ struct ReadElementConcrete<int, ApT, kind> {
         return true;
     }
 };
+
+template<typename ApT, ReadKind kind>
+struct ReadElementConcrete<char, ApT, kind> {
+    bool operator()(GenericLexer& lexer, va_list* ap)
+    {
+        static_assert(kind == ReadKind::Normal, "Can't read a non-normal character");
+
+        auto* ptr = ap ? va_arg(*ap, ApT*) : nullptr;
+
+        if (lexer.is_eof())
+            return false;
+
+        auto ch = lexer.consume();
+        if (ptr)
+            *ptr = ch;
+        return true;
+    }
+};
