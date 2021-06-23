@@ -40,4 +40,21 @@ void setpwent()
     }
 }
 
+void endpwent()
+{
+    s_line_number = 0;
+    if (s_stream) {
+        fclose(s_stream);
+        s_stream = nullptr;
+    }
+
+    memset(&s_passwd_entry, 0, sizeof(s_passwd_entry));
+
+    s_name = {};
+    s_passwd = {};
+    s_gecos = {};
+    s_dir = {};
+    s_shell = {};
+}
+
 }
