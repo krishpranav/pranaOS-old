@@ -104,4 +104,31 @@ static bool parse_pwddb_entry(const String& line)
     return true;
 }
 
+struct passwd* getpwent()
+{
+    if (!s_stream)
+        setpwent();
+
+    while (true) {
+        if (!s_stream || feof(s_stream))
+            return nullptr;
+
+        if (ferror(s_stream)) {
+            dbgln("getpwent(): Read error: {}", strerror(ferror(s_stream)));
+            return nullptr;
+        }
+
+        char buffer[1024];
+        ++s_line_number;
+        char* s = fgets(buffer, sizeof(buffer), s_stream);
+
+        if ((!s || !s[0]) && feof(s_stream))
+            return nullptr;
+
+        String line(s, Chomp);
+        if (parse_pwddb_entry(line))
+            return &s_passwd_entry;
+    }
+}
+
 }
