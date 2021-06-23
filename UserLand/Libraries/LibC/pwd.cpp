@@ -66,4 +66,42 @@ struct passwd* getpwuid(uid_t uid)
     return nullptr;
 }
 
+static bool parse_pwddb_entry(const String& line)
+{
+    auto parts = line.split_view(':', true);
+    if (parts.size() != 7) {
+        dbgln("getpwent(): Malformed entry on line {}", s_line_number);
+        return false;
+    }
+
+    s_name = parts[0];
+    s_passwd = parts[1];
+    auto& uid_string = parts[2];
+    auto& gid_string = parts[3];
+    s_gecos = parts[4];
+    s_dir = parts[5];
+    s_shell = parts[6];
+
+    auto uid = uid_string.to_uint();
+    if (!uid.has_value()) {
+        dbgln("getpwent(): Malformed UID on line {}", s_line_number);
+        return false;
+    }
+    auto gid = gid_string.to_uint();
+    if (!gid.has_value()) {
+        dbgln("getpwent(): Malformed GID on line {}", s_line_number);
+        return false;
+    }
+
+    s_passwd_entry.pw_name = const_cast<char*>(s_name.characters());
+    s_passwd_entry.pw_passwd = const_cast<char*>(s_passwd.characters());
+    s_passwd_entry.pw_uid = uid.value();
+    s_passwd_entry.pw_gid = gid.value();
+    s_passwd_entry.pw_gecos = const_cast<char*>(s_gecos.characters());
+    s_passwd_entry.pw_dir = const_cast<char*>(s_dir.characters());
+    s_passwd_entry.pw_shell = const_cast<char*>(s_shell.characters());
+
+    return true;
+}
+
 }
