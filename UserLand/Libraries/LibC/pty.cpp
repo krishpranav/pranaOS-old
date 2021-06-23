@@ -35,4 +35,10 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
 
     char tty_name[32];
     int rc = ptsname_r(*amaster, tty_name, sizeof(ttyname));
+    if (rc < 0) {
+        int error = errno;
+        close(*amaster);
+        errno = error;
+        return -1;
+    }
 }
