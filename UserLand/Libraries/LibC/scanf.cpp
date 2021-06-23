@@ -50,3 +50,11 @@ enum class ReadKind {
     Hex,
     Infer, 
 };
+
+template<typename T, typename ApT, ReadKind kind = ReadKind::Normal>
+struct ReadElementConcrete {
+    bool operator()(GenericLexer&, va_list)
+    {
+        return false;
+    }
+};
