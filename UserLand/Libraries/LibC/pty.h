@@ -3,3 +3,13 @@
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
+
+#pragma once
+
+// includes 
+#include <sys/cdefs.h>
+#include <termios.h>
+
+__BEGIN_DECLS
+
+__END_DECLS
