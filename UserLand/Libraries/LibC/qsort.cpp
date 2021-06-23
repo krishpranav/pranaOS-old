@@ -24,3 +24,19 @@ private:
     void* m_data;
     size_t m_size
 };
+
+namespace AK {
+
+template<>
+inline void swap(const SizedObject& a, const SizedObject& b)
+{
+    VERIFY(a.size() == b.size());
+    const size_t size = a.size();
+    const auto a_data = reinterpret_cast<char*>(a.data());
+    const auto b_data = reinterpret_cast<char*>(b.data());
+    for (auto i = 0u; i < size; ++i) {
+        swap(a_data[i], b_data[i]);
+    }
+}
+
+}
