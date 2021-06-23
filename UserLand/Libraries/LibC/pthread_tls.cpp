@@ -29,5 +29,20 @@ static KeyTable s_keys;
 
 __thread SpecificTable t_specifics;
 
+int __pthread_key_create(pthread_key_t* key, KeyDestructor destructor)
+{
+    int ret = 0;
+    __pthread_mutex_lock(&s_keys.mutex);
+    if (s_keys.next >= max_keys) {
+        ret = EAGAIN;
+    } else {
+        *key = s_keys.next++;
+        s_keys.destructors[*key] = destructor;
+        ret = 0;
+    }
+    __pthread_mutex_unlock(&s_keys.mutex);
+    return ret;
+}
+
 }
 #endif
