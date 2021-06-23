@@ -12,3 +12,14 @@
 #include <errno.h>
 #include <sched.h>
 #include <unistd.h>
+
+namespace {
+
+static Atomic<bool> g_did_touch_atfork { false };
+static pthread_mutex_t g_atfork_list_mutex __PTHREAD_MUTEX_INITIALIZER;
+static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_prepare_list;
+static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_child_list;
+static NeverDestroyed<Vector<void (*)(void), 4>> g_atfork_parent_list;
+
+
+}
