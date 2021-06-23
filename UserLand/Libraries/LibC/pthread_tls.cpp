@@ -44,5 +44,7 @@ int __pthread_key_create(pthread_key_t* key, KeyDestructor destructor)
     return ret;
 }
 
+int pthread_key_create(pthread_key_t*, KeyDestructor) __attribute__((weak, alias("__pthread_key_create")));
+
 }
 #endif
