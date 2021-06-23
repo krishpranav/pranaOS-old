@@ -28,3 +28,18 @@ enum LengthModifier {
     LongDouble
 };
 
+enum ConversionSpecifier {
+    Unspecified,
+    Decimal,
+    Integer,
+    Octal,
+    Unsigned,
+    Hex,
+    Floating,
+    String,
+    UseScanList,
+    Character,
+    Pointer,
+    OutputNumberOfBytes,
+    Invalid,
+};
