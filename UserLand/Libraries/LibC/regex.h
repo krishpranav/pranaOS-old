@@ -94,4 +94,7 @@ enum __RegexAllFlags {
 
 #define REG_SEARCH __Regex_Last << 1
 
+int regcomp(regex_t*, const char*, int);
+int regexec(const regex_t*, const char*, size_t, regmatch_t[], int);
+
 __END_DECLS
