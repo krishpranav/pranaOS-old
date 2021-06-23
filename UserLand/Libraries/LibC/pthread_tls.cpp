@@ -56,5 +56,8 @@ int __pthread_key_delete(pthread_key_t key)
     return 0;
 }
 
+int pthread_key_delete(pthread_key_t) __attribute__((weak, alias("__pthread_key_delete")));
+
+
 }
 #endif
