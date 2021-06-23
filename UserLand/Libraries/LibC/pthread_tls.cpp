@@ -58,6 +58,14 @@ int __pthread_key_delete(pthread_key_t key)
 
 int pthread_key_delete(pthread_key_t) __attribute__((weak, alias("__pthread_key_delete")));
 
+void* __pthread_getspecific(pthread_key_t key)
+{
+    if (key < 0)
+        return nullptr;
+    if (key >= max_keys)
+        return nullptr;
+    return t_specifics.values[key];
+}
 
 }
 #endif
