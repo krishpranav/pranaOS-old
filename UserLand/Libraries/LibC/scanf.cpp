@@ -301,4 +301,24 @@ struct ReadElement<char*, ReadKind::Normal> {
         , was_null(scan_set.is_null())
     {
     }
+
+        bool operator()(LengthModifier length_modifier, GenericLexer& input_lexer, va_list* ap)
+    {
+        // FIXME: Implement wide strings and such.
+        if (length_modifier != LengthModifier::Default)
+            return false;
+
+        if (was_null)
+            input_lexer.ignore_while(isspace);
+
+        auto* ptr = ap ? va_arg(*ap, char*) : nullptr;
+        auto str = input_lexer.consume_while([this](auto c) { return this->matches(c); });
+        if (str.is_empty())
+            return false;
+
+        memcpy(ptr, str.characters_without_null_termination(), str.length());
+        ptr[str.length()] = 0;
+
+        return true;
+    }
 }
