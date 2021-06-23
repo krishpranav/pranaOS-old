@@ -25,5 +25,8 @@ struct SpecificTable {
     void* values[max_keys] { nullptr };
 };
 
+static KeyTable s_keys;
+
+
 }
 #endif
