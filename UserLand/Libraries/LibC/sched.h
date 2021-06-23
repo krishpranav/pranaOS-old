@@ -12,4 +12,11 @@
 
 __BEGIN_DECLS
 
+int sched_yield();
+
+struct sched_param {
+    int sched_priority;
+};
+
+
 __END_DECLS
