@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Krisna Pranav
+ * Copyright (c) 2021, Krisna Pranav, evilbat831, nuke123-sudo
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
@@ -12,7 +12,7 @@ static PthreadFunctions s_pthread_functions;
 
 void __init_pthread_forward(PthreadFunctions funcs)
 {
-  s_pthread_functions = funcs;
+    s_pthread_functions = funcs;
 }
 
 int pthread_mutex_trylock(pthread_mutex_t* mutex)
