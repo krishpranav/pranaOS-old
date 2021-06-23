@@ -92,4 +92,6 @@ enum __RegexAllFlags {
 #define REG_NOTBOL __Regex_MatchNotBeginOfLine 
 #define REG_NOTEOL __Regex_MatchNotEndOfLine
 
+#define REG_SEARCH __Regex_Last << 1
+
 __END_DECLS
