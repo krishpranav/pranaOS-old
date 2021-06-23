@@ -13,5 +13,5 @@
 __BEGIN_DECLS
 
 int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, const struct winsize* winp);
-
+int login_tty(int fd);
 __END_DECLS
