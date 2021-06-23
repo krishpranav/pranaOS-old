@@ -14,4 +14,11 @@
 extern "C" {
 
 static constexpr int max_keys = PTHREAD_KEYS_MAX;
+
+struct KeyTable {
+    KeyDestructor destructors[max_keys] { nullptr };
+    int next { 0 };
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+};
+
 }
