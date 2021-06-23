@@ -32,4 +32,7 @@ int openpty(int* amaster, int* aslave, char* name, const struct termios* termp, 
         errno = error;
         return -1;
     }
+
+    char tty_name[32];
+    int rc = ptsname_r(*amaster, tty_name, sizeof(ttyname));
 }
