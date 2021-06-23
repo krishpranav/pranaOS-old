@@ -20,9 +20,10 @@ public:
     }
     void* data() const { return m_data; }
     size_t size() const { return m_size; }
+
 private:
     void* m_data;
-    size_t m_size
+    size_t m_size;
 };
 
 namespace AK {
@@ -68,4 +69,15 @@ void qsort(void* bot, size_t nmemb, size_t size, int (*compar)(const void*, cons
     SizedObjectSlice slice { bot, size };
 
     AK::dual_pivot_quick_sort(slice, 0, nmemb - 1, [=](const SizedObject& a, const SizedObject& b) { return compar(a.data(), b.data()) < 0; });
+}
+
+void qsort_r(void* bot, size_t nmemb, size_t size, int (*compar)(const void*, const void*, void*), void* arg)
+{
+    if (nmemb <= 1) {
+        return;
+    }
+
+    SizedObjectSlice slice { bot, size };
+
+    AK::dual_pivot_quick_sort(slice, 0, nmemb - 1, [=](const SizedObject& a, const SizedObject& b) { return compar(a.data(), b.data(), arg) < 0; });
 }
