@@ -14,3 +14,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+extern "C" {
+
+static FILE* s_stream = nullptr;
+static unsigned s_line_number = 0;
+static struct passwd s_passwd_entry;
+
+static String s_name;
+static String s_passwd;
+static String s_gecos;
+static String s_dir;
+static String s_shell;
+
+}
