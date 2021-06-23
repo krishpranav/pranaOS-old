@@ -20,4 +20,7 @@ public:
     }
     void* data() const { return m_data; }
     size_t size() const { return m_size; }
+private:
+    void* m_data;
+    size_t m_size
 };
