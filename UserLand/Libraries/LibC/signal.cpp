@@ -28,4 +28,9 @@ int killpg(int pgrp, int sig)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int raise(int sig)
+{
+    return kill(getpid(), sig);
+}
+
 }
