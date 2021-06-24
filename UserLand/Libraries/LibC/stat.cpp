@@ -16,7 +16,7 @@
 
 extern "C" {
 
-mode_t umask(mode_t mask) 
+mode_t umask(mode_t mask)
 {
     return syscall(SC_umask, mask);
 }
@@ -29,6 +29,16 @@ int mkdir(const char* pathname, mode_t mode)
         return -1;
     }
     int rc = syscall(SC_mkdir, pathname, strlen(pathname), mode);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+int chmod(const char* pathname, mode_t mode)
+{
+    if (!pathname) {
+        errno = EFAULT;
+        return -1;
+    }
+    int rc = syscall(SC_chmod, pathname, strlen(pathname), mode);
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
