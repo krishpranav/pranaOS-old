@@ -38,7 +38,6 @@ void setspent()
     }
 }
 
-
 void endspent()
 {
     s_line_number = 0;
@@ -167,12 +166,14 @@ struct spwd* getspent()
         ++s_line_number;
         char* s = fgets(buffer, sizeof(buffer), s_stream);
 
+        // Silently tolerate an empty line at the end.
         if ((!s || !s[0]) && feof(s_stream))
             return nullptr;
 
         String line(s, Chomp);
         if (parse_shadow_entry(line))
             return &s_shadow_entry;
+        // Otherwise, proceed to the next line.
     }
 }
 
@@ -194,7 +195,7 @@ static void construct_spwd(struct spwd* sp, char* buf, struct spwd** result)
 
 int getspnam_r(const char* name, struct spwd* sp, char* buf, size_t buflen, struct spwd** result)
 {
-
+    // FIXME: This is a HACK!
     TemporaryChange name_change { s_name, {} };
     TemporaryChange pwdp_change { s_pwdp, {} };
 
@@ -220,4 +221,93 @@ int getspnam_r(const char* name, struct spwd* sp, char* buf, size_t buflen, stru
     return 0;
 }
 
+int putspent(struct spwd* p, FILE* stream)
+{
+    if (!p || !stream || !p->sp_namp || !p->sp_pwdp) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    auto is_valid_field = [](const char* str) {
+        return str && !strpbrk(str, ":\n");
+    };
+
+    if (!is_valid_field(p->sp_namp) || !is_valid_field(p->sp_pwdp)) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    int nwritten;
+
+    nwritten = fprintf(stream, "%s:%s:", p->sp_namp, p->sp_pwdp);
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_lstchg != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_lstchg);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_min != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_min);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_max != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_max);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_warn != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_warn);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_inact != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_inact);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_expire != (long int)-1)
+        nwritten = fprintf(stream, "%ld:", p->sp_expire);
+    else
+        nwritten = fprintf(stream, "%c", ':');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    if (p->sp_flag != (unsigned long int)-1)
+        nwritten = fprintf(stream, "%ld\n", p->sp_flag);
+    else
+        nwritten = fprintf(stream, "%c", '\n');
+    if (!nwritten || nwritten < 0) {
+        errno = ferror(stream);
+        return -1;
+    }
+
+    return 0;
+}
 }
