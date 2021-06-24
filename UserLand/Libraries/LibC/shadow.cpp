@@ -53,4 +53,15 @@ void endspent()
     s_pwdp = {};
 }
 
+struct spwd* getspnam(const char* name)
+{
+    setspent();
+    while (auto* sp = getspent()) {
+        if (!strcmp(sp->sp_namp, name)) {
+            return sp;
+        }
+    }
+    return nullptr;
+} 
+
 }
