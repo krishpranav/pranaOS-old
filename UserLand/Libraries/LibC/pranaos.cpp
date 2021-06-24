@@ -11,7 +11,6 @@
 #include <string.h>
 #include <syscall.h>
 
-
 extern "C" {
 
 int disown(pid_t pid)
@@ -54,7 +53,10 @@ int futex(uint32_t* userspace_address, int futex_op, uint32_t value, const struc
 {
     int rc;
     switch (futex_op & FUTEX_CMD_MASK) {
+    //case FUTEX_CMP_REQUEUE:
+    // FUTEX_CMP_REQUEUE_PI:
     case FUTEX_WAKE_OP: {
+        // These interpret timeout as a u32 value for val2
         Syscall::SC_futex_params params {
             .userspace_address = userspace_address,
             .futex_op = futex_op,
@@ -136,5 +138,18 @@ int getkeymap(char* name_buffer, size_t name_buffer_size, u32* map, u32* shift_m
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
-
+u16 internet_checksum(const void* ptr, size_t count)
+{
+    u32 checksum = 0;
+    auto* w = (const u16*)ptr;
+    while (count > 1) {
+        checksum += ntohs(*w++);
+        if (checksum & 0x80000000)
+            checksum = (checksum & 0xffff) | (checksum >> 16);
+        count -= 2;
+    }
+    while (checksum >> 16)
+        checksum = (checksum & 0xffff) + (checksum >> 16);
+    return htons(~checksum);
+}
 }
