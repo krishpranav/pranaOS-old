@@ -15,3 +15,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+extern "C" {
+
+static FILE* s_stream = nullptr;
+static unsigned s_line_number = 0;
+static struct spwd s_shadow_entry;
+
+static String s_name;
+static String s_pwdp;
+
+}
