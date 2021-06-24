@@ -21,7 +21,6 @@ mode_t umask(mode_t mask)
     return syscall(SC_umask, mask);
 }
 
-
 int mkdir(const char* pathname, mode_t mode)
 {
     if (!pathname) {
@@ -64,9 +63,24 @@ static int do_stat(int dirfd, const char* path, struct stat* statbuf, bool follo
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int lstat(const char* path, struct stat* statbuf)
+{
+    return do_stat(AT_FDCWD, path, statbuf, false);
+}
+
+int stat(const char* path, struct stat* statbuf)
+{
+    return do_stat(AT_FDCWD, path, statbuf, true);
+}
+
+int fstat(int fd, struct stat* statbuf)
+{
+    int rc = syscall(SC_fstat, fd, statbuf);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 int fstatat(int fd, const char* path, struct stat* statbuf, int flags)
 {
     return do_stat(fd, path, statbuf, !(flags & AT_SYMLINK_NOFOLLOW));
 }
-
 }
