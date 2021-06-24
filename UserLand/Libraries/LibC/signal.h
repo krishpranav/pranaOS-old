@@ -14,5 +14,6 @@ __BEGIN_DECLS
 
 
 typedef void (*__sighandler_t)(int);
+typedef __sighandler_t sighandler_t;
 
 __END_DECLS
