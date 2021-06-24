@@ -12,7 +12,6 @@
 
 __BEGIN_DECLS
 
-
 typedef void (*__sighandler_t)(int);
 typedef __sighandler_t sighandler_t;
 
@@ -33,6 +32,15 @@ typedef struct siginfo {
     int si_status;
     union sigval si_value;
 } siginfo_t;
+
+struct sigaction {
+    union {
+        void (*sa_handler)(int);
+        void (*sa_sigaction)(int, siginfo_t*, void*);
+    };
+    sigset_t sa_mask;
+    int sa_flags;
+};
 
 int kill(pid_t, int sig);
 int killpg(int pgrp, int sig);
@@ -65,5 +73,18 @@ extern const char* sys_siglist[NSIG];
 #define SA_NODEFER 0x40000000
 #define SA_RESETHAND 0x80000000
 
+#define SA_NOMASK SA_NODEFER
+#define SA_ONESHOT SA_RESETHAND
+
+#define SIG_BLOCK 0
+#define SIG_UNBLOCK 1
+#define SIG_SETMASK 2
+
+#define CLD_EXITED 0
+#define CLD_KILLED 1
+#define CLD_DUMPED 2
+#define CLD_TRAPPED 3
+#define CLD_STOPPED 4
+#define CLD_CONTINUED 5
 
 __END_DECLS
