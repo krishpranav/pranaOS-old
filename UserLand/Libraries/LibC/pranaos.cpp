@@ -38,5 +38,11 @@ int profiling_enable(pid_t pid, uint64_t event_mask)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int profiling_disable(pid_t pid)
+{
+    int rc = syscall(SC_profiling_disable, pid);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 
 }
