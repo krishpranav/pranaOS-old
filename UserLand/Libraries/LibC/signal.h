@@ -53,4 +53,8 @@ const char* getsignalname(int);
 
 extern const char* sys_siglist[NSIG];
 
+#define SIG_DFL ((__sighandler_t)0)
+#define SIG_ERR ((__sighandler_t)-1)
+#define SIG_IGN ((__sighandler_t)1)
+
 __END_DECLS
