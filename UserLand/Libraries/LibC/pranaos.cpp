@@ -82,5 +82,10 @@ int futex(uint32_t* userspace_address, int futex_op, uint32_t value, const struc
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int purge(int mode)
+{
+    int rc = syscall(SC_purge, mode);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
 
 }
