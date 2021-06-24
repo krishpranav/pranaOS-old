@@ -29,4 +29,13 @@ int profiling_free_buffer(pid_t);
 #define THREAD_PRIORITY_HIGH 50
 #define THREAD_PRIORITY_MAX 99
 
+#define _FUTEX_OP_SHIFT_OP 28
+#define _FUTEX_OP_MASK_OP 0xf
+#define _FUTEX_OP_SHIFT_CMP 24
+#define _FUTEX_OP_MASK_CMP 0xf
+#define _FUTEX_OP_SHIFT_OP_ARG 12
+#define _FUTEX_OP_MASK_OP_ARG 0xfff
+#define _FUTEX_OP_SHIFT_CMP_ARG 0
+#define _FUTEX_OP_MASK_CMP_ARG 0xfff
+
 __END_DECLS
