@@ -162,6 +162,11 @@ struct spwd* getspent()
             dbgln("getspent(): Read errror: {}", strerror(ferror(s_stream)));
             return nullptr;
         }
+        
+        char buffer[1024];
+        ++s_line_number;
+        char* s = fgets(buffer, sizeof(buffer), s_stream);
+        
     }
 }
 
