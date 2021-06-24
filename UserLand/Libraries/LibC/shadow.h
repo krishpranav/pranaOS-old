@@ -27,4 +27,8 @@ struct spwd {
     unsigned long int sp_flag;
 };
 
+#ifndef AK_OS_MACOS
+struct spwd* getspent();
+
+
 __END_DECLS
