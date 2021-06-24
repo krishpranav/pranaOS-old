@@ -20,4 +20,10 @@ int disown(pid_t pid)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int module_load(const char* path, size_t path_length)
+{
+    int rc = syscall(SC_module_load, path, path_length);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
