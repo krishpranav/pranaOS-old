@@ -38,4 +38,19 @@ extern FILE* stderr;
 
 typedef off_t fpos_t;
 
+int fseek(FILE*, long offset, int whence);
+int fseeko(FILE*, off_t offset, int whence);
+int fgetpos(FILE*, fpos_t*);
+int fsetpos(FILE*, const fpos_t*);
+long ftell(FILE*);
+off_t ftello(FILE*);
+char* fgets(char* buffer, int size, FILE*);
+int fputc(int ch, FILE*);
+int fileno(FILE*);
+int fgetc(FILE*);
+int fgetc_unlocked(FILE*);
+int getc(FILE*);
+int getc_unlocked(FILE* stream);
+int getchar();
+
 __END_DECLS
