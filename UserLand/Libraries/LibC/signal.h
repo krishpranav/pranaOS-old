@@ -16,4 +16,7 @@ __BEGIN_DECLS
 typedef void (*__sighandler_t)(int);
 typedef __sighandler_t sighandler_t;
 
+typedef uint32_t sigset_t;
+typedef uint32_t sig_atomic_t;
+
 __END_DECLS
