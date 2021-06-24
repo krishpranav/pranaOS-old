@@ -15,3 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+struct posix_spawn_file_actions_state {
+    Vector<Function<int()>, 4> actions;
+};
