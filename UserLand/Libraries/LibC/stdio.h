@@ -32,4 +32,8 @@ __BEGIN_DECLS
 
 #define L_tmpnam 256
 
+extern FILE* stdin;
+extern FILE* stdout;
+extern FILE* stderr;
+
 __END_DECLS
