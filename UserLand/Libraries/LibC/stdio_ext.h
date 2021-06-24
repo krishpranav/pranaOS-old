@@ -8,3 +8,8 @@
 
 // includes
 #include <stdio.h>
+
+__BEGIN_DECLS
+
+
+__END_DECLS
