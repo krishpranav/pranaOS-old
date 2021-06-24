@@ -122,5 +122,19 @@ int setkeymap(const char* name, const u32* map, u32* const shift_map, const u32*
     return syscall(SC_setkeymap, &params);
 }
 
+int getkeymap(char* name_buffer, size_t name_buffer_size, u32* map, u32* shift_map, u32* alt_map, u32* altgr_map, u32* shift_altgr_map)
+{
+    Syscall::SC_getkeymap_params params {
+        map,
+        shift_map,
+        alt_map,
+        altgr_map,
+        shift_altgr_map,
+        { name_buffer, name_buffer_size }
+    };
+    int rc = syscall(SC_getkeymap, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 
 }
