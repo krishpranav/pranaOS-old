@@ -19,4 +19,9 @@ typedef __sighandler_t sighandler_t;
 typedef uint32_t sigset_t;
 typedef uint32_t sig_atomic_t;
 
+union sigval {
+    int sival_int;
+    void* sival_ptr;
+};
+
 __END_DECLS
