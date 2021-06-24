@@ -13,5 +13,6 @@
 __BEGIN_DECLS
 
 
+typedef void (*__sighandler_t)(int);
 
 __END_DECLS
