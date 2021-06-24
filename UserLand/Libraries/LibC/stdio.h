@@ -17,3 +17,9 @@
 
 #define FIELNAME_MAX 1024
 
+__BEGIN_DECLS
+#ifndef EOF
+#    define EOF (-1)
+#endif
+
+__END_DECLS
