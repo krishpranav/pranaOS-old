@@ -62,6 +62,26 @@ struct spwd* getspnam(const char* name)
         }
     }
     return nullptr;
-} 
+}
+
+static bool parse_shadow_entry(const String& line)
+{
+    auto parts = line.split_view(':', true);
+    if (parts.size() != 9) {
+        dbgln("getspent(): Malformed entry on line {}", s_line_number);
+        return false;
+    }
+
+    s_name = parts[0];
+    s_pwdp = parts[1];
+    auto& lstchg_string = parts[2];
+    auto& min_string = parts[3];
+    auto& max_string = parts[4];
+    auto& warn_string = parts[5];
+    auto& inact_string = parts[6];
+    auto& expire_string = parts[7];
+    auto& flag_string = parts[8];
+
+}
 
 }
