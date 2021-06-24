@@ -176,4 +176,20 @@ struct spwd* getspent()
     }
 }
 
+static void construct_spwd(struct spwd* sp, char* buf, struct spwd** result)
+{
+    auto* buf_name = &buf[0];
+    auto* buf_pwdp = &buf[s_name.length() + 1];
+
+    bool ok = true;
+    ok = ok && s_name.copy_characters_to_buffer(buf_name, s_name.length() + 1);
+    ok = ok && s_pwdp.copy_characters_to_buffer(buf_pwdp, s_pwdp.length() + 1);
+
+    VERIFY(ok);
+
+    *result = sp;
+    sp->sp_namp = buf_name;
+    sp->sp_pwdp = buf_pwdp;
+}
+
 }
