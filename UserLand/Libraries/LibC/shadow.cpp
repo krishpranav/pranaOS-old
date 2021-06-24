@@ -192,4 +192,32 @@ static void construct_spwd(struct spwd* sp, char* buf, struct spwd** result)
     sp->sp_pwdp = buf_pwdp;
 }
 
+int getspnam_r(const char* name, struct spwd* sp, char* buf, size_t buflen, struct spwd** result)
+{
+
+    TemporaryChange name_change { s_name, {} };
+    TemporaryChange pwdp_change { s_pwdp, {} };
+
+    setspent();
+    bool found = false;
+    while (auto* sp = getspent()) {
+        if (!strcmp(sp->sp_namp, name)) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        *result = nullptr;
+        return 0;
+    }
+
+    const auto total_buffer_length = s_name.length() + s_pwdp.length() + 8;
+    if (buflen < total_buffer_length)
+        return ERANGE;
+
+    construct_spwd(sp, buf, result);
+    return 0;
+}
+
 }
