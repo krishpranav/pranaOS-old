@@ -158,6 +158,10 @@ struct spwd* getspent()
         if (!s_stream || feof(s_stream))
             return nullptr;
         
+        if (ferror(s_stream)) {
+            dbgln("getspent(): Read errror: {}", strerror(ferror(s_stream)));
+            return nullptr;
+        }
     }
 }
 
