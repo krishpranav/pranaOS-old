@@ -57,4 +57,13 @@ extern const char* sys_siglist[NSIG];
 #define SIG_ERR ((__sighandler_t)-1)
 #define SIG_IGN ((__sighandler_t)1)
 
+#define SA_NOCLDSTOP 1
+#define SA_NOCLDWAIT 2
+#define SA_SIGINFO 4
+#define SA_ONSTACK 0x08000000
+#define SA_RESTART 0x10000000
+#define SA_NODEFER 0x40000000
+#define SA_RESETHAND 0x80000000
+
+
 __END_DECLS
