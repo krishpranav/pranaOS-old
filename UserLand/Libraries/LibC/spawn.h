@@ -30,4 +30,7 @@ enum {
 
 #define POSIX_SPAWN_SETSID POSIX_SPAWN_SETSID
 
+struct posix_spawn_file_actions_state;
+
+
 __END_DECLS
