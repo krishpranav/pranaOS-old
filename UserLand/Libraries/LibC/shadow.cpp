@@ -25,4 +25,17 @@ static struct spwd s_shadow_entry;
 static String s_name;
 static String s_pwdp;
 
+void setspent()
+{
+    s_line_number = 0;
+    if (s_stream) {
+        rewind(s_stream);
+    } else {
+        s_stream = fopen("/etc/shadow", "r");
+        if (!s_stream) {
+            dbgln("open /etc/shadow failed: {}", strerror(errno));
+        }
+    }
+}
+
 }
