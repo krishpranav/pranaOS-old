@@ -95,5 +95,10 @@ int posix_spawn(pid_t* out_pid, const char* path, const posix_spawn_file_actions
     if (child_pid < 0)
         return errno;
     
-    
+    if (child_pid != 0) {
+        *out_pid = child_pid;
+        return 0;
+    }
+
+    posix_spawn_child(path, file_actions, attr, argv, envp, execve);
 }
