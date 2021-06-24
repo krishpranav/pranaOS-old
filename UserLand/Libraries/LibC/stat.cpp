@@ -48,4 +48,9 @@ int fchmod(int fd, mode_t mode)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int mkfifo(const char* pathname, mode_t mode)
+{
+    return mknod(pathname, mode | S_IFIFO, 0);
+}
+
 }
