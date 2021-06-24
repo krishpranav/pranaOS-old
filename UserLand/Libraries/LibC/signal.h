@@ -9,3 +9,9 @@
 // includes
 #include <signal_numbers.h>
 #include <sys/types.h>
+
+__BEGIN_DECLS
+
+
+
+__END_DECLS
