@@ -19,3 +19,8 @@
 struct posix_spawn_file_actions_state {
     Vector<Function<int()>, 4> actions;
 };
+
+[[noreturn]] static void posix_spawn_child(const char* path, const posix_spawn_file_actions_t* file_actions, const posix_spawnattr_t* attr, char* const argv[], char* const envp[], int (*exec)(const char*, char* const[], char* const[]))
+{
+    
+}
