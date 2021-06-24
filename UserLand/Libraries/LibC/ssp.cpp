@@ -22,4 +22,12 @@ extern "C" {
 extern u32 __stack_chk_guard;
 u32 __stack_chk_guard = (u32)0xc6c7c8c9;
 
+[[noreturn]] void __stack_chk_fail()
+{
+    dbgln("Error: USERSPACE({}) Stack protector failure, stack smashing detected!", getpid());
+    if (__stdio_is_initialized)
+        warnln("Error: Stack protector failure, stack smashing detected!");
+    abort();
+}
+
 }
