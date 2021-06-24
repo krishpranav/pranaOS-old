@@ -22,4 +22,10 @@ int kill(pid_t pid, int sig)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int killpg(int pgrp, int sig)
+{
+    int rc = syscall(SC_killpg, pgrp, sig);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
