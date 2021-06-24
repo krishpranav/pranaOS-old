@@ -53,4 +53,12 @@ int mkfifo(const char* pathname, mode_t mode)
     return mknod(pathname, mode | S_IFIFO, 0);
 }
 
+static int do_stat(int dirfd, const char* path, struct stat* statbuf, bool follow_symlinks)
+{
+    if (!path) {
+        errno = EFAULT;
+        return -1
+    }
+}
+
 }
