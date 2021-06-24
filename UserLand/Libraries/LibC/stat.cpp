@@ -13,3 +13,12 @@
 #include <sys/stat.h>
 #include <syscall.h>
 #include <unistd.h>
+
+extern "C" {
+
+mode_t umask(mode_t mask) 
+{
+    return syscall(SC_umask, mask);
+}
+
+}
