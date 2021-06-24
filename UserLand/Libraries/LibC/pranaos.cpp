@@ -50,5 +50,37 @@ int profiling_free_buffer(pid_t pid)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int futex(uint32_t* userspace_address, int futex_op, uint32_t value, const struct timespec* timeout, uint32_t* userspace_address2, uint32_t value3)
+{
+    int rc;
+    switch (futex_op & FUTEX_CMD_MASK) {
+    case FUTEX_WAKE_OP: {
+        Syscall::SC_futex_params params {
+            .userspace_address = userspace_address,
+            .futex_op = futex_op,
+            .val = value,
+            .val2 = (FlatPtr)timeout,
+            .userspace_address2 = userspace_address2,
+            .val3 = value3
+        };
+        rc = syscall(SC_futex, &params);
+        break;
+    }
+    default: {
+        Syscall::SC_futex_params params {
+            .userspace_address = userspace_address,
+            .futex_op = futex_op,
+            .val = value,
+            .timeout = timeout,
+            .userspace_address2 = userspace_address2,
+            .val3 = value3
+        };
+        rc = syscall(SC_futex, &params);
+        break;
+    }
+    }
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 
 }
