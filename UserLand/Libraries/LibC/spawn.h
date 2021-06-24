@@ -31,6 +31,8 @@ enum {
 #define POSIX_SPAWN_SETSID POSIX_SPAWN_SETSID
 
 struct posix_spawn_file_actions_state;
-
+typedef struct {
+    struct posix_spawn_file_actions_state* state;
+} posix_spawn_file_actions_t;
 
 __END_DECLS
