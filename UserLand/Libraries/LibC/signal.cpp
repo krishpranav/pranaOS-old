@@ -13,3 +13,13 @@
 #include <string.h>
 #include <syscall.h>
 #include <unistd.h>
+
+extern "C" {
+
+int kill(pid_t pid, int sig)
+{
+    int rc = syscall(SC_kill, pid, sig);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+}
