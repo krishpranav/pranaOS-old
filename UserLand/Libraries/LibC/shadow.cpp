@@ -82,6 +82,12 @@ static bool parse_shadow_entry(const String& line)
     auto& expire_string = parts[7];
     auto& flag_string = parts[8];
 
+    auto lstchg = lstchg_string.to_int();
+    if (!lstchg.has_value()) {
+        dbgln("getspent(): Malformed lstchg on line {}", s_line_number);
+        return false;
+    }
+
 }
 
 }
