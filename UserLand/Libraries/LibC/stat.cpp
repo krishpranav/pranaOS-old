@@ -42,4 +42,10 @@ int chmod(const char* pathname, mode_t mode)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int fchmod(int fd, mode_t mode)
+{
+    int rc = syscall(SC_fchmod, fd, mode);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
