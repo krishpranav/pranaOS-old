@@ -149,4 +149,16 @@ static bool parse_shadow_entry(const String& line)
     return true;
 }
 
+struct spwd* getspent()
+{
+    if (!s_stream) 
+        setspent();
+    
+    while (true) {
+        if (!s_stream || feof(s_stream))
+            return nullptr;
+        
+    }
+}
+
 }
