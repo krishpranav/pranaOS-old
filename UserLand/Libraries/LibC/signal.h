@@ -51,4 +51,6 @@ int raise(int sig);
 int getsignalbyname(const char*);
 const char* getsignalname(int);
 
+extern const char* sys_siglist[NSIG];
+
 __END_DECLS
