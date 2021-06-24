@@ -11,3 +11,8 @@
 #include <stdlib.h>
 #include <sys/internals.h>
 #include <unistd.h>
+
+
+#if defined __SSP__ || defined __SSP_ALL__
+#    error "file must not be compiled with stack protection enabled on it. Use -fno-stack-protector"
+#endif
