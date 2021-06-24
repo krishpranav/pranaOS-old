@@ -7,7 +7,7 @@
 // includes
 #include <arpa/inet.h>
 #include <errno.h>
-#include <serenity.h>
+#include <pranaos.h>
 #include <string.h>
 #include <syscall.h>
 
@@ -105,5 +105,16 @@ int anon_create(size_t size, int options)
     int rc = syscall(SC_anon_create, size, options);
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
+
+int pranaos_readlink(const char* path, size_t path_length, char* buffer, size_t buffer_size)
+{
+    Syscall::SC_readlink_params small_params {
+        { path, path_length },
+        { buffer, buffer_size }
+    };
+    int rc = syscall(SC_readlink, &small_params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 
 }
