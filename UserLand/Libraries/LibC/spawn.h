@@ -28,4 +28,6 @@ enum {
 };
 
 
+#define POSIX_SPAWN_SETSID POSIX_SPAWN_SETSID
+
 __END_DECLS
