@@ -38,4 +38,19 @@ void setspent()
     }
 }
 
+
+void endspent()
+{
+    s_line_number = 0;
+    if (s_stream) {
+        fclose(s_stream);
+        s_stream = nullptr;
+    }
+
+    memset(&s_shadow_entry, 0, sizeof(s_shadow_entry));
+
+    s_name = {};
+    s_pwdp = {};
+}
+
 }
