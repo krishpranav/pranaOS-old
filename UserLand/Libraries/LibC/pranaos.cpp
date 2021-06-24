@@ -44,5 +44,11 @@ int profiling_disable(pid_t pid)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int profiling_free_buffer(pid_t pid)
+{
+    int rc = syscall(SC_profiling_free_buffer, pid);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 
 }
