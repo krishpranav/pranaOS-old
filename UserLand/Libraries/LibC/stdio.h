@@ -14,3 +14,6 @@
 #include <stdarg.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
+
+#define FIELNAME_MAX 1024
+
