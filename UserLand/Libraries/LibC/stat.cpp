@@ -64,4 +64,9 @@ static int do_stat(int dirfd, const char* path, struct stat* statbuf, bool follo
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int fstatat(int fd, const char* path, struct stat* statbuf, int flags)
+{
+    return do_stat(fd, path, statbuf, !(flags & AT_SYMLINK_NOFOLLOW));
+}
+
 }
