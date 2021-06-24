@@ -151,22 +151,28 @@ static bool parse_shadow_entry(const String& line)
 
 struct spwd* getspent()
 {
-    if (!s_stream) 
+    if (!s_stream)
         setspent();
-    
+
     while (true) {
         if (!s_stream || feof(s_stream))
             return nullptr;
-        
+
         if (ferror(s_stream)) {
-            dbgln("getspent(): Read errror: {}", strerror(ferror(s_stream)));
+            dbgln("getspent(): Read error: {}", strerror(ferror(s_stream)));
             return nullptr;
         }
-        
+
         char buffer[1024];
         ++s_line_number;
         char* s = fgets(buffer, sizeof(buffer), s_stream);
-        
+
+        if ((!s || !s[0]) && feof(s_stream))
+            return nullptr;
+
+        String line(s, Chomp);
+        if (parse_shadow_entry(line))
+            return &s_shadow_entry;
     }
 }
 
