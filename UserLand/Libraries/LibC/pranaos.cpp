@@ -116,5 +116,11 @@ int pranaos_readlink(const char* path, size_t path_length, char* buffer, size_t 
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int setkeymap(const char* name, const u32* map, u32* const shift_map, const u32* alt_map, const u32* altgr_map, const u32* shift_altgr_map)
+{
+    Syscall::SC_setkeymap_params params { map, shift_map, alt_map, altgr_map, shift_altgr_map, { name, strlen(name) } };
+    return syscall(SC_setkeymap, &params);
+}
+
 
 }
