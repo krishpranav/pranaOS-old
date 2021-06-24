@@ -36,4 +36,6 @@ extern FILE* stdin;
 extern FILE* stdout;
 extern FILE* stderr;
 
+typedef off_t fpos_t;
+
 __END_DECLS
