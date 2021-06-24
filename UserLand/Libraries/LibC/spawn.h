@@ -88,3 +88,12 @@ struct posix_spawn_file_actions_state {
     perror("posix_spawn exec");
     _exit(127);
 }
+
+int posix_spawn(pid_t* out_pid, const char* path, const posix_spawn_file_actions_t* file_actions, const posix_spawnattr_t* attr, char* const argv[], char* const envp[])
+{
+    pid_t child_pid = fork();
+    if (child_pid < 0)
+        return errno;
+    
+    
+}
