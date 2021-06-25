@@ -152,3 +152,34 @@ bool FILE::close()
     }
     return flush_ok && rc == 0;
 }
+
+bool FILE::flush()
+{
+    if (m_mode & O_WRONLY && m_buffer.may_use()) {
+
+        while (m_buffer.is_not_empty()) {
+            bool ok = write_from_buffer();
+            if (!ok)
+                return false;
+        }
+    }
+    if (m_mode & O_RDONLY) {
+        VERIFY(m_buffer.buffered_size() <= NumericLimits<off_t>::max());
+        off_t had_buffered = m_buffer.buffered_size();
+        m_buffer.drop();
+        if (lseek(m_fd, -had_buffered, SEEK_CUR) < 0) {
+            if (errno == ESPIPE) {
+                errno = 0;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void FILE::purge()
+{
+    m_buffer.drop();
+}
