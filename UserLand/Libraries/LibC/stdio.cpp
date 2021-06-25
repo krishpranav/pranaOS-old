@@ -195,3 +195,13 @@ ssize_t FILE::do_read(u8* data, size_t size)
     }
     return nread;
 }
+
+ssize_t FILE::do_write(const u8* data, size_t size)
+{
+    int nwritten = ::write(m_fd, data, size);
+
+    if (nwritten < 0)
+        m_error = errno;
+    
+    return nwritten;
+}
