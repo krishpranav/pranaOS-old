@@ -134,3 +134,10 @@ FILE::~FILE()
     bool already_closed = m_fd == -1;
     VERIFY(already_closed);
 }
+
+FILE* FILE::create(int fd, int mode)
+{
+    void* file = calloc(1, sizeof(FILE));
+    new (file) FILE(fd, mode);
+    return (FILE*)file;
+}
