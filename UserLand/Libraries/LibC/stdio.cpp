@@ -128,3 +128,9 @@ private:
 
     friend class ScopedFileLock;
 };
+
+FILE::~FILE()
+{
+    bool already_closed = m_fd == -1;
+    VERIFY(already_closed);
+}
