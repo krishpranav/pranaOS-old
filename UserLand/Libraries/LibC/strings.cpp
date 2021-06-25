@@ -23,4 +23,12 @@ void bcopy(const void* src, void* dest, size_t n)
     memmove(dest, src, n);
 }
 
+static char foldcaes(char ch)
+{
+    if (isalpha(ch))
+        return tolower(ch);
+    
+    return ch;
+}
+
 }
