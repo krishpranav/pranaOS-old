@@ -27,12 +27,11 @@
 #include <unistd.h>
 
 struct FILE {
-public:
     FILE(int fd, int mode)
         : m_fd(fd)
         , m_mode(mode)
     {
-        __pthread_mutex_init(&m_mutex, nullptr)
+        __pthread_mutex_init(&m_mutex, nullptr);
     }
     ~FILE();
 
@@ -43,6 +42,34 @@ public:
     bool flush();
     void purge();
     bool close();
-    
+
+    int fileno() const { return m_fd; }
+    bool eof() const { return m_eof; }
+    int mode() const { return m_mode; }
+    u8 flags() const { return m_flags; }
+
+    int error() const { return m_error; }
+    void clear_err() { m_error = 0; }
+
+    size_t read(u8*, size_t);
+    size_t write(const u8*, size_t);
+
+    bool gets(u8*, size_t);
+    bool ungetc(u8 byte) { return m_buffer.enqueue_front(byte); }
+
+    int seek(off_t offset, int whence);
+    off_t tell();
+
+    pid_t popen_child() { return m_popen_child; }
+    void set_popen_child(pid_t child_pid) { m_popen_child = child_pid; }
+
+    void reopen(int fd, int mode);
+
+    enum Flags : u8 {
+        None = 0,
+        LastRead = 1,
+        LastWrite = 2,
+    };
+
 
 }
