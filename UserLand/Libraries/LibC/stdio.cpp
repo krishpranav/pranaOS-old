@@ -205,3 +205,20 @@ ssize_t FILE::do_write(const u8* data, size_t size)
     
     return nwritten;
 }
+
+bool FILE::read_into_buffer()
+{
+    m_buffer.realize(m_fd);
+
+    size_t available_size;
+    u8* data = m_buffer.begin_enqueue(available_size);
+    VERIFY(available_size);
+
+    ssize_t nread = do_read(data, available_size);
+
+    if (nread <= 0)
+        return false;
+
+    m_buffer.did_enqueue(nread);
+    return true;
+}
