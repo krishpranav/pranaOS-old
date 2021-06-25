@@ -183,3 +183,15 @@ void FILE::purge()
 {
     m_buffer.drop();
 }
+
+ssize_t FILE::do_read(u8* data, size_t size)
+{
+    int nread = ::read(m_fd, data, size);
+
+    if (nread < 0) {
+        m_error = errno;
+    } else if (nread == 0) {
+        m_eof = true;
+    }
+    return nread;
+}
