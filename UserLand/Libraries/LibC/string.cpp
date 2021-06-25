@@ -17,3 +17,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+extern "C" {
+
+
+size_t strspn(const char* s, const char* accept)
+{
+    const char* p = s;
+cont:
+    char ch = *p++;
+    char ac;
+    for (const char* ap = accept; (ac = *ap++) != '\0';) {
+        if (ac == ch)
+            goto cont;
+    }
+    return p - 1 - s;
+}
+
+size_t strcspn(const char* s, const char* reject)
+{
+    for (auto* p = s;;) {
+        char c = *p++;
+        auto* rp = reject;
+        char rc;
+        do {
+            if ((rc = *rp++) == c)
+                return p - 1 - s;
+        } while (rc);
+    }
+}
+
+
+}
