@@ -145,3 +145,36 @@ private:
     int m_max_digit_after_cutoff;
     Sign m_sign;
 };
+
+typedef NumParser<int, INT_MIN, INT_MAX> IntParser;
+typedef NumParser<long long, LONG_LONG_MIN, LONG_LONG_MAX> LongLongParser;
+typedef NumParser<unsigned long long, 0ULL, ULONG_LONG_MAX> ULongLongParser;
+
+
+static bool is_either(char* str, int offset, char lower, char upper)
+{
+    char ch = *(str + offset);
+    return ch == lower || ch == upper;
+}
+
+template<typename Callback>
+inline int generate_unique_filename(char* pattern, Callback callback)
+{
+    size_t length = strlen(pattern);
+
+    if (length < 6 || memcmp(pattern + length - 6, "XXXXXX", 6))
+        return EINVAL;
+
+    size_t start = length - 6;
+
+    constexpr char random_characters[] = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (int attempt = 0; attempt < 100; ++attempt) {
+        for (int i = 0; i < 6; ++i)
+            pattern[start + i] = random_characters[(arc4random() % (sizeof(random_characters) - 1))];
+        if (callback() == IterationDecision::Break)
+            return 0;
+    }
+
+    return EEXIST;
+}
