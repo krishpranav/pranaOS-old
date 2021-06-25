@@ -897,3 +897,8 @@ void rewind(FILE* stream)
     fseek(stream, 0, SEEK_SET);
     clearerr(stream);
 }
+
+ALWAYS_INLINE void stdout_putch(char*&, char ch)
+{
+    putchar(ch);
+}
