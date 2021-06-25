@@ -908,3 +908,9 @@ ALWAYS_INLINE static void stream_putch(char*&, char ch)
 {
     fputc(ch, __current_stream);
 }
+
+int vfprintf(FILE* stream, const char* fmt, va_list ap)
+{
+    __current_stream = stream;
+    return printf_internal(stream_putch, nullptr, fmt, ap);
+}
