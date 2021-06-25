@@ -902,3 +902,9 @@ ALWAYS_INLINE void stdout_putch(char*&, char ch)
 {
     putchar(ch);
 }
+
+static FILE* __current_stream = nullptr;
+ALWAYS_INLINE static void stream_putch(char*&, char ch)
+{
+    fputc(ch, __current_stream);
+}
