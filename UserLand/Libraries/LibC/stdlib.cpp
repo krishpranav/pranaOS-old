@@ -30,3 +30,18 @@
 #include <sys/wait.h>
 #include <syscall.h>
 #include <unistd.h>
+
+static void strtons(const char* str, char** endptr)
+{
+    assert(endptr);
+    char* ptr = const_cast<char*>(str);
+    while (isspace(*ptr)) {
+        ptr += 1;
+    }
+    *endptr = ptr;
+}
+
+enum Sign {
+    Negative,
+    Positive,
+};
