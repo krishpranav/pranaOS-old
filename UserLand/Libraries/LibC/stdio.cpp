@@ -71,5 +71,29 @@ struct FILE {
         LastWrite = 2,
     };
 
+private:
+    struct Buffer {
+        // A ringbuffer that also transparently implements ungetc().
+    public:
+        ~Buffer();
+
+        int mode() const { return m_mode; }
+        void setbuf(u8* data, int mode, size_t size);
+        // Make sure to call realize() before enqueuing any data.
+        // Dequeuing can be attempted without it.
+        void realize(int fd);
+        void drop();
+
+        bool may_use() const { return m_ungotten || m_mode != _IONBF; }
+        bool is_not_empty() const { return m_ungotten || !m_empty; }
+        size_t buffered_size() const;
+
+        const u8* begin_dequeue(size_t& available_size) const;
+        void did_dequeue(size_t actual_size);
+
+        u8* begin_enqueue(size_t& available_size) const;
+        void did_enqueue(size_t actual_size);
+
+        bool enqueue_front(u8 byte);
 
 }
