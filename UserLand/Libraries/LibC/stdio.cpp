@@ -960,3 +960,15 @@ int asprintf(char** strp, const char* fmt, ...)
     *strp = strdup(builder.to_string().characters());
     return length;
 }
+
+static void buffer_putch(char*& bufptr, char ch)
+{
+    *bufptr++ = ch;
+}
+
+int vsprintf(char* buffer, const char* fmt, va_list ap)
+{
+    int ret = printf_internal(buffer_putch, buffer, fmt, ap);
+    buffer[ret] = '\0';
+    return ret;
+}
