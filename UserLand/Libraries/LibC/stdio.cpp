@@ -141,3 +141,14 @@ FILE* FILE::create(int fd, int mode)
     new (file) FILE(fd, mode);
     return (FILE*)file;
 }
+
+bool FILE::close()
+{
+    bool flush_ok = flush();
+    int rc = ::close(m_fd);
+    m_fd = -1;
+    if (!flush_ok) {
+        errno = m_error;
+    }
+    return flush_ok && rc == 0;
+}
