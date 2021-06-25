@@ -868,3 +868,17 @@ off_t ftello(FILE* stream)
     ScopedFileLock lock(stream);
     return stream->tell();
 }
+
+int fgetpos(FILE* stream, fpos_t* pos)
+{
+    VERIFY(stream);
+    VERIFY(pos);
+
+    ScopedFileLock lock(stream);
+    off_t val = stream->tell();
+    if (val == -1L)
+        return 1;
+
+    *pos = val;
+    return 0;
+}
