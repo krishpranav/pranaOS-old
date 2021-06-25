@@ -79,7 +79,6 @@ private:
 
         int mode() const { return m_mode; }
         void setbuf(u8* data, int mode, size_t size);
-
         void realize(int fd);
         void drop();
 
@@ -96,6 +95,7 @@ private:
         bool enqueue_front(u8 byte);
 
     private:
+
         u8* m_data { nullptr };
         size_t m_capacity { BUFSIZ };
         size_t m_begin { 0 };
@@ -105,8 +105,10 @@ private:
         u8 m_unget_buffer { 0 };
         bool m_ungotten : 1 { false };
         bool m_data_is_malloced : 1 { false };
+
         bool m_empty : 1 { true };
     };
+
 
     ssize_t do_read(u8*, size_t);
     ssize_t do_write(const u8*, size_t);
@@ -148,6 +150,7 @@ bool FILE::close()
     int rc = ::close(m_fd);
     m_fd = -1;
     if (!flush_ok) {
+
         errno = m_error;
     }
     return flush_ok && rc == 0;
@@ -156,7 +159,6 @@ bool FILE::close()
 bool FILE::flush()
 {
     if (m_mode & O_WRONLY && m_buffer.may_use()) {
-
         while (m_buffer.is_not_empty()) {
             bool ok = write_from_buffer();
             if (!ok)
@@ -164,6 +166,7 @@ bool FILE::flush()
         }
     }
     if (m_mode & O_RDONLY) {
+
         VERIFY(m_buffer.buffered_size() <= NumericLimits<off_t>::max());
         off_t had_buffered = m_buffer.buffered_size();
         m_buffer.drop();
@@ -202,7 +205,6 @@ ssize_t FILE::do_write(const u8* data, size_t size)
 
     if (nwritten < 0)
         m_error = errno;
-    
     return nwritten;
 }
 
@@ -212,6 +214,7 @@ bool FILE::read_into_buffer()
 
     size_t available_size;
     u8* data = m_buffer.begin_enqueue(available_size);
+
     VERIFY(available_size);
 
     ssize_t nread = do_read(data, available_size);
@@ -250,7 +253,6 @@ size_t FILE::read(u8* data, size_t size)
         size_t actual_size;
 
         if (m_buffer.may_use()) {
-            // Let's see if the buffer has something queued for us.
             size_t queued_size;
             const u8* queued_data = m_buffer.begin_dequeue(queued_size);
             if (queued_size == 0) {
@@ -332,9 +334,7 @@ size_t FILE::write(const u8* data, size_t size)
 
 bool FILE::gets(u8* data, size_t size)
 {
-    // gets() is a lot like read(), but it is different enough in how it
-    // processes newlines and null-terminates the buffer that it deserves a
-    // separate implementation.
+
     size_t total_read = 0;
 
     if (size == 0)
@@ -422,6 +422,7 @@ void FILE::reopen(int fd, int mode)
     flush();
     close();
 
+    // Just in case flush() and close() didn't drop the buffer.
     m_buffer.drop();
 
     m_fd = fd;
@@ -522,6 +523,7 @@ void FILE::Buffer::did_dequeue(size_t actual_size)
 
     if (m_begin == m_end) {
         m_empty = true;
+
         m_begin = m_end = 0;
     }
 }
@@ -547,7 +549,7 @@ void FILE::Buffer::did_enqueue(size_t actual_size)
 
     VERIFY(m_end <= m_capacity);
     if (m_end == m_capacity) {
-
+        // Wrap around.
         m_end = 0;
     }
 
@@ -557,6 +559,7 @@ void FILE::Buffer::did_enqueue(size_t actual_size)
 bool FILE::Buffer::enqueue_front(u8 byte)
 {
     if (m_ungotten) {
+        // Sorry, the place is already taken!
         return false;
     }
 
@@ -943,9 +946,9 @@ int vasprintf(char** strp, const char* fmt, va_list ap)
     StringBuilder builder;
     builder.appendvf(fmt, ap);
     VERIFY(builder.length() <= NumericLimits<int>::max());
-    int lenght = builder.length();
+    int length = builder.length();
     *strp = strdup(builder.to_string().characters());
-    return lenght;
+    return length;
 }
 
 int asprintf(char** strp, const char* fmt, ...)
@@ -977,7 +980,7 @@ int sprintf(char* buffer, const char* fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
-    int ret = vsprintf(buffer, fmt, ap)
+    int ret = vsprintf(buffer, fmt, ap);
     va_end(ap);
     return ret;
 }
@@ -989,4 +992,330 @@ ALWAYS_INLINE void sized_buffer_putch(char*& bufptr, char ch)
         *bufptr++ = ch;
         --__vsnprintf_space_remaining;
     }
+}
+
+int vsnprintf(char* buffer, size_t size, const char* fmt, va_list ap)
+{
+    if (size) {
+        __vsnprintf_space_remaining = size - 1;
+    } else {
+        __vsnprintf_space_remaining = 0;
+    }
+    int ret = printf_internal(sized_buffer_putch, buffer, fmt, ap);
+    if (__vsnprintf_space_remaining) {
+        buffer[ret] = '\0';
+    } else if (size > 0) {
+        buffer[size - 1] = '\0';
+    }
+    return ret;
+}
+
+int snprintf(char* buffer, size_t size, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vsnprintf(buffer, size, fmt, ap);
+    va_end(ap);
+    return ret;
+}
+
+void perror(const char* s)
+{
+    int saved_errno = errno;
+    dbgln("perror(): {}: {}", s, strerror(saved_errno));
+    warnln("{}: {}", s, strerror(saved_errno));
+}
+
+static int parse_mode(const char* mode)
+{
+    int flags = 0;
+
+    // NOTE: rt is a non-standard mode which opens a file for read, explicitly
+    // specifying that it's a text file
+    for (auto* ptr = mode; *ptr; ++ptr) {
+        switch (*ptr) {
+        case 'r':
+            flags |= O_RDONLY;
+            break;
+        case 'w':
+            flags |= O_WRONLY | O_CREAT | O_TRUNC;
+            break;
+        case 'a':
+            flags |= O_WRONLY | O_APPEND | O_CREAT;
+            break;
+        case '+':
+            flags |= O_RDWR;
+            break;
+        case 'e':
+            flags |= O_CLOEXEC;
+            break;
+        case 'b':
+            // Ok...
+            break;
+        case 't':
+            // Ok...
+            break;
+        default:
+            dbgln("Potentially unsupported fopen mode _{}_ (because of '{}')", mode, *ptr);
+        }
+    }
+
+    return flags;
+}
+
+FILE* fopen(const char* pathname, const char* mode)
+{
+    int flags = parse_mode(mode);
+    int fd = open(pathname, flags, 0666);
+    if (fd < 0)
+        return nullptr;
+    return FILE::create(fd, flags);
+}
+
+FILE* freopen(const char* pathname, const char* mode, FILE* stream)
+{
+    VERIFY(stream);
+    if (!pathname) {
+        // FIXME: Someone should probably implement this path.
+        TODO();
+    }
+
+    int flags = parse_mode(mode);
+    int fd = open(pathname, flags, 0666);
+    if (fd < 0)
+        return nullptr;
+
+    stream->reopen(fd, flags);
+    return stream;
+}
+
+FILE* fdopen(int fd, const char* mode)
+{
+    int flags = parse_mode(mode);
+    // FIXME: Verify that the mode matches how fd is already open.
+    if (fd < 0)
+        return nullptr;
+    return FILE::create(fd, flags);
+}
+
+static inline bool is_default_stream(FILE* stream)
+{
+    return stream == stdin || stream == stdout || stream == stderr;
+}
+
+int fclose(FILE* stream)
+{
+    VERIFY(stream);
+    bool ok;
+
+    {
+        ScopedFileLock lock(stream);
+        ok = stream->close();
+    }
+    ScopedValueRollback errno_restorer(errno);
+
+    stream->~FILE();
+    if (!is_default_stream(stream))
+        free(stream);
+
+    return ok ? 0 : EOF;
+}
+
+int rename(const char* oldpath, const char* newpath)
+{
+    if (!oldpath || !newpath) {
+        errno = EFAULT;
+        return -1;
+    }
+    Syscall::SC_rename_params params { { oldpath, strlen(oldpath) }, { newpath, strlen(newpath) } };
+    int rc = syscall(SC_rename, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+void dbgputch(char ch)
+{
+    syscall(SC_dbgputch, ch);
+}
+
+void dbgputstr(const char* characters, size_t length)
+{
+    syscall(SC_dbgputstr, characters, length);
+}
+
+char* tmpnam(char*)
+{
+    dbgln("FIXME: Implement tmpnam()");
+    TODO();
+}
+
+FILE* popen(const char* command, const char* type)
+{
+    if (!type || (*type != 'r' && *type != 'w')) {
+        errno = EINVAL;
+        return nullptr;
+    }
+
+    int pipe_fds[2];
+
+    int rc = pipe(pipe_fds);
+    if (rc < 0) {
+        ScopedValueRollback rollback(errno);
+        perror("pipe");
+        return nullptr;
+    }
+
+    pid_t child_pid = fork();
+    if (child_pid < 0) {
+        ScopedValueRollback rollback(errno);
+        perror("fork");
+        close(pipe_fds[0]);
+        close(pipe_fds[1]);
+        return nullptr;
+    } else if (child_pid == 0) {
+        if (*type == 'r') {
+            int rc = dup2(pipe_fds[1], STDOUT_FILENO);
+            if (rc < 0) {
+                perror("dup2");
+                exit(1);
+            }
+            close(pipe_fds[0]);
+            close(pipe_fds[1]);
+        } else if (*type == 'w') {
+            int rc = dup2(pipe_fds[0], STDIN_FILENO);
+            if (rc < 0) {
+                perror("dup2");
+                exit(1);
+            }
+            close(pipe_fds[0]);
+            close(pipe_fds[1]);
+        }
+
+        int rc = execl("/bin/sh", "sh", "-c", command, nullptr);
+        if (rc < 0)
+            perror("execl");
+        exit(1);
+    }
+
+    FILE* file = nullptr;
+    if (*type == 'r') {
+        file = FILE::create(pipe_fds[0], O_RDONLY);
+        close(pipe_fds[1]);
+    } else if (*type == 'w') {
+        file = FILE::create(pipe_fds[1], O_WRONLY);
+        close(pipe_fds[0]);
+    }
+
+    file->set_popen_child(child_pid);
+    return file;
+}
+
+int pclose(FILE* stream)
+{
+    VERIFY(stream);
+    VERIFY(stream->popen_child() != 0);
+
+    int wstatus = 0;
+    int rc = waitpid(stream->popen_child(), &wstatus, 0);
+    if (rc < 0)
+        return rc;
+
+    return wstatus;
+}
+
+int remove(const char* pathname)
+{
+    int rc = unlink(pathname);
+    if (rc < 0 && errno == EISDIR)
+        return rmdir(pathname);
+    return rc;
+}
+
+int scanf(const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int count = vfscanf(stdin, fmt, ap);
+    va_end(ap);
+    return count;
+}
+
+int fscanf(FILE* stream, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int count = vfscanf(stream, fmt, ap);
+    va_end(ap);
+    return count;
+}
+
+int sscanf(const char* buffer, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int count = vsscanf(buffer, fmt, ap);
+    va_end(ap);
+    return count;
+}
+
+int vfscanf(FILE* stream, const char* fmt, va_list ap)
+{
+    char buffer[BUFSIZ];
+    if (!fgets(buffer, sizeof(buffer) - 1, stream))
+        return -1;
+    return vsscanf(buffer, fmt, ap);
+}
+
+int vscanf(const char* fmt, va_list ap)
+{
+    return vfscanf(stdin, fmt, ap);
+}
+
+void flockfile([[maybe_unused]] FILE* filehandle)
+{
+    dbgln("FIXME: Implement flockfile()");
+}
+
+void funlockfile([[maybe_unused]] FILE* filehandle)
+{
+    dbgln("FIXME: Implement funlockfile()");
+}
+
+FILE* tmpfile()
+{
+    char tmp_path[] = "/tmp/XXXXXX";
+    int fd = mkstemp(tmp_path);
+    if (fd < 0)
+        return nullptr;
+    // FIXME: instead of using this hack, implement with O_TMPFILE or similar
+    unlink(tmp_path);
+    return fdopen(fd, "rw");
+}
+
+int __freading(FILE* stream)
+{
+    ScopedFileLock lock(stream);
+
+    if ((stream->mode() & O_RDWR) == O_RDONLY) {
+        return 1;
+    }
+
+    return (stream->flags() & FILE::Flags::LastRead);
+}
+
+int __fwriting(FILE* stream)
+{
+    ScopedFileLock lock(stream);
+
+    if ((stream->mode() & O_RDWR) == O_WRONLY) {
+        return 1;
+    }
+
+    return (stream->flags() & FILE::Flags::LastWrite);
+}
+
+void __fpurge(FILE* stream)
+{
+    ScopedFileLock lock(stream);
+    stream->purge();
+}
 }
