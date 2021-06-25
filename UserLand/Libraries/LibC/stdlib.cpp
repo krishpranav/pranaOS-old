@@ -178,3 +178,23 @@ inline int generate_unique_filename(char* pattern, Callback callback)
 
     return EEXIST;
 }
+
+extern "C" {
+
+long getauxval(long type)
+{
+    errno = 0;
+    char** env;
+    for (env = environ; *env; ++env) {
+    }
+
+    auxv_t* auxvp = (auxv_t*)++env;
+    for (; auxvp->a_type != AT_NULL; ++auxvp) {
+        if (auxvp->a_type == type)
+            return auxvp->a_un.a_val;
+    }
+    errno = ENOENT;
+    return 0;
+}
+
+}
