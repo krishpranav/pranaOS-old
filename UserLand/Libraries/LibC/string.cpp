@@ -47,5 +47,21 @@ size_t strcspn(const char* s, const char* reject)
     }
 }
 
+size_t strlen(const char* str)
+{
+    size_t len = 0;
+    while (*(str++))
+        ++len;
+    return len;
+}
+
+size_t strnlen(const char* str, size_t maxlen)
+{
+    size_t len = 0;
+    for (; len < maxlen && *str; str++)
+        len++;
+    return len;
+}
+
 
 }
