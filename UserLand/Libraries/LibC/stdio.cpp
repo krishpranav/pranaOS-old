@@ -36,4 +36,13 @@ public:
     }
     ~FILE();
 
+    static FILE* create(int fd, int mode);
+
+    void setbuf(u8* data, int mode, size_t size) { m_buffer.setbuf(data, mode, size); }
+
+    bool flush();
+    void purge();
+    bool close();
+    
+
 }
