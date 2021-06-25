@@ -972,3 +972,21 @@ int vsprintf(char* buffer, const char* fmt, va_list ap)
     buffer[ret] = '\0';
     return ret;
 }
+
+int sprintf(char* buffer, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vsprintf(buffer, fmt, ap)
+    va_end(ap);
+    return ret;
+}
+
+static size_t __vsnprintf_space_remaining;
+ALWAYS_INLINE void sized_buffer_putch(char*& bufptr, char ch)
+{
+    if (__vsnprintf_space_remaining) {
+        *bufptr++ = ch;
+        --__vsnprintf_space_remaining;
+    }
+}
