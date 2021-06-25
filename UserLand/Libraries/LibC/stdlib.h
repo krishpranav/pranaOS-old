@@ -68,7 +68,6 @@ size_t wcstombs(char*, const wchar_t*, size_t);
 char* realpath(const char* pathname, char* buffer);
 __attribute__((noreturn)) void _Exit(int status);
 
-
 #define RAND_MAX 32767
 int rand();
 void srand(unsigned seed);
@@ -79,5 +78,27 @@ void srandom(unsigned seed);
 uint32_t arc4random(void);
 void arc4random_buf(void*, size_t);
 uint32_t arc4random_uniform(uint32_t);
+
+typedef struct {
+    int quot;
+    int rem;
+} div_t;
+div_t div(int, int);
+typedef struct {
+    long quot;
+    long rem;
+} ldiv_t;
+ldiv_t ldiv(long, long);
+typedef struct {
+    long long quot;
+    long long rem;
+} lldiv_t;
+lldiv_t lldiv(long long, long long);
+
+int posix_openpt(int flags);
+int grantpt(int fd);
+int unlockpt(int fd);
+
+long getauxval(long type);
 
 __END_DECLS
