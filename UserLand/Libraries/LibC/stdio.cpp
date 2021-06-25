@@ -882,3 +882,18 @@ int fgetpos(FILE* stream, fpos_t* pos)
     *pos = val;
     return 0;
 }
+
+int fsetpos(FILE* stream, const fpos_t* pos)
+{
+    VERIFY(stream);
+    VERIFY(pos);
+
+    ScopedFileLock lock(stream);
+    return stream->seek(*pos, SEEK_SET);
+}
+
+void rewind(FILE* stream)
+{
+    fseek(stream, 0, SEEK_SET);
+    clearerr(stream);
+}
