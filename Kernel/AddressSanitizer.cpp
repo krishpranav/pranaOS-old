@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021, Krisna Pranav
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+*/
 
 #if defined(__SANITIZE_ADDRESS__)
 
@@ -22,9 +27,7 @@ using namespace Kernel::AddressSanitizer;
 
 extern "C" {
 
-// Define a macro to easily declare the KASAN load and store callbacks for
-// the various sizes of data type.
-//
+
 #    define ADDRESS_SANITIZER_LOAD_STORE(size)                                 \
         void __asan_load##size(unsigned long);                                 \
         void __asan_load##size(unsigned long address)                          \
@@ -79,9 +82,6 @@ void __asan_storeN_noabort(unsigned long address, size_t size)
     shadow_va_check_store(address, size, __builtin_return_address(0));
 }
 
-// Performs shadow memory cleanup of the current thread's stack before a
-// function marked with the [[noreturn]] attribute is called.
-//
 void __asan_handle_no_return(void);
 void __asan_handle_no_return(void)
 {
