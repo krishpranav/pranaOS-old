@@ -914,3 +914,12 @@ int vfprintf(FILE* stream, const char* fmt, va_list ap)
     __current_stream = stream;
     return printf_internal(stream_putch, nullptr, fmt, ap);
 }
+
+int fprintf(FILE* stream, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vfprintf(stream, fmt, ap);
+    va_end(ap);
+    return ret;
+}
