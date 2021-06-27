@@ -40,4 +40,14 @@ static const char* get_syslog_ident(struct syslog_data* data)
     VERIFY_NOT_REACHED();
 }
 
+void openlog_r(const char* ident, int logopt, int facility, struct syslog_data* data)
+{
+    data->ident = ident;
+    data->logopt = logopt;
+    data->facility = facility;
+    // default value
+    data->maskpri = LOG_UPTO(LOG_DEBUG);
+}
+
+
 }
