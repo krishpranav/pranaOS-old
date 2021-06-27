@@ -23,4 +23,9 @@ static struct syslog_data global_log_data = {
     .maskpri = LOG_UPTO(LOG_DEBUG)
 };
 
+
+static char program_name_buffer[256];
+static bool program_name_set = false;
+
+
 }
