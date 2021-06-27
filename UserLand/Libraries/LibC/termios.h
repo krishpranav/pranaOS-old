@@ -29,5 +29,10 @@ struct termios {
     speed_t c_ospeed;
 };
 
+int tcgetattr(int fd, struct termios*);
+int tcsetattr(int fd, int optional_actions, const struct termios*);
+int tcflow(int fd, int action);
+int tcflush(int fd, int queue_selector);
+
 
 __END_DECLS
