@@ -35,4 +35,10 @@ int tcflow(int fd, int action);
 int tcflush(int fd, int queue_selector);
 
 
+speed_t cfgetispeed(const struct termios*);
+speed_t cfgetospeed(const struct termios*);
+int cfsetispeed(struct termios*, speed_t);
+int cfsetospeed(struct termios*, speed_t);
+void cfmakeraw(struct termios*);
+
 __END_DECLS
