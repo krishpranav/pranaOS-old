@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 krishpranav
+ * Copyright (c) 2021 krishpranav, nuke123-sudo
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
@@ -90,5 +90,7 @@ char* tgetstr(const char* id, char** area)
     warnln_if(TERMCAP_DEBUG, "tgetstr: missing cap id='{}'", id);
     return nullptr;
 }
+
+#pragma GCC diagnostic pop
 
 }
