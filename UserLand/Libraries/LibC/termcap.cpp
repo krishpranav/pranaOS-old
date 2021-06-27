@@ -93,4 +93,13 @@ char* tgetstr(const char* id, char** area)
 
 #pragma GCC diagnostic pop
 
+int tgetflag([[maybe_unused]] const char* id)
+{
+    warnln_if(TERMCAP_DEBUG, "tgetflag: '{}'", id);
+    auto it = caps->find(id);
+    if (it != caps->end())
+        return 1;
+    return 0;
+}
+
 }
