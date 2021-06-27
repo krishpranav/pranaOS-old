@@ -12,3 +12,15 @@
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h>
+
+
+extern "C" {
+
+static struct syslog_data global_log_data = {
+    .ident = nullptr,
+    .logopt = 0,
+    .facility = LOG_USER,
+    .maskpri = LOG_UPTO(LOG_DEBUG)
+};
+
+}
