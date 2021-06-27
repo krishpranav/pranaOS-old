@@ -102,4 +102,33 @@ int tgetflag([[maybe_unused]] const char* id)
     return 0;
 }
 
+int tgetnum(const char* id)
+{
+    warnln_if(TERMCAP_DEBUG, "tgetnum: '{}'", id);
+    auto it = caps->find(id);
+    if (it != caps->end())
+        return atoi((*it).value);
+    return -1;
+}
+
+static Vector<char> s_tgoto_buffer;
+char* tgoto([[maybe_unused]] const char* cap, [[maybe_unused]] int col, [[maybe_unused]] int row)
+{
+    auto cap_str = String(cap);
+    cap_str.replace("%p1%d", String::number(col));
+    cap_str.replace("%p2%d", String::number(row));
+
+    s_tgoto_buffer.clear_with_capacity();
+    s_tgoto_buffer.ensure_capacity(cap_str.length());
+    (void)cap_str.copy_characters_to_buffer(s_tgoto_buffer.data(), cap_str.length());
+    return s_tgoto_buffer.data();
+}
+
+int tputs(const char* str, [[maybe_unused]] int affcnt, int (*putc)(int))
+{
+    size_t len = strlen(str);
+    for (size_t i = 0; i < len; ++i)
+        putc(str[i]);
+    return 0;
+}
 }
