@@ -1,4 +1,9 @@
-// this file contains ifndef 
+/*
+ * Copyright (c) 2021, Krisna Pranav
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+*/
+
 #pragma once
 
 #ifndef ACPI_DEBUG
@@ -41,6 +46,10 @@
 #define E1000_DEBUG 0
 #endif
 
+#ifndef E1000E_DEBUG
+#define E1000E_DEBUG 0
+#endif
+
 #ifndef ETHERNET_DEBUG
 #define ETHERNET_DEBUG 0
 #endif
@@ -59,6 +68,10 @@
 
 #ifndef EXT2_DEBUG
 #define EXT2_DEBUG 0
+#endif
+
+#ifndef FRAMEBUFFER_DEVICE_DEBUG
+#define FRAMEBUFFER_DEVICE_DEBUG 0
 #endif
 
 #ifndef EXT2_VERY_DEBUG
@@ -97,6 +110,10 @@
 #define ICMP_DEBUG 0
 #endif
 
+#ifndef INTEL_GRAPHICS_DEBUG
+#define INTEL_GRAPHICS_DEBUG 0
+#endif
+
 #ifndef INTERRUPT_DEBUG
 #define INTERRUPT_DEBUG 0
 #endif
@@ -127,6 +144,10 @@
 
 #ifndef KMALLOC_DEBUG
 #define KMALLOC_DEBUG 0
+#endif
+
+#ifndef KMALLOC_VERIFY_NO_SPINLOCK_HELD
+#define KMALLOC_VERIFY_NO_SPINLOCK_HELD 0
 #endif
 
 #ifndef LOCAL_SOCKET_DEBUG
@@ -217,6 +238,10 @@
 #define RTL8139_DEBUG 0
 #endif
 
+#ifndef RTL8168_DEBUG
+#define RTL8168_DEBUG 0
+#endif
+
 #ifndef SB16_DEBUG
 #define SB16_DEBUG 0
 #endif
@@ -287,6 +312,14 @@
 
 #ifndef VOLATILE_PAGE_RANGES_DEBUG
 #define VOLATILE_PAGE_RANGES_DEBUG 0
+#endif
+
+#ifndef VIRTIO_DEBUG
+#define VIRTIO_DEBUG 0
+#endif
+
+#ifndef VIRTUAL_CONSOLE_DEBUG
+#define VIRTUAL_CONSOLE_DEBUG 0
 #endif
 
 #ifndef VRA_DEBUG
