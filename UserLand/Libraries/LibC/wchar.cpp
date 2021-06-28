@@ -18,4 +18,13 @@ size_t wcslen(const wchar_t* str)
         ++len;
     return len;
 }
+
+wchar_t* wcscpy(wchar_t* dest, const wchar_t* src)
+{
+    wchar_t* original_dest = dest;
+    while ((*dest++ = *src++) != '\0')
+        ;
+    return original_dest;
+}
+
 }
