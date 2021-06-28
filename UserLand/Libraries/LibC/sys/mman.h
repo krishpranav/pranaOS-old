@@ -20,3 +20,14 @@
 #define MAP_STACK 0x40
 #define MAP_NORESERVE 0x80
 #define MAP_RANDOMIZED 0x100
+
+#define PROT_READ 0x1
+#define PROT_WRITE 0x2
+#define PROT_EXEC 0x4
+#define PROT_NONE 0x0
+
+#define MAP_FAILED ((void*)-1)
+
+#define MADV_SET_VOLATILE 0x100
+#define MADV_SET_NONVOLATILE 0x200
+#define MADV_GET_VOLATILE 0x400
