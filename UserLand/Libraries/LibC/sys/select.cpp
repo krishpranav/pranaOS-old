@@ -13,7 +13,6 @@
 
 extern "C" {
 
-
 int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, timeval* timeout_tv)
 {
     timespec* timeout_ts = nullptr;
@@ -25,4 +24,10 @@ int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, timev
     return pselect(nfds, readfds, writefds, exceptfds, timeout_ts, nullptr);
 }
 
+int pselect(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, const timespec* timeout, const sigset_t* sigmask)
+{
+    Syscall::SC_select_params params { nfds, readfds, writefds, exceptfds, timeout, sigmask };
+    int rc = syscall(SC_select, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
 }
