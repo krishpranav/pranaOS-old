@@ -11,7 +11,6 @@
 #include <sys/cdefs.h>
 #include <sys/time.h>
 
-
 __BEGIN_DECLS
 
 struct rusage {
@@ -33,5 +32,29 @@ struct rusage {
     long ru_nivcsw;
 };
 
+#define RUSAGE_SELF 1
+#define RUSAGE_CHILDREN 2
+
+int getrusage(int who, struct rusage* usage);
+
+#define RLIMIT_CORE 1
+#define RLIMIT_CPU 2
+#define RLIMIT_DATA 3
+#define RLIMIT_FSIZE 4
+#define RLIMIT_NOFILE 5
+#define RLIMIT_STACK 6
+#define RLIMIT_AS 7
+
+#define RLIM_INFINITY SIZE_MAX
+
+typedef size_t rlim_t;
+
+struct rlimit {
+    rlim_t rlim_cur;
+    rlim_t rlim_max;
+};
+
+int getrlimit(int, struct rlimit*);
+int setrlimit(int, struct rlimit const*);
 
 __END_DECLS
