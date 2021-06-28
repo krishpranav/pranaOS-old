@@ -50,3 +50,5 @@ __BEGIN_DECLS
 #define MSG_PEEK 0x4
 #define MSG_OOB 0x8
 #define MSG_DONTWAIT 0x40
+
+typedef uint16_t sa_family_t;
