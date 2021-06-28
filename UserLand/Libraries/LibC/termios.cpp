@@ -9,3 +9,12 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+
+extern "C" {
+
+int tcgetattr(int fd, struct termios* t)
+{
+    return ioctl(fd, TCGETS, t);
+}
+
+}
