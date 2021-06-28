@@ -18,4 +18,11 @@ struct exit_status {
     short int e_exit;        
 };
 
+#define USER_PROCESS 7
+#define DEAD_PROCESS 8
+
+#define UT_NAMESIZE 32
+#define UT_LINESIZE 32
+#define UT_HOSTSIZE 256
+
 __END_DECLS
