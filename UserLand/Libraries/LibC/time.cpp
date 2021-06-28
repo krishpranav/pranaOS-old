@@ -60,4 +60,9 @@ int utimes(const char* pathname, const struct timeval times[2])
     return utime(pathname, &buf);
 }
 
+char* ctime(const time_t* t)
+{
+    return asctime(localtime(t));
+}
+
 }
