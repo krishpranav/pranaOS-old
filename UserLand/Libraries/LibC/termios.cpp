@@ -37,4 +37,9 @@ int tcflow([[maybe_unused]] int fd, [[maybe_unused]] int action)
     return -1;
 }
 
+int tcflush(int fd, int queue_selector)
+{
+    return ioctl(fd, TCFLSH, queue_selector);
+}
+
 }
