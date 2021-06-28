@@ -8,3 +8,13 @@
 #include <AK/Format.h>
 #include <assert.h>
 #include <wctype.h>
+
+extern "C" {
+
+wctype_t wctype(const char*)
+{
+    dbgln("FIXME: Implement wctpye()");
+    TODO();
+}
+
+}
