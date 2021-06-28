@@ -42,4 +42,14 @@ int tcflush(int fd, int queue_selector)
     return ioctl(fd, TCFLSH, queue_selector);
 }
 
+speed_t cfgetispeed(const struct termios* tp)
+{
+    return tp->c_ispeed;
+}
+
+speed_t cfgetospeed(const struct termios* tp)
+{
+    return tp->c_ospeed;
+}
+
 }
