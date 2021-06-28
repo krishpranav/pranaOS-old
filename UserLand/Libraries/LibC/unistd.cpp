@@ -50,4 +50,9 @@ int chown(const char* pathname, uid_t uid, gid_t gid)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int fchown(int fd, uid_t uid, gid_t gid)
+{
+    int rc = syscall(SC_fchown, fd, uid, gid);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
 }
