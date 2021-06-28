@@ -31,3 +31,17 @@
 #define MADV_SET_VOLATILE 0x100
 #define MADV_SET_NONVOLATILE 0x200
 #define MADV_GET_VOLATILE 0x400
+
+__BEGIN_DECLS
+
+void* mmap(void* addr, size_t, int prot, int flags, int fd, off_t);
+void* mmap_with_name(void* addr, size_t, int prot, int flags, int fd, off_t, const char* name);
+void* serenity_mmap(void* addr, size_t, int prot, int flags, int fd, off_t, size_t alignment, const char* name);
+void* mremap(void* old_address, size_t old_size, size_t new_size, int flags);
+int munmap(void*, size_t);
+int mprotect(void*, size_t, int prot);
+int set_mmap_name(void*, size_t, const char*);
+int madvise(void*, size_t, int advice);
+void* allocate_tls(const char* initial_data, size_t);
+
+__END_DECLS
