@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 krishpranav, nuke123-sudo
+ * Copyright (c) 2021 krishpranav, FiddlePie
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
@@ -55,7 +55,7 @@ int utimes(const char* pathname, const struct timeval times[2])
     if (!times) {
         return utime(pathname, nullptr);
     }
-
+    // FIXME: implement support for tv_usec in the utime (or a new) syscall
     utimbuf buf = { times[0].tv_sec, times[1].tv_sec };
     return utime(pathname, &buf);
 }
@@ -64,7 +64,7 @@ char* ctime(const time_t* t)
 {
     return asctime(localtime(t));
 }
-    
+
 char* ctime_r(const time_t* t, char* buf)
 {
     struct tm tm_buf;
@@ -102,7 +102,15 @@ static void time_to_tm(struct tm* tm, time_t t)
 
 static time_t tm_to_time(struct tm* tm, long timezone_adjust_seconds)
 {
+    // "The original values of the tm_wday and tm_yday components of the structure are ignored,
+    // and the original values of the other components are not restricted to the ranges described in <time.h>.
+    // [...]
+    // Upon successful completion, the values of the tm_wday and tm_yday components of the structure shall be set appropriately,
+    // and the other components are set to represent the specified time since the Epoch,
+    // but with their values forced to the ranges indicated in the <time.h> entry;
+    // the final value of tm_mday shall not be set until tm_mon and tm_year are determined."
 
+    // FIXME: Handle tm_isdst eventually.
 
     tm->tm_year += tm->tm_mon / 12;
     tm->tm_mon %= 12;
@@ -164,14 +172,17 @@ char* asctime(const struct tm* tm)
 
 char* asctime_r(const struct tm* tm, char* buffer)
 {
+    // Spec states buffer must be at least 26 bytes.
     constexpr size_t assumed_len = 26;
     size_t filled_size = strftime(buffer, assumed_len, "%a %b %e %T %Y\n", tm);
 
+    // Verify that the buffer was large enough.
     VERIFY(filled_size != 0);
 
     return buffer;
 }
 
+//FIXME: Some formats are not supported.
 size_t strftime(char* destination, size_t max_size, const char* format, const struct tm* tm)
 {
     const char wday_short_names[7][4] = {
@@ -325,7 +336,7 @@ long altzone;
 char* tzname[2];
 int daylight;
 
-constexpr const char __utf = "UTC";
+constexpr const char* __utc = "UTC";
 
 void tzset()
 {
@@ -343,4 +354,39 @@ clock_t clock()
     return tms.tms_utime + tms.tms_stime;
 }
 
+int clock_gettime(clockid_t clock_id, struct timespec* ts)
+{
+    int rc = syscall(SC_clock_gettime, clock_id, ts);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+int clock_settime(clockid_t clock_id, struct timespec* ts)
+{
+    int rc = syscall(SC_clock_settime, clock_id, ts);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+int clock_nanosleep(clockid_t clock_id, int flags, const struct timespec* requested_sleep, struct timespec* remaining_sleep)
+{
+    Syscall::SC_clock_nanosleep_params params { clock_id, flags, requested_sleep, remaining_sleep };
+    int rc = syscall(SC_clock_nanosleep, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+int nanosleep(const struct timespec* requested_sleep, struct timespec* remaining_sleep)
+{
+    return clock_nanosleep(CLOCK_REALTIME, 0, requested_sleep, remaining_sleep);
+}
+
+int clock_getres(clockid_t, struct timespec*)
+{
+    dbgln("FIXME: Implement clock_getres()");
+    auto rc = -ENOSYS;
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+double difftime(time_t t1, time_t t0)
+{
+    return (double)(t1 - t0);
+}
 }
