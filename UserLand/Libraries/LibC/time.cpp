@@ -17,3 +17,18 @@
 #include <syscall.h>
 #include <time.h>
 #include <utime.h>
+
+extern "C" {
+
+time_t time(time_t* tloc)
+{
+    struct timeval tv;
+    struct timezone tz;
+    if (gettimeofday(&tv, &tz) < 0)
+        return (time_t)-1;
+    if (tloc)
+        *tloc = tv.tv_sec;
+    return tv.tv_sec;
+}
+
+}
