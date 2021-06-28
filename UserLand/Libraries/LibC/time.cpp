@@ -325,4 +325,8 @@ long altzone;
 char* tzname[2];
 int daylight;
 
+constexpr const char __utf = "UTC";
+
+
+
 }
