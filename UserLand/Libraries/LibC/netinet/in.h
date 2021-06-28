@@ -11,3 +11,8 @@
 #include <bits/stdint.h>
 #include <sys/cdefs.h>
 #include <sys/socket.h>
+
+
+__BEGIN_DECLS
+
+__END_DECLS
