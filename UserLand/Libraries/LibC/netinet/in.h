@@ -15,4 +15,7 @@
 
 __BEGIN_DECLS
 
+typedef uint32_t in_addr_t;
+in_addr_t inet_addr(const char*);
+
 __END_DECLS
