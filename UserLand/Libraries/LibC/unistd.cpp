@@ -27,3 +27,14 @@
 #include <termios.h>
 #include <time.h>
 #include <unistd.h>
+
+extern "C" {
+
+
+#ifdef NO_TLS
+static int s_cached_int = 0;
+#else
+static __thread in s_cached_tid = 0;
+#endif
+
+}
