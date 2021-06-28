@@ -12,4 +12,9 @@
 
 __BEGIN_DECLS
 
+#ifndef WEOF
+#    define WEOF (0xffffffffu)
+#endif
+
+
 __END_DECLS
