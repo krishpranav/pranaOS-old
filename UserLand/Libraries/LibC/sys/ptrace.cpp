@@ -8,3 +8,8 @@
 #include <errno.h>
 #include <sys/ptrace.h>
 #include <syscall.h>
+
+
+extern "C" {
+    
+}
