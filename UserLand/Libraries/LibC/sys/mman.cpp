@@ -25,4 +25,14 @@ void* pranaos_mmap(void* addr, size_t size, int prot, int flags, int fd, off_t o
     return (void*)rc;
 }
 
+void* mmap(void* addr, size_t size, int prot, int flags, int fd, off_t offset)
+{
+    return pranaos_mmap(addr, size, prot, flags, fd, offset, PAGE_SIZE, nullptr);
+}
+
+void* mmap_with_name(void* addr, size_t size, int prot, int flags, int fd, off_t offset, const char* name)
+{
+    return pranaos_mmap(addr, size, prot, flags, fd, offset, PAGE_SIZE, name);
+}
+
 }
