@@ -13,8 +13,13 @@ extern "C" {
 
 wctype_t wctype(const char*)
 {
-    dbgln("FIXME: Implement wctpye()");
+    dbgln("FIXME: Implement wctype()");
     TODO();
 }
 
+int iswctype(wint_t, wctype_t)
+{
+    dbgln("FIXME: Implement iswctype()");
+    TODO();
+}
 }
