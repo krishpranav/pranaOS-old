@@ -37,4 +37,11 @@ int adjtime(const struct timeval* delta, struct timeval* old_delta)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int gettimeofday(struct timeval* __restrict__ tv, void* __restrict__)
+{
+    int rc = syscall(SC_gettimeofday, tv);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
+
 }
