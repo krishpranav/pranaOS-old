@@ -25,5 +25,9 @@ __BEGIN_DECLS
 
 #define DEBUG_STATUS_REGISTER 6
 #define DEBUG_CONTROL_REGISTER 7
+
+
+int ptrace(int request, pid_t tid, void* addr, int data);
+
 __END_DECLS
 
