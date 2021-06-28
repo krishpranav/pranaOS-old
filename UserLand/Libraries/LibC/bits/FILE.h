@@ -1,0 +1,13 @@
+/*
+ * Copyright (c) 2021, Krisna Pranav
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+*/
+
+
+#pragma once
+
+
+__BEGIN_DECLS
+
+__END_DECLS
