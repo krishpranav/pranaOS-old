@@ -336,4 +336,11 @@ void tzset()
     tzname[1] = const_cast<char*>(__utc);
 }
 
+clock_t clock()
+{
+    struct tms tms;
+    times(&tms);
+    return tms.tms_utime + tms.tms_stime;
+}
+
 }
