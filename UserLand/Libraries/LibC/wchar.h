@@ -16,5 +16,7 @@ __BEGIN_DECLS
 #    define WEOF (0xffffffffu)
 #endif
 
+typedef __WINT_TYPE__ wint_t;
+typedef unsigned long int wctype_t;
 
 __END_DECLS
