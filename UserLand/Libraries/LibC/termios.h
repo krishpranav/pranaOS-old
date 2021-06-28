@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 krishpranav
+ * Copyright (c) 2021 krishpranav, nuke123-sudo
  *
  * SPDX-License-Identifier: BSD-2-Clause
 */
