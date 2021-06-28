@@ -27,4 +27,13 @@ wchar_t* wcscpy(wchar_t* dest, const wchar_t* src)
     return original_dest;
 }
 
+wchar_t* wcsncpy(wchar_t* dest, const wchar_t* src, size_t num)
+{
+    wchar_t* original_dest = dest;
+    while (((*dest++ = *src++) != '\0') && ((size_t)(dest - original_dest) < num))
+        ;
+    return original_dest;
+}
+
+
 }
