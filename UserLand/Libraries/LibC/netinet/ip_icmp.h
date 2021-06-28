@@ -9,3 +9,7 @@
 // includes
 #include <bits/stdint.h>
 #include <sys/cdefs.h>
+
+__BEGIN_DECLS 
+
+__END_DECLS 
