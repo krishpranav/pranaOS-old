@@ -9,3 +9,15 @@
 #include <assert.h>
 #include <sys/resource.h>
 #include <ulimit.h>
+
+extern "C" {
+
+
+long ulimit([[maybe_unused]] int cmd, [[maybe_unused]] long newlimit)
+{
+    dbgln("FIXME: Implement getrusage()");
+    TODO();
+    return -1;
+};
+
+}
