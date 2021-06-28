@@ -14,4 +14,8 @@ __BEGIN_DECLS
 typedef void (*AtExitFunction)(void*);
 
 
+[[noreturn]] void __cxa_pure_virtual() __attribute__((weak));
+[[noreturn]] void __stack_chk_fail();
+[[noreturn]] void __stack_chk_fail_local();
+
 __END_DECLS
