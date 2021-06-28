@@ -43,5 +43,11 @@ int gettimeofday(struct timeval* __restrict__ tv, void* __restrict__)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int settimeofday(struct timeval* __restrict__ tv, void* __restrict__)
+{
+    timespec ts;
+    TIMEVAL_TO_TIMESPEC(tv, &ts);
+    return clock_settime(CLOCK_REALTIME, &ts);
+}
 
 }
