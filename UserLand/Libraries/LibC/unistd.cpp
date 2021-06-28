@@ -37,4 +37,17 @@ static int s_cached_int = 0;
 static __thread in s_cached_tid = 0;
 #endif
 
+static int s_cached_pid = 0;
+
+int chown(const char* pathname, uid_t uid, gid_t gid)
+{
+    if (!pathname) {
+        errno = EFAULT;
+        return -1;
+    }
+    Syscall::SC_chown_params params { { pathname, strlen(pathname) }, uid, gid };
+    int rc = syscall(SC_chown, &params);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
+
 }
