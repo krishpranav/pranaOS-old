@@ -11,7 +11,7 @@
 #include <syscall.h>
 
 extern "C" {
-
+// uname
 int uname(struct utsname* buf)
 {
     int rc = syscall(SC_uname, buf);
