@@ -27,3 +27,5 @@ struct PthreadFunctions {
     int (*pthread_cond_destroy)(pthread_cond_t*);
     int (*pthread_cond_timedwait)(pthread_cond_t*, pthread_mutex_t*, const struct timespec*);
 };
+
+void __init_pthread_forward(PthreadFunctions);
