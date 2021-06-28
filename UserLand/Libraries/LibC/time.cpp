@@ -50,4 +50,14 @@ int settimeofday(struct timeval* __restrict__ tv, void* __restrict__)
     return clock_settime(CLOCK_REALTIME, &ts);
 }
 
+int utimes(const char* pathname, const struct timeval times[2])
+{
+    if (!times) {
+        return utime(pathname, nullptr);
+    }
+
+    utimbuf buf = { times[0].tv_sec, times[1].tv_sec };
+    return utime(pathname, &buf);
+}
+
 }
