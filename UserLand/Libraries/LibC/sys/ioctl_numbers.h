@@ -11,7 +11,6 @@
 
 __BEGIN_DECLS
 
-
 struct winsize {
     unsigned short ws_row;
     unsigned short ws_col;
@@ -19,6 +18,22 @@ struct winsize {
     unsigned short ws_ypixel;
 };
 
+struct FBResolution {
+    unsigned pitch;
+    unsigned width;
+    unsigned height;
+};
 
+struct FBRect {
+    unsigned x;
+    unsigned y;
+    unsigned width;
+    unsigned height;
+};
+
+struct FBRects {
+    unsigned count;
+    FBRect const* rects;
+};
 
 __END_DECLS
