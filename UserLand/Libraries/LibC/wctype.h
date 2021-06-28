@@ -10,4 +10,7 @@
 
 __BEGIN_DECLS
 
+wctype_t wctype(const char* name);
+int iswctype(wint_t wc, wctype_t desc);
+
 __END_DECLS
