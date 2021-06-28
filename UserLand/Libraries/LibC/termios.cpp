@@ -31,5 +31,10 @@ int tcsetattr(int fd, int optional_actions, const struct termios* t)
     return -1;
 }
 
+int tcflow([[maybe_unused]] int fd, [[maybe_unused]] int action)
+{
+    errno = EINVAL;
+    return -1;
+}
 
 }
