@@ -12,4 +12,10 @@
 
 __BEGIN_DECLS
 
+
+struct exit_status {         
+    short int e_termination; 
+    short int e_exit;        
+};
+
 __END_DECLS
