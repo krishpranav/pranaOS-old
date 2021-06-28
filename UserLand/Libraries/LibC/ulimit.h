@@ -10,4 +10,6 @@
 
 __BEGIN_DECLS
 
+long ulimit(int cmd, long newlimit);
+
 __END_DECLS
