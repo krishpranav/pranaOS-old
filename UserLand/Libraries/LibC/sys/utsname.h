@@ -21,5 +21,6 @@ struct utsname {
     char machine[UTSNAME_ENTRY_LEN];
 };
 
+int uname(struct utsname*);
 
 __END_DECLS
