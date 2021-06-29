@@ -32,5 +32,7 @@ struct statvfs {
     unsigned long f_namemax;
 };
 
+int statvfs(const char* path, struct statvfs* buf);
+int fstatvfs(int fd, struct statvfs* buf);
 
 __END_DECLS
