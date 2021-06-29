@@ -17,4 +17,8 @@ struct iovec {
     size_t iov_len;
 };
 
+ssize_t writev(int fd, const struct iovec*, int iov_count);
+ssize_t readv(int fd, const struct iovec*, int iov_count);
+
 __END_DECLS
+
