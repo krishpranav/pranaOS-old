@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
 */
 
-#pragma once 
+#pragma once
 
 // includes
 #include <sys/cdefs.h>
@@ -56,7 +56,7 @@ struct stat {
     mode_t st_mode;         
     nlink_t st_nlink;       
     uid_t st_uid;           
-    gid_t st_gid;           
+    gid_t st_gid;            
     dev_t st_rdev;           
     off_t st_size;           
     blksize_t st_blksize;    
@@ -70,5 +70,14 @@ struct stat {
 #define st_mtime st_mtim.tv_sec
 #define st_ctime st_ctim.tv_sec
 
+mode_t umask(mode_t);
+int chmod(const char* pathname, mode_t);
+int fchmod(int fd, mode_t);
+int mkdir(const char* pathname, mode_t);
+int mkfifo(const char* pathname, mode_t);
+int fstat(int fd, struct stat* statbuf);
+int lstat(const char* path, struct stat* statbuf);
+int stat(const char* path, struct stat* statbuf);
+int fstatat(int fd, const char* path, struct stat* statbuf, int flags);
 
 __END_DECLS
