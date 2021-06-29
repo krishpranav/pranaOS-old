@@ -12,7 +12,7 @@
 #include <syscall.h>
 
 extern "C" {
-    
+
 int statvfs(const char* path, struct statvfs* buf)
 {
     Syscall::SC_statvfs_params params { { path, strlen(path) }, buf };
@@ -20,4 +20,9 @@ int statvfs(const char* path, struct statvfs* buf)
     __RETURN_WITH_ERRNO(rc, rc, -1);
 }
 
+int fstatvfs(int fd, struct statvfs* buf)
+{
+    int rc = syscall(SC_fstatvfs, fd, buf);
+    __RETURN_WITH_ERRNO(rc, rc, -1);
+}
 }
