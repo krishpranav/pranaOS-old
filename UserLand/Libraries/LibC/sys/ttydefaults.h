@@ -37,3 +37,11 @@
 #define CBRK CEOL
 #define CRPRNT CREPRINT
 #define CFLUSH CDISCARD
+
+#ifdef TTYDEFCHARS
+#    ifdef KERNEL
+#        include <Kernel/UnixTypes.h>
+#    else
+#        include <termios.h>
+#    endif
+#    include <sys/cdefs.h>
