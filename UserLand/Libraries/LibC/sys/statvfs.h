@@ -13,4 +13,7 @@
 
 __BEGIN_DECLS
 
+#define ST_RDONLY 0x1
+#define ST_NOSUID 0x2
+
 __END_DECLS
